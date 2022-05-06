@@ -1,0 +1,66 @@
+.welcome_page {
+  margin-bottom: 80px;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+
+  &__wrapper {
+    margin: 0 auto;
+    max-width: 1150px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+  }
+
+  &__logo {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 26px;
+    font-weight: 600;
+  }
+
+  button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0065ff;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s linear;
+
+    &:hover {
+      background-color: #024dbe;
+    }
+  }
+}
+
+.intro {
+  margin-top: 80px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+
+  &__block {
+    max-width: 600px;
+
+    p {
+      font-size: 22px;
+    }
+  }
+
+  &__title {
+    margin-bottom: 20px;
+    font-size: 44px;
+  }
+}
