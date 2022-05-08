@@ -3,10 +3,11 @@ import LoginPage from '../../pages/login-page/LoginPage';
 import MainPage from '../../pages/main-page/MainPage';
 import Page404 from '../../pages/page-404/Page404';
 import WelcomePage from '../../pages/welcome-page/WelcomePage';
+import { useAppSelector } from '../../redux-hooks/redux-hooks';
 
 const AppRouter = () => {
-  const isAuth = false;
   const { pathname } = useLocation();
+  const { isAuth } = useAppSelector((state) => state.auth);
 
   const allowedPaths = ['/', '/login', '/main'];
 
