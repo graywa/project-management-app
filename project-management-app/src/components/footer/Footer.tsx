@@ -9,6 +9,7 @@ const Footer = () => {
         <a href="https://rs.school/react/" target="_blank" rel="noopener noreferrer">
           <img width={80} src={rsschool} alt="rsschool" />
         </a>
+        <div className={styles.year}>2022</div>
         <div className={styles.devs_block}>
           <span>Developed by:</span>
           <div className={styles.devs}>
@@ -23,7 +24,6 @@ const Footer = () => {
             </a>
           </div>
         </div>
-        <div className={styles.year}>2022</div>
       </div>
     </div>
   );
