@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import LoginPage from '../../pages/login-page/LoginPage';
 import MainPage from '../../pages/main-page/MainPage';
+import Page404 from '../../pages/page-404/Page404';
 import WelcomePage from '../../pages/welcome-page/WelcomePage';
 
 const AppRouter = () => {
@@ -31,7 +32,7 @@ const AppRouter = () => {
   if (!isAllowedPath)
     return (
       <Routes>
-        <Route path="*" element={<h1>Page 404</h1>} />
+        <Route path="*" element={<Page404 />} />
       </Routes>
     );
 
