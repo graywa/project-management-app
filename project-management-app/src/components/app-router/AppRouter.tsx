@@ -16,6 +16,7 @@ const AppRouter = () => {
   if (isAuth && isAllowedPath)
     return (
       <Routes>
+        <Route path="/" element={<WelcomePage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="*" element={<Navigate to="/main" />} />
       </Routes>
