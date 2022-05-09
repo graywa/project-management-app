@@ -1,9 +1,103 @@
-import React, { useState } from 'react';
-import { Formik } from 'formik';
-import * as yup from 'yup';
+import React from 'react';
 import styles from './LoginPage.module.scss';
+import { Formik, FormikState } from 'formik';
+import * as yup from 'yup';
+import axios from 'axios';
+import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
+import { authSlice } from '../../store/authSlice';
+import downLoadAnimation from '../../components/download-animaton/DownloadAnimation';
+
+const URL_SERVER = 'https://radiant-forest-50575.herokuapp.com';
+// const OK = 200;
+const CREATED = 201;
+const FORBIDDEN = 403;
+const CONFLICT = 409;
+
+interface fetchValues {
+  name?: string;
+  login: string;
+  password: string;
+  confirmPassword?: string;
+}
 
 const LoginPage = () => {
+  const dispatch = useAppDispatch();
+  const { changeIsSignUp, changeIsAuth, changeIsLoading, changeErrorMessage, changeToken } =
+    authSlice.actions;
+  const { isSignUp, isLoading, errorMessage } = useAppSelector((state) => state.auth);
+
+  const fetchSignUp = async (
+    values: fetchValues,
+    resetForm: (
+      nextState?:
+        | Partial<
+            FormikState<{ name: string; login: string; password: string; confirmPassword: string }>
+          >
+        | undefined
+    ) => void
+  ) => {
+    const { name, login, password } = values;
+    dispatch(changeIsLoading(true));
+
+    try {
+      const response = await axios({
+        method: 'post',
+        url: `${URL_SERVER}/signup`,
+        data: { name, login, password },
+      });
+
+      if (response.status === CREATED) {
+        dispatch(changeIsLoading(false));
+        dispatch(changeErrorMessage(null));
+        dispatch(changeIsSignUp(true));
+        resetForm();
+      }
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        if (e.response?.status === CONFLICT) {
+          dispatch(changeIsLoading(false));
+          dispatch(changeErrorMessage('User login already exists!'));
+        }
+      } else {
+        console.error(e);
+      }
+    }
+  };
+
+  const fetchSignIn = async (
+    values: fetchValues,
+    resetForm: (
+      nextState?: Partial<FormikState<{ login: string; password: string }>> | undefined
+    ) => void
+  ) => {
+    dispatch(changeIsLoading(true));
+
+    try {
+      const response = await axios({
+        method: 'post',
+        url: `${URL_SERVER}/signin`,
+        data: values,
+      });
+
+      if (response.status === CREATED) {
+        dispatch(changeIsLoading(false));
+        dispatch(changeErrorMessage(null));
+        dispatch(changeToken(response.data.token));
+        dispatch(changeIsAuth(true));
+        resetForm();
+      }
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        if (e.response?.status === FORBIDDEN) {
+          dispatch(changeIsLoading(false));
+          dispatch(changeErrorMessage('Login or password is incorrect!'));
+        }
+      } else {
+        console.error(e);
+      }
+    }
+  };
+
   const validationsSchemaSignIn = yup.object().shape({
     login: yup
       .string()
@@ -44,13 +138,13 @@ const LoginPage = () => {
       .required('confirm password is required'),
   });
 
-  const [isSignUp, setIsSignUp] = useState(false);
-
   return (
     <div className={styles.login}>
       <div className={styles.container}>
         {isSignUp ? <h2>Welcome! Sign In</h2> : <h2>Welcome! Sign Up</h2>}
-        <div className={isSignUp ? styles.form && styles.sign_in : styles.form_hidden}>
+        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+        {isLoading && downLoadAnimation()}
+        <div className={isSignUp ? styles.form && styles.sign__in : styles.form__hidden}>
           <Formik
             initialValues={{
               login: '',
@@ -58,8 +152,7 @@ const LoginPage = () => {
             }}
             validateOnBlur
             onSubmit={(values, { resetForm }) => {
-              alert(JSON.stringify(values, null, 2));
-              resetForm();
+              fetchSignIn(values, resetForm);
             }}
             validationSchema={validationsSchemaSignIn}
           >
@@ -111,7 +204,7 @@ const LoginPage = () => {
           </Formik>
         </div>
 
-        <div className={isSignUp ? styles.form_hidden : styles.form && styles.sign_up}>
+        <div className={isSignUp ? styles.form__hidden : styles.form && styles.sign__up}>
           <Formik
             initialValues={{
               name: '',
@@ -121,8 +214,7 @@ const LoginPage = () => {
             }}
             validateOnBlur
             onSubmit={(values, { resetForm }) => {
-              alert(JSON.stringify(values, null, 2));
-              resetForm();
+              fetchSignUp(values, resetForm);
             }}
             validationSchema={validationsSchemaSignUp}
           >
@@ -206,9 +298,10 @@ const LoginPage = () => {
           </Formik>
         </div>
         <button
-          className={styles.switch_form}
+          className={styles.switch__form}
           onClick={() => {
-            setIsSignUp(!isSignUp);
+            dispatch(changeIsSignUp(!isSignUp));
+            dispatch(changeErrorMessage(null));
           }}
         >
           {isSignUp ? 'Signup' : 'Login'}
