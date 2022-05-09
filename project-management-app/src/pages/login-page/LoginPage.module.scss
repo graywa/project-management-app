@@ -22,7 +22,7 @@ $btnH: 36px;
   position: relative;
 }
 
-.switch_form {
+.switch__form {
   cursor: pointer;
   position: absolute;
   bottom: 10%;
@@ -33,12 +33,12 @@ $btnH: 36px;
   background: none;
   text-align: left;
 }
-.switch_form:hover {
+.switch__form:hover {
   text-decoration: underline;
 }
 
 @media screen and (max-width: 600px) {
-  .switch_form {
+  .switch__form {
     bottom: -10%;
     right: 0%;
   }
@@ -102,7 +102,7 @@ label {
   transform: scale(1);
 }
 
-.form_hidden {
+.form__hidden {
   display: none;
 }
 
