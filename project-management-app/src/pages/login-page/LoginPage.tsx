@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import { authSlice } from '../../store/authSlice';
-import downLoadAnimation from '../../components/download-animaton/DownloadAnimation';
+import loadingAnimation from '../../components/loading-animation/LoadingAnimation';
 
 const URL_SERVER = 'https://radiant-forest-50575.herokuapp.com';
 // const OK = 200;
@@ -143,7 +143,7 @@ const LoginPage = () => {
       <div className={styles.container}>
         {isSignUp ? <h2>Welcome! Sign In</h2> : <h2>Welcome! Sign Up</h2>}
         {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-        {isLoading && downLoadAnimation()}
+        {isLoading && loadingAnimation()}
         <div className={isSignUp ? styles.form && styles.sign__in : styles.form__hidden}>
           <Formik
             initialValues={{

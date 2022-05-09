@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './DownloadAnimation.module.scss';
+import styles from './LoadingAnimation.module.scss';
 
-const downLoadAnimation = () => {
+const loadingAnimation = () => {
   return (
     <div className={styles.loader}>
       <span className={styles.loader__element}></span>
@@ -11,4 +11,4 @@ const downLoadAnimation = () => {
   );
 };
 
-export default downLoadAnimation;
+export default loadingAnimation;
