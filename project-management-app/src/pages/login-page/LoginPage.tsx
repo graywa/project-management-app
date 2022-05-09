@@ -37,6 +37,7 @@ const LoginPage = () => {
     ) => void
   ) => {
     const { name, login, password } = values;
+    dispatch(changeErrorMessage(null));
     dispatch(changeIsLoading(true));
 
     try {
@@ -48,7 +49,6 @@ const LoginPage = () => {
 
       if (response.status === CREATED) {
         dispatch(changeIsLoading(false));
-        dispatch(changeErrorMessage(null));
         dispatch(changeIsSignUp(true));
         resetForm();
       }
@@ -70,6 +70,7 @@ const LoginPage = () => {
       nextState?: Partial<FormikState<{ login: string; password: string }>> | undefined
     ) => void
   ) => {
+    dispatch(changeErrorMessage(null));
     dispatch(changeIsLoading(true));
 
     try {
@@ -81,7 +82,6 @@ const LoginPage = () => {
 
       if (response.status === CREATED) {
         dispatch(changeIsLoading(false));
-        dispatch(changeErrorMessage(null));
         dispatch(changeToken(response.data.token));
         dispatch(changeIsAuth(true));
         resetForm();
