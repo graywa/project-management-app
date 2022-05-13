@@ -10,7 +10,7 @@ interface authState {
 }
 
 const initialState: authState = {
-  isAuth: localStorage.getItem('isAuth') === 'true',
+  isAuth: !!localStorage.getItem('token'),
   isLoading: false,
   name: '',
   token: localStorage.getItem('token') || '',
@@ -39,11 +39,7 @@ export const authSlice = createSlice({
     [fetchAuthLogin.fulfilled.type]: (state, action) => {
       state.isLoading = false;
       state.error = '';
-      console.log(action.payload);
-
-      localStorage.setItem('token', action.payload.token);
       state.token = action.payload.token;
-      localStorage.setItem('isAuth', 'true');
       state.isAuth = true;
     },
     [fetchAuthLogin.pending.type]: (state) => {
