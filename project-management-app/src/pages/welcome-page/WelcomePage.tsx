@@ -4,12 +4,9 @@ import styles from './WelcomePage.module.scss';
 import logo from './assets/trello.svg';
 import hero from './assets/hero.png';
 import cn from 'classnames';
-import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
-import { authSlice } from '../../store/authSlice';
+import { useAppSelector } from '../../redux-hooks/redux-hooks';
 
 const WelcomePage = () => {
-  const dispatch = useAppDispatch();
-  const { changeIsSignUp } = authSlice.actions;
   const { isAuth } = useAppSelector((state) => state.auth);
   const [scroll, setScroll] = useState(false);
 
@@ -37,10 +34,10 @@ const WelcomePage = () => {
             </div>
           ) : (
             <div>
-              <Link to="/login" onClick={() => dispatch(changeIsSignUp(true))}>
+              <Link to="/login">
                 <button>Log in</button>
               </Link>
-              <Link to="/login" onClick={() => dispatch(changeIsSignUp(false))}>
+              <Link to="/registration">
                 <button>Sign up</button>
               </Link>
             </div>

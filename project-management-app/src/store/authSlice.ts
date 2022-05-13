@@ -1,46 +1,54 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { fetchAuthLogin, fetchAuthRegistration } from '../api/auth';
 
 interface authState {
   isAuth: boolean;
-  isSignUp: boolean;
-  isLoading: boolean;
   name: string;
   token: string;
-  errorMessage: string | null;
+  isLoading: boolean;
+  error: string | null;
 }
 
 const initialState: authState = {
-  isAuth: localStorage.getItem('isAuth') === 'true',
-  isSignUp: false,
+  isAuth: !!localStorage.getItem('token'),
   isLoading: false,
   name: '',
   token: localStorage.getItem('token') || '',
-  errorMessage: null,
+  error: null,
 };
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    changeIsAuth(state, action: PayloadAction<boolean>) {
-      localStorage.setItem('isAuth', action.payload.toString());
-      state.isAuth = action.payload;
+  reducers: {},
+  extraReducers: {
+    [fetchAuthRegistration.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.error = '';
+      state.name = action.payload.name;
+      state.error = 'Account created!';
     },
-    changeIsSignUp(state, action: PayloadAction<boolean>) {
-      state.isSignUp = action.payload;
+    [fetchAuthRegistration.pending.type]: (state) => {
+      state.error = '';
+      state.isLoading = true;
     },
-    changeIsLoading(state, action: PayloadAction<boolean>) {
-      state.isLoading = action.payload;
+    [fetchAuthRegistration.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.error = action.payload;
     },
-    changeName(state, action: PayloadAction<string>) {
-      state.name = action.payload;
+    [fetchAuthLogin.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.error = '';
+      state.token = action.payload.token;
+      state.isAuth = true;
     },
-    changeToken(state, action: PayloadAction<string>) {
-      localStorage.setItem('token', action.payload);
-      state.token = action.payload;
+    [fetchAuthLogin.pending.type]: (state) => {
+      state.error = '';
+      state.isLoading = true;
     },
-    changeErrorMessage(state, action: PayloadAction<string | null>) {
-      state.errorMessage = action.payload;
+    [fetchAuthLogin.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.error = action.payload;
     },
   },
 });

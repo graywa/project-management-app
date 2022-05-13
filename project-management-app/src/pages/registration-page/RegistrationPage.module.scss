@@ -1,7 +1,7 @@
 $inputW: 360px;
 $btnH: 36px;
 
-.login {
+.registration {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,15 +22,11 @@ $btnH: 36px;
   position: relative;
 }
 
-.form {
-  height: 700px;
-}
-
 .switch__form {
   cursor: pointer;
   position: absolute;
   bottom: 10%;
-  right: 7%;
+  right: 10%;
   text-transform: uppercase;
   border: none;
   outline: none;
@@ -109,8 +105,5 @@ label {
 @media screen and (max-width: 900px) {
   .submit {
     width: 100%;
-  }
-  .switch__form {
-    right: 5%;
   }
 }

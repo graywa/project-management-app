@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import LoginPage from '../../pages/login-page/LoginPage';
+import RegistrationPage from '../../pages/registration-page/RegistrationPage';
 import MainPage from '../../pages/main-page/MainPage';
 import Page404 from '../../pages/page-404/Page404';
 import WelcomePage from '../../pages/welcome-page/WelcomePage';
@@ -9,7 +10,7 @@ const AppRouter = () => {
   const { pathname } = useLocation();
   const { isAuth } = useAppSelector((state) => state.auth);
 
-  const allowedPaths = ['/', '/login', '/main'];
+  const allowedPaths = ['/', '/login', '/registration', '/main'];
 
   const isAllowedPath = allowedPaths.some((el) => el === pathname);
 
@@ -27,6 +28,7 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/registration" element={<RegistrationPage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     );
