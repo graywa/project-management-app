@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { IUser } from '../models/IUser';
-import { URL_SERVER } from '../constants/variables';
+import { URL_SERVER } from '../constants/queryVariables';
 
 const fetchAuthRegistration = createAsyncThunk('auth/signup', async (values: IUser, thunkAPI) => {
   const { name, login, password } = values;
