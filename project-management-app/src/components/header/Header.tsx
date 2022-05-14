@@ -5,13 +5,14 @@ import { Link } from 'react-router-dom';
 import logo from './../../pages/welcome-page/assets/trello.svg';
 import CustomSelect from '../custom-select/CustomSelect';
 import BoardModal from '../board-modal/BoardModal';
-import { useAppDispatch } from '../../redux-hooks/redux-hooks';
+import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import { changeIsAuth } from '../../store/authSlice';
 
 const Header = () => {
   const [scroll, setScroll] = useState(false);
   const [isOpenBoard, setIsOpenBoard] = useState(false);
   const dispatch = useAppDispatch();
+  const { login } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     const scrollHandler = () => {
@@ -29,6 +30,7 @@ const Header = () => {
           <span>Trello</span>
         </Link>
         <div className={styles.header__btns}>
+          <span>{login}</span>
           <button>
             <Link to="/profile">Edit profile</Link>
           </button>

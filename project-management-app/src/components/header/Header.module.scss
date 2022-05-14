@@ -31,7 +31,12 @@
 
   &__btns {
     display: flex;
+    align-items: center;
     gap: 10px;
+
+    span {
+      font-size: 28px;
+    }
   }
 
   button {
@@ -42,7 +47,6 @@
     background-color: #0065ff;
     color: #fff;
     font-size: 18px;
-    font-weight: 600;
     cursor: pointer;
     transition: 0.2s linear;
 

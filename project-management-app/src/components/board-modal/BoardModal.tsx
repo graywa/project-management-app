@@ -3,6 +3,8 @@ import styles from './BoardModal.module.scss';
 import cn from 'classnames';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
+import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
+import { createBoard } from '../../api/boards';
 
 interface IProps {
   isOpenBoard: boolean;
@@ -10,6 +12,9 @@ interface IProps {
 }
 
 const BoardModal: FC<IProps> = ({ isOpenBoard, setIsOpenBoard }) => {
+  const dispatch = useAppDispatch();
+  const { token } = useAppSelector((state) => state.auth);
+
   return (
     <div
       className={cn(styles.modal, { [styles.open]: isOpenBoard })}
@@ -18,12 +23,15 @@ const BoardModal: FC<IProps> = ({ isOpenBoard, setIsOpenBoard }) => {
       <div className={styles.modal__content} onClick={(e) => e.stopPropagation()}>
         <Formik
           initialValues={{ title: '' }}
-          onSubmit={(values, props) => {}}
+          onSubmit={({ title }, { resetForm }) => {
+            dispatch(createBoard({ title, token }));
+            resetForm();
+          }}
           validationSchema={Yup.object().shape({
             title: Yup.string().min(4, 'min 4 characters').required('enter a title'),
           })}
         >
-          {({ values, touched, errors, handleChange, handleSubmit }) => {
+          {({ handleSubmit }) => {
             return (
               <Form className={styles.form} onSubmit={handleSubmit}>
                 <label htmlFor="title">
