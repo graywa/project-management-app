@@ -10,6 +10,9 @@ const MainPage = () => {
         <Link to="/">
           <button>Go to Home</button>
         </Link>
+        <Link to="/board">
+          <button>Go to Board</button>
+        </Link>
       </div>
     </div>
   );

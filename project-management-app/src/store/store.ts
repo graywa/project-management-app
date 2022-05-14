@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import auth from './authSlice';
+import columns from './columnSlice';
 
 export const store = configureStore({
   reducer: {
     auth,
+    columns,
   },
 });
 
