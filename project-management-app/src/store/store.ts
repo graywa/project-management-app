@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import auth from './authSlice';
-import columns from './columnSlice';
+import boards from './boardsSlice';
+import columns from './columnsSlice';
 
 export const store = configureStore({
   reducer: {
     auth,
+    boards,
     columns,
   },
 });
