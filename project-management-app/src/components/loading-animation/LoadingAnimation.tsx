@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './LoadingAnimation.module.scss';
 
-const loadingAnimation = () => {
+const LoadingAnimation = () => {
   return (
     <div className={styles.loader}>
       <span className={styles.loader__element}></span>
@@ -11,4 +11,4 @@ const loadingAnimation = () => {
   );
 };
 
-export default loadingAnimation;
+export default LoadingAnimation;

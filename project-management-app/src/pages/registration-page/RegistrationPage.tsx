@@ -3,7 +3,7 @@ import styles from './RegistrationPage.module.scss';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
-import loadingAnimation from '../../components/loading-animation/LoadingAnimation';
+import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
 import { fetchAuthRegistration } from '../../api/auth';
 import { Link } from 'react-router-dom';
 
@@ -41,7 +41,7 @@ const RegistrationPage = () => {
       <div className={styles.container}>
         <h2>Welcome! Registration Page</h2>
         {error && <p className={styles.error}>{error}</p>}
-        {isLoading && loadingAnimation()}
+        {isLoading && LoadingAnimation()}
         <div className={styles.form && styles.sign__up}>
           <Formik
             initialValues={{

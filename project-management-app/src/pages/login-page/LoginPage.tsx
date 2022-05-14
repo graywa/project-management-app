@@ -3,7 +3,7 @@ import styles from './LoginPage.module.scss';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
-import loadingAnimation from '../../components/loading-animation/LoadingAnimation';
+import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
 import { fetchAuthLogin } from '../../api/auth';
 import { Link } from 'react-router-dom';
 
@@ -31,7 +31,7 @@ const LoginPage = () => {
       <div className={styles.container}>
         <h2>Welcome! Login page</h2>
         {error && <p className={styles.error}>{error}</p>}
-        {isLoading && loadingAnimation()}
+        {isLoading && LoadingAnimation()}
         <div className={styles.form && styles.sign__in}>
           <Formik
             initialValues={{
