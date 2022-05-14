@@ -22,10 +22,15 @@ const Header = () => {
     window.addEventListener('scroll', scrollHandler);
   }, []);
 
+  const signOutHandler = () => {
+    localStorage.setItem('token', '');
+    dispatch(changeIsAuth(false));
+  };
+
   return (
     <div className={cn(styles.header_wrapper, { [styles.scroll]: scroll })}>
       <header className={styles.header}>
-        <Link to="/" className={styles.header__logo}>
+        <Link to="/main" className={styles.header__logo}>
           <img width={25} src={logo} alt="logo" />
           <span>Trello</span>
         </Link>
@@ -34,7 +39,7 @@ const Header = () => {
           <button>
             <Link to="/profile">Edit profile</Link>
           </button>
-          <button onClick={() => dispatch(changeIsAuth(false))}>Sign out</button>
+          <button onClick={signOutHandler}>Sign out</button>
           <button onClick={() => setIsOpenBoard(true)}>Create new board</button>
           <BoardModal isOpenBoard={isOpenBoard} setIsOpenBoard={setIsOpenBoard} />
           <CustomSelect />

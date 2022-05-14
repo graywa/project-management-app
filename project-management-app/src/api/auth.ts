@@ -30,8 +30,9 @@ const fetchAuthLogin = createAsyncThunk('auth/signin', async (values: IUser, thu
       data: values,
     });
     const token = response.data.token;
-    localStorage.setItem('token', token);
     const { login } = jwtDecode<IJwt>(token);
+    localStorage.setItem('token', token);
+    localStorage.setItem('login', login);
     return { token, login };
   } catch (e) {
     return thunkAPI.rejectWithValue('Username or password is incorrect!');

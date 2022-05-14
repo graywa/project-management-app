@@ -5,6 +5,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import { createBoard } from '../../api/boards';
+import LoadingAnimation from '../loading-animation/LoadingAnimation';
 
 interface IProps {
   isOpenBoard: boolean;
@@ -14,6 +15,7 @@ interface IProps {
 const BoardModal: FC<IProps> = ({ isOpenBoard, setIsOpenBoard }) => {
   const dispatch = useAppDispatch();
   const { token } = useAppSelector((state) => state.auth);
+  const { isLoading } = useAppSelector((state) => state.boards);
 
   return (
     <div
@@ -41,8 +43,12 @@ const BoardModal: FC<IProps> = ({ isOpenBoard, setIsOpenBoard }) => {
                     <ErrorMessage name="title" />
                   </div>
                 </label>
-
-                <button type="submit">Create</button>
+                <div className={styles.sub_btn}>
+                  <div className={styles.loader}>{isLoading && <LoadingAnimation />}</div>
+                  <button type="submit" disabled={isLoading}>
+                    Create
+                  </button>
+                </div>
               </Form>
             );
           }}

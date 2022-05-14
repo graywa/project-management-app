@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import styles from './Profile.module.scss';
 import * as Yup from 'yup';
 import jwtDecode from 'jwt-decode';
+import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -35,7 +36,7 @@ interface IJwt {
 const Profile = () => {
   const dispatch = useAppDispatch();
   const { token } = useAppSelector((state) => state.auth);
-  const { login } = useAppSelector((state) => state.auth);
+  const { login, isLoading } = useAppSelector((state) => state.auth);
   const { userId } = jwtDecode<IJwt>(token);
   const id = userId;
 
@@ -51,7 +52,6 @@ const Profile = () => {
         validationSchema={validationSchema}
       >
         {({ handleSubmit, errors }) => {
-          console.log(errors);
           return (
             <Form className={styles.form} onSubmit={handleSubmit}>
               <label htmlFor="name">
@@ -72,7 +72,7 @@ const Profile = () => {
 
               <label htmlFor="password">
                 Password
-                <Field id="title" name="title" type="password" />
+                <Field id="password" name="password" type="password" />
                 <div className={styles.error}>
                   <ErrorMessage name="password" />
                 </div>
@@ -86,9 +86,18 @@ const Profile = () => {
                 </div>
               </label>
 
-              <button type="submit">Save profile</button>
+              <div className={styles.sub_btn}>
+                <div className={styles.loader}>{isLoading && <LoadingAnimation />}</div>
+
+                <button type="submit" disabled={isLoading}>
+                  Save profile
+                </button>
+              </div>
+
               <div className={styles.del_btn}>
-                <button onClick={() => dispatch(deleteUser({ id, token }))}>Delete user</button>
+                <button onClick={() => dispatch(deleteUser({ id, token }))} disabled={isLoading}>
+                  Delete user
+                </button>
               </div>
             </Form>
           );

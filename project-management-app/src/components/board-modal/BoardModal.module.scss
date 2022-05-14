@@ -55,6 +55,11 @@
 
   button {
     text-transform: uppercase;
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: #697a94;
+    }
   }
 
   .error {
@@ -64,4 +69,18 @@
     font-size: 14px;
     color: red;
   }  
+
+  .sub_btn {
+    margin-top: 100px;
+    position: relative;
+
+    .loader {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      top: -40px;
+      z-index: 5;
+    }
+  }
 }

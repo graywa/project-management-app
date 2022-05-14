@@ -14,7 +14,7 @@ const initialState: authState = {
   isAuth: !!localStorage.getItem('token'),
   isLoading: false,
   name: '',
-  login: '',
+  login: localStorage.getItem('login') || '',
   token: localStorage.getItem('token') || '',
   error: null,
 };
@@ -62,6 +62,7 @@ export const authSlice = createSlice({
       state.isLoading = false;
       state.error = '';
       state.name = action.payload.name;
+      state.login = action.payload.login;
     },
     [updateUser.pending.type]: (state) => {
       state.error = '';

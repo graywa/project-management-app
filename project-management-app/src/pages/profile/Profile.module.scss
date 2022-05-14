@@ -32,8 +32,9 @@
   label {
     position: relative;
     font-size: 16px;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
     color: #919191;
+    cursor: pointer;
   }
 
   button {
@@ -51,6 +52,25 @@
     &:hover {
       background-color: #024dbe;
     }
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: #697a94;
+    }
+  }
+
+  .sub_btn {
+    position: relative;
+    margin-top: 100px;
+
+    .loader {
+      position: absolute;
+      top: -45px;
+      z-index: 5;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
   }
 
   .del_btn {
@@ -62,6 +82,9 @@
 
       &:hover {
         background-color: #f54b3f;
+      }
+      &:disabled {
+        background-color: #9e625e;
       }
     }
   }
