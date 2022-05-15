@@ -50,7 +50,6 @@ export const boardsSlice = createSlice({
       state.error = action.payload;
     },
     [deleteBoard.fulfilled.type]: (state, action) => {
-      console.log(action);
       state.isLoading = false;
       state.error = '';
       const id = action.payload;

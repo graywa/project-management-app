@@ -4,6 +4,7 @@ import { deleteBoard, getBoards } from '../../api/boards';
 import Header from '../../components/header/Header';
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
+import { changeBoardId } from '../../store/columnsSlice';
 import styles from './MainPage.module.scss';
 import board from './assets/board.svg';
 
@@ -31,7 +32,7 @@ const MainPage = () => {
             ? boards?.map(({ id, title }) => {
                 return (
                   <div key={id} className={styles.board}>
-                    <Link to="/board">
+                    <Link to="/board" onClick={() => dispatch(changeBoardId(id))}>
                       <img width={40} src={board} alt="board" />
                       {title}
                     </Link>
