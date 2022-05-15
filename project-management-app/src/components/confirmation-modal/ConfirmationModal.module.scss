@@ -1,0 +1,88 @@
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background: #12121263;
+
+  transition: 0.2s linear;
+
+  &.open {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &__content {
+    border-radius: 10px;
+    text-align: center;
+    max-width: 320px;
+    width: 100%;
+    background: #fff;
+    padding: 50px;
+    box-shadow: 4px 3px 20px 1px #0000005d;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  button {
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: #697a94;
+    }
+  }
+
+  .error {
+    width: 100%;
+    position: absolute;
+    top: 70px;
+    font-size: 14px;
+    color: red;
+  }  
+
+  .sub_btn {
+    margin-top: 100px;
+    position: relative;
+
+    .loader {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      top: -40px;
+      z-index: 5;
+    }
+  }
+}
+
+.buttonDelete {
+  padding: 5px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #bd170c;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.2s linear;
+
+  &:hover {
+    background-color: #f54b3f;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: #9e625e;
+  }
+}
