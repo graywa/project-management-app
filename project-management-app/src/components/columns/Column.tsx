@@ -1,10 +1,13 @@
 import React from 'react';
+import { IColumn } from '../../models/IColumn';
 import styles from './Column.module.scss';
 
-const Columns = () => {
+const Columns = ({ column }: { column: IColumn }) => {
+  const { title } = column;
+
   return (
     <div className={styles.columns}>
-      <h1>columns</h1>
+      <h1>{title}</h1>
     </div>
   );
 };
