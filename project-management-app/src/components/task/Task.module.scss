@@ -1,0 +1,44 @@
+.task {
+  margin: 10px 0;
+  padding: 5px;
+}
+
+.title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.description {
+  border: 1px dashed #0065ff;
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+
+.taskHead {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.buttonDelete {
+  padding: 5px 10px;
+  height: 30px;
+  line-height: 0;
+  border: none;
+  border-radius: 5px;
+  background-color: #bd170c;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.2s linear;
+
+  &:hover {
+    background-color: #f54b3f;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: #9e625e;
+  }
+}
