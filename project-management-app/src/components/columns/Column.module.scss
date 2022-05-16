@@ -1,6 +1,83 @@
-.columns {
-  border: 1px solid black;
-  margin: 20px;
+.column {
+  min-width: 300px;
+  border: 1px solid #645669;
+  border-radius: 10px 5px 5px 10px;
+  box-shadow: 2px 2px 10px #0065ff;
+  margin: 10px;
   cursor: grab;
-  padding: 30px;
+  padding: 20px;
+  overflow-y: auto;
+}
+.column::-webkit-scrollbar {
+  width: 8px;      
+}
+.column::-webkit-scrollbar-track {
+  background: linear-gradient(0deg, #fff, #ffffff 100%);   
+  border-radius: 50px;
+}
+.column::-webkit-scrollbar-thumb {
+  background-color: #a88cb3;    
+  border-radius: 20px;       
+  border: 1px solid #0065ff; 
+}
+.column::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.columnHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.buttonDelete {
+  padding: 5px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #bd170c;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.2s linear;
+
+  &:hover {
+    background-color: #f54b3f;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: #9e625e;
+  }
+}
+
+.buttonCreate {
+  margin-left: auto;
+  margin-top: 20px;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: green;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.2s linear;
+
+  &:hover {
+    background-color: greenyellow;
+    color: #0065ff;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: #9e625e;
+  }
 }

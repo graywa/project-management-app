@@ -47,7 +47,7 @@ export const deleteBoard = createAsyncThunk(
       const response = await axios.delete(`${URL_SERVER}/boards/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(response);
+
       if (response.status === 204) {
         return id;
       }

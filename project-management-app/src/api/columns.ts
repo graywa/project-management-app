@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { URL_SERVER } from '../constants/queryVariables';
+import { NoContent, URL_SERVER } from '../constants/queryVariables';
 import { IColumn } from '../models/IColumn';
 
 const getColumns = createAsyncThunk('columns/getAll', async (boardId: string, thunkAPI) => {
@@ -33,4 +33,23 @@ const addColumns = createAsyncThunk(
   }
 );
 
-export { getColumns, addColumns };
+const deleteColumn = createAsyncThunk(
+  'columns/delete',
+  async ({ boardId, columnId }: { boardId: string; columnId: string }, thunkAPI) => {
+    try {
+      const response = await axios({
+        method: 'delete',
+        url: `${URL_SERVER}/boards/${boardId}/columns/${columnId}`,
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+
+      if (response.status === NoContent) {
+        return columnId;
+      }
+    } catch (e) {
+      return thunkAPI.rejectWithValue('Error!');
+    }
+  }
+);
+
+export { getColumns, addColumns, deleteColumn };
