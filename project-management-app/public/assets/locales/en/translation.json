@@ -22,9 +22,11 @@
   "go_back": "Go back",
   "add_column": "add column",
   "title_board": "Title board",
+  "title_column": "Title column",
   "create": "Create",
   "dev_by": "Developed by:",
   "edit_profile": "Edit profile",
   "sign_out": "Sign out",
-  "create_new_board": "Create new board"
+  "create_new_board": "Create new board",
+  "create_task": "Create task"
 }

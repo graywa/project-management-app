@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getTasks } from '../../api/tasks';
 import { IColumn } from '../../models/IColumn';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
@@ -12,20 +13,21 @@ const Columns = ({ column }: { column: IColumn }) => {
   const dispatch = useAppDispatch();
   const { boardId } = useAppSelector((state) => state.columns);
   const { tasks } = useAppSelector((state) => state.tasks);
+  const { t } = useTranslation();
 
   const [isOpenConfirmationModal, setIsOpenConfirmationModal] = useState(false);
   const [isOpenCreateTaskModal, setIsOpenCreateTaskModal] = useState(false);
 
   useEffect(() => {
     dispatch(getTasks({ boardId, columnId }));
-  }, [tasks[columnId]]);
+  }, [columnId]);
 
   return (
     <div className={styles.column}>
       <div className={styles.columnHead}>
         <h1>{title}</h1>
         <button className={styles.buttonDelete} onClick={() => setIsOpenConfirmationModal(true)}>
-          delete
+          {t('delete')}
         </button>
         <ConfirmationModal
           isOpenConfirmationModal={isOpenConfirmationModal}
@@ -39,7 +41,7 @@ const Columns = ({ column }: { column: IColumn }) => {
             return <Task task={task} index={index} key={index} />;
           })}
         <button className={styles.buttonCreate} onClick={() => setIsOpenCreateTaskModal(true)}>
-          create task
+          {t('create_task')}
         </button>
         <TaskModal
           isOpenCreateTaskModal={isOpenCreateTaskModal}

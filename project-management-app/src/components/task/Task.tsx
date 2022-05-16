@@ -3,6 +3,7 @@ import styles from './Task.module.scss';
 import { ITask } from '../../models/ITask';
 import { useAppDispatch } from '../../redux-hooks/redux-hooks';
 import { deleteTask } from '../../api/tasks';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
   task: ITask;
@@ -12,6 +13,7 @@ interface IProps {
 const Task: FC<IProps> = ({ task, index }) => {
   const { title, description, boardId, columnId, id: taskId } = task;
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   return (
     <div className={styles.task}>
@@ -21,7 +23,7 @@ const Task: FC<IProps> = ({ task, index }) => {
           className={styles.buttonDelete}
           onClick={() => dispatch(deleteTask({ boardId, columnId, taskId }))}
         >
-          delete
+          {t('delete')}
         </button>
       </div>
       <p className={styles.description}>{description}</p>

@@ -6,6 +6,8 @@ import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import { createBoard } from '../../api/boards';
 import LoadingAnimation from '../loading-animation/LoadingAnimation';
+import { useTranslation } from 'react-i18next';
+import cross from './assets/cross.svg';
 
 interface IProps {
   isOpenBoard: boolean;
@@ -16,6 +18,7 @@ const BoardModal: FC<IProps> = ({ isOpenBoard, setIsOpenBoard }) => {
   const dispatch = useAppDispatch();
   const { token } = useAppSelector((state) => state.auth);
   const { isLoading } = useAppSelector((state) => state.boards);
+  const { t } = useTranslation();
 
   return (
     <div
@@ -23,6 +26,7 @@ const BoardModal: FC<IProps> = ({ isOpenBoard, setIsOpenBoard }) => {
       onClick={() => setIsOpenBoard(false)}
     >
       <div className={styles.modal__content} onClick={(e) => e.stopPropagation()}>
+        <img width={32} src={cross} alt="cross" onClick={() => setIsOpenBoard(false)} />
         <Formik
           initialValues={{ title: '' }}
           onSubmit={({ title }, { resetForm }) => {
@@ -37,7 +41,7 @@ const BoardModal: FC<IProps> = ({ isOpenBoard, setIsOpenBoard }) => {
             return (
               <Form className={styles.form} onSubmit={handleSubmit}>
                 <label htmlFor="title">
-                  Title board
+                  {t('title_board')}
                   <Field id="title" name="title" />
                   <div className={styles.error}>
                     <ErrorMessage name="title" />
@@ -46,7 +50,7 @@ const BoardModal: FC<IProps> = ({ isOpenBoard, setIsOpenBoard }) => {
                 <div className={styles.sub_btn}>
                   <div className={styles.loader}>{isLoading && <LoadingAnimation />}</div>
                   <button type="submit" disabled={isLoading}>
-                    Create
+                    {t('create')}
                   </button>
                 </div>
               </Form>

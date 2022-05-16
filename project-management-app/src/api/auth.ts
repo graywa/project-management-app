@@ -3,6 +3,7 @@ import axios from 'axios';
 import { IUser } from '../models/IUser';
 import { URL_SERVER } from '../constants/queryVariables';
 import jwtDecode from 'jwt-decode';
+import { IJwt } from '../models/IJwt';
 
 const fetchAuthRegistration = createAsyncThunk('auth/signup', async (values: IUser, thunkAPI) => {
   const { name, login, password } = values;
@@ -18,10 +19,6 @@ const fetchAuthRegistration = createAsyncThunk('auth/signup', async (values: IUs
   }
 });
 
-interface IJwt {
-  login: string;
-}
-
 const fetchAuthLogin = createAsyncThunk('auth/signin', async (values: IUser, thunkAPI) => {
   try {
     const response = await axios({
@@ -32,22 +29,14 @@ const fetchAuthLogin = createAsyncThunk('auth/signin', async (values: IUser, thu
     const token = response.data.token;
     const { login } = jwtDecode<IJwt>(token);
     localStorage.setItem('token', token);
-    localStorage.setItem('login', login);
+    localStorage.setItem('login', login || '');
     return { token, login };
   } catch (e) {
     return thunkAPI.rejectWithValue('Username or password is incorrect!');
   }
 });
 
-interface IUpdUser {
-  name: string;
-  login: string;
-  password: string;
-  id: string;
-  token: string;
-}
-
-const updateUser = createAsyncThunk('auth/update', async (values: IUpdUser, thunkAPI) => {
+const updateUser = createAsyncThunk('auth/update', async (values: IUser, thunkAPI) => {
   const { name, login, password, id, token } = values;
   try {
     const response = await axios.put(
@@ -57,18 +46,14 @@ const updateUser = createAsyncThunk('auth/update', async (values: IUpdUser, thun
         headers: { Authorization: `Bearer ${token}` },
       }
     );
+    localStorage.setItem('login', response.data.login);
     return response.data;
   } catch (e) {
     return thunkAPI.rejectWithValue('Error');
   }
 });
 
-interface IDelUser {
-  id: string;
-  token: string;
-}
-
-const deleteUser = createAsyncThunk('auth/delete', async (values: IDelUser, thunkAPI) => {
+const deleteUser = createAsyncThunk('auth/delete', async (values: IUser, thunkAPI) => {
   const { id, token } = values;
   try {
     const response = await axios.delete(`${URL_SERVER}/users/${id}`, {

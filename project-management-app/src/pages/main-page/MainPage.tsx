@@ -7,11 +7,13 @@ import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import { changeBoardId } from '../../store/columnsSlice';
 import styles from './MainPage.module.scss';
 import board from './assets/board.svg';
+import { useTranslation } from 'react-i18next';
 
 const MainPage = () => {
   const { boards, isLoading } = useAppSelector((state) => state.boards);
   const { token } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!boards.length) {
@@ -24,7 +26,7 @@ const MainPage = () => {
       <Header />
 
       <div className={styles.boards_wrapper}>
-        <h2>Boards</h2>
+        <h2>{t('boards')}</h2>
         <div className={styles.boards}>
           {isLoading && <LoadingAnimation />}
 
@@ -40,12 +42,12 @@ const MainPage = () => {
                       disabled={isLoading}
                       onClick={() => dispatch(deleteBoard({ token, id }))}
                     >
-                      Delete
+                      {t('delete')}
                     </button>
                   </div>
                 );
               })
-            : 'Boards not found'}
+            : `${t('boards_not_found')}`}
         </div>
       </div>
     </div>

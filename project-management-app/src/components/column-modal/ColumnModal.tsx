@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import { addColumns } from '../../api/columns';
 import LoadingAnimation from '../loading-animation/LoadingAnimation';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
   isOpenColumn: boolean;
@@ -15,6 +16,7 @@ interface IProps {
 const ColumnModal: FC<IProps> = ({ isOpenColumn, setIsOpenColumn }) => {
   const dispatch = useAppDispatch();
   const { isLoading, columns, boardId } = useAppSelector((state) => state.columns);
+  const { t } = useTranslation();
 
   return (
     <div
@@ -38,7 +40,7 @@ const ColumnModal: FC<IProps> = ({ isOpenColumn, setIsOpenColumn }) => {
             return (
               <Form className={styles.form} onSubmit={handleSubmit}>
                 <label htmlFor="title">
-                  Title column
+                  {t('title_column')}
                   <Field id="title" name="title" />
                   <div className={styles.error}>
                     <ErrorMessage name="title" />
@@ -47,7 +49,7 @@ const ColumnModal: FC<IProps> = ({ isOpenColumn, setIsOpenColumn }) => {
                 <div className={styles.sub_btn}>
                   <div className={styles.loader}>{isLoading && <LoadingAnimation />}</div>
                   <button type="submit" disabled={isLoading}>
-                    Create
+                    {t('create')}
                   </button>
                 </div>
               </Form>

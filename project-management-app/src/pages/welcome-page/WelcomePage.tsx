@@ -11,7 +11,6 @@ import CustomSelect from '../../components/custom-select/CustomSelect';
 const WelcomePage = () => {
   const { isAuth } = useAppSelector((state) => state.auth);
   const [scroll, setScroll] = useState(false);
-
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -34,16 +33,16 @@ const WelcomePage = () => {
             {isAuth ? (
               <div>
                 <Link to="/main">
-                  <button>Go to Main Page</button>
+                  <button>{t('go_main')}</button>
                 </Link>
               </div>
             ) : (
               <div>
                 <Link to="/login">
-                  <button>Log in</button>
+                  <button>{t('log_in')}</button>
                 </Link>
                 <Link to="/registration">
-                  <button>Sign up</button>
+                  <button>{t('sign_up')}</button>
                 </Link>
               </div>
             )}
@@ -54,10 +53,7 @@ const WelcomePage = () => {
       <div className={styles.intro}>
         <div className={styles.intro__block}>
           <div className={styles.intro__title}>{t('title1')}</div>
-          <p>
-            Collaborate, manage projects, and reach new productivity peaks. From high rises to the
-            home office, the way your team works is unique—accomplish it all with Trello.
-          </p>
+          <p>{t('description')}</p>
         </div>
         <img src={hero} alt="hero" />
       </div>
