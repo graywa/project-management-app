@@ -54,6 +54,7 @@ const Profile = () => {
         {({ handleSubmit, errors }) => {
           return (
             <Form className={styles.form} onSubmit={handleSubmit}>
+              <h1>Profile</h1>
               <label htmlFor="name">
                 Name
                 <Field id="name" name="name" />

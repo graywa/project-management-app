@@ -75,6 +75,7 @@ const deleteUser = createAsyncThunk('auth/delete', async (values: IDelUser, thun
       headers: { Authorization: `Bearer ${token}` },
     });
     localStorage.setItem('token', '');
+    localStorage.setItem('login', '');
     return response.data;
   } catch (e) {
     return thunkAPI.rejectWithValue('Error');
