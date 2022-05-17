@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { deleteBoard, getBoards } from '../../api/boards';
+import { getBoards } from '../../api/boards';
 import Header from '../../components/header/Header';
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';

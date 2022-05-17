@@ -54,4 +54,40 @@
   height: 50px;
   margin: 20px;
   cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: green;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  transition: 0.2s linear;
+  &:hover {
+    background-color: rgb(59, 163, 59);
+  }
+  &:disabled {
+    cursor: not-allowed;
+    background-color: #9e625e;
+  }
+}
+.buttonCreate {
+  margin-left: auto;
+  margin-top: 20px;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: green;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.2s linear;
+
+  &:hover {
+    background-color: rgb(59, 163, 59);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: #9e625e;
+  }
 }
