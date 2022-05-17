@@ -5,6 +5,7 @@
   right: 0;
   z-index: 10;
   height: 80px;
+  transition: .2s linear;
 
   &.scroll {
     background-color: #f5f4ff;
@@ -35,7 +36,10 @@
     gap: 10px;
 
     span {
-      font-size: 28px;
+      font-size: 26px;
+      background-color: rgb(245, 245, 245);
+      padding: 0 10px;
+      border-radius: 5px;
     }
   }
 

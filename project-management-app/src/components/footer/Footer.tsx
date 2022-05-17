@@ -1,8 +1,11 @@
 import React from 'react';
 import styles from './Footer.module.scss';
 import rsschool from './assets/rs-school.svg';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.footer}>
       <div className={styles.wrapper}>
@@ -11,7 +14,7 @@ const Footer = () => {
         </a>
         <div className={styles.year}>2022</div>
         <div className={styles.devs_block}>
-          <span>Developed by:</span>
+          <span>{t('dev_by')}</span>
           <div className={styles.devs}>
             <a href="https://github.com/davidoff-a" target="_blank" rel="noopener noreferrer">
               davidoff-a

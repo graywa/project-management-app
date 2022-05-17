@@ -7,12 +7,14 @@ interface authState {
   login: string;
   token: string;
   isLoading: boolean;
+  isSuccess: boolean;
   error: string | null;
 }
 
 const initialState: authState = {
   isAuth: !!localStorage.getItem('token'),
   isLoading: false,
+  isSuccess: false,
   name: '',
   login: localStorage.getItem('login') || '',
   token: localStorage.getItem('token') || '',
@@ -27,13 +29,16 @@ export const authSlice = createSlice({
       localStorage.setItem('isAuth', action.payload.toString());
       state.isAuth = action.payload;
     },
+    resetSuccess(state) {
+      state.isSuccess = false;
+    },
   },
   extraReducers: {
     [fetchAuthRegistration.fulfilled.type]: (state, action) => {
       state.isLoading = false;
+      state.isSuccess = true;
       state.error = '';
       state.name = action.payload.name;
-      state.error = 'Account created!';
     },
     [fetchAuthRegistration.pending.type]: (state) => {
       state.error = '';
@@ -60,6 +65,7 @@ export const authSlice = createSlice({
     },
     [updateUser.fulfilled.type]: (state, action) => {
       state.isLoading = false;
+      state.isSuccess = true;
       state.error = '';
       state.name = action.payload.name;
       state.login = action.payload.login;
@@ -90,6 +96,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { changeIsAuth } = authSlice.actions;
+export const { changeIsAuth, resetSuccess } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,13 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { URL_SERVER } from '../constants/queryVariables';
+import { IBoard } from '../models/IBoard';
 
-interface IValues {
-  title: string;
-  token: string;
-}
-
-export const createBoard = createAsyncThunk('boards/create', async (values: IValues, thunkAPI) => {
+export const createBoard = createAsyncThunk('boards/create', async (values: IBoard, thunkAPI) => {
   const { title, token } = values;
   try {
     const response = await axios.post(
@@ -34,25 +30,17 @@ export const getBoards = createAsyncThunk('boards/get', async (token: string, th
   }
 });
 
-interface IDelValues {
-  token: string;
-  id: string;
-}
+export const deleteBoard = createAsyncThunk('boards/delete', async (values: IBoard, thunkAPI) => {
+  const { token, id } = values;
+  try {
+    const response = await axios.delete(`${URL_SERVER}/boards/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-export const deleteBoard = createAsyncThunk(
-  'boards/delete',
-  async (values: IDelValues, thunkAPI) => {
-    const { token, id } = values;
-    try {
-      const response = await axios.delete(`${URL_SERVER}/boards/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (response.status === 204) {
-        return id;
-      }
-    } catch (e) {
-      return thunkAPI.rejectWithValue('Error');
+    if (response.status === 204) {
+      return id;
     }
+  } catch (e) {
+    return thunkAPI.rejectWithValue('Error');
   }
-);
+});

@@ -54,6 +54,8 @@
   .sub_btn {
     margin-top: 100px;
     position: relative;
+    display: flex;
+    gap: 20px;
 
     .loader {
       width: 100%;

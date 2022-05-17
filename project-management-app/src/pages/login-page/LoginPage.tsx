@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './LoginPage.module.scss';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -6,9 +6,13 @@ import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
 import { fetchAuthLogin } from '../../api/auth';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginPage = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const { isLoading, error } = useAppSelector((state) => state.auth);
 
   const validationsSchemaSignIn = yup.object().shape({
@@ -26,12 +30,22 @@ const LoginPage = () => {
       .required('password is required'),
   });
 
+  useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+    }
+  }, [error]);
+
   return (
     <div className={styles.login}>
       <div className={styles.container}>
-        <h2>Welcome! Login page</h2>
-        {error && <p className={styles.error}>{error}</p>}
+        <h2>{t('welcome_login')}</h2>
         {isLoading && LoadingAnimation()}
+        <ToastContainer />
         <div className={styles.form && styles.sign__in}>
           <Formik
             initialValues={{
@@ -56,7 +70,7 @@ const LoginPage = () => {
               handleSubmit,
             }) => (
               <div className={styles.form_inputs}>
-                <label htmlFor="login">Login</label>
+                <label htmlFor="login">{t('login')}</label>
                 <input
                   className={styles.input}
                   type="text"
@@ -67,7 +81,7 @@ const LoginPage = () => {
                 />
                 {touched.login && errors.login && <p className={styles.error}>{errors.login}</p>}
 
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">{t('password')}</label>
                 <input
                   className={styles.input}
                   type="password"
@@ -86,14 +100,14 @@ const LoginPage = () => {
                   onClick={() => handleSubmit()}
                   type="submit"
                 >
-                  Sign In
+                  {t('sign_in')}
                 </button>
               </div>
             )}
           </Formik>
         </div>
         <Link className={styles.switch__form} to="/registration">
-          Registration
+          {t('registration')}
         </Link>
       </div>
     </div>

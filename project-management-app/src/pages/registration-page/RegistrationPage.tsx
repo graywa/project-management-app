@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './RegistrationPage.module.scss';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -6,10 +6,15 @@ import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
 import { fetchAuthRegistration } from '../../api/auth';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { resetSuccess } from '../../store/authSlice';
 
 const RegistrationPage = () => {
   const dispatch = useAppDispatch();
-  const { isLoading, error } = useAppSelector((state) => state.auth);
+  const { t } = useTranslation();
+  const { isLoading, error, isSuccess } = useAppSelector((state) => state.auth);
 
   const validationsSchemaSignUp = yup.object().shape({
     name: yup
@@ -36,11 +41,32 @@ const RegistrationPage = () => {
       .required('confirm password is required'),
   });
 
+  useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Registration completed successfully', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+      dispatch(resetSuccess());
+    }
+  }, [isSuccess]);
+
   return (
     <div className={styles.registration}>
       <div className={styles.container}>
-        <h2>Welcome! Registration Page</h2>
-        {error && <p className={styles.error}>{error}</p>}
+        <h2>{t('welcome_registration')}</h2>
+        <ToastContainer />
         {isLoading && LoadingAnimation()}
         <div className={styles.form && styles.sign__up}>
           <Formik
@@ -69,7 +95,7 @@ const RegistrationPage = () => {
             }) => (
               <div className={styles.form_inputs}>
                 <p>
-                  <label htmlFor="name">Name</label>
+                  <label htmlFor="name">{t('name')}</label>
                   <input
                     className={styles.input}
                     type="text"
@@ -82,7 +108,7 @@ const RegistrationPage = () => {
                 {touched.name && errors.name && <p className={styles.error}>{errors.name}</p>}
 
                 <p>
-                  <label htmlFor="login">Login</label>
+                  <label htmlFor="login">{t('login')}</label>
                   <input
                     className={styles.input}
                     type="text"
@@ -95,7 +121,7 @@ const RegistrationPage = () => {
                 {touched.login && errors.login && <p className={styles.error}>{errors.login}</p>}
 
                 <p>
-                  <label htmlFor="password">Password</label>
+                  <label htmlFor="password">{t('password')}</label>
                   <input
                     className={styles.input}
                     type="password"
@@ -110,7 +136,7 @@ const RegistrationPage = () => {
                 )}
 
                 <p>
-                  <label htmlFor="confirmPassword">Confirm password</label>
+                  <label htmlFor="confirmPassword">{t('confirm_pass')}</label>
                   <input
                     className={styles.input}
                     type="password"
@@ -130,14 +156,14 @@ const RegistrationPage = () => {
                   onClick={() => handleSubmit()}
                   type="submit"
                 >
-                  Sign Up
+                  {t('sign_up')}
                 </button>
               </div>
             )}
           </Formik>
         </div>
         <Link className={styles.switch__form} to="/login">
-          Login
+          {t('login')}
         </Link>
       </div>
     </div>
