@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './RegistrationPage.module.scss';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -7,11 +7,14 @@ import LoadingAnimation from '../../components/loading-animation/LoadingAnimatio
 import { fetchAuthRegistration } from '../../api/auth';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { resetSuccess } from '../../store/authSlice';
 
 const RegistrationPage = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { isLoading, error } = useAppSelector((state) => state.auth);
+  const { isLoading, error, isSuccess } = useAppSelector((state) => state.auth);
 
   const validationsSchemaSignUp = yup.object().shape({
     name: yup
@@ -38,11 +41,32 @@ const RegistrationPage = () => {
       .required('confirm password is required'),
   });
 
+  useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Registration completed successfully', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+      dispatch(resetSuccess());
+    }
+  }, [isSuccess]);
+
   return (
     <div className={styles.registration}>
       <div className={styles.container}>
         <h2>{t('welcome_registration')}</h2>
-        {error && <p className={styles.error}>{error}</p>}
+        <ToastContainer />
         {isLoading && LoadingAnimation()}
         <div className={styles.form && styles.sign__up}>
           <Formik

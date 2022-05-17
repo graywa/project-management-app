@@ -4,6 +4,8 @@ import cn from 'classnames';
 import { useAppDispatch } from '../../redux-hooks/redux-hooks';
 import { deleteColumn } from '../../api/columns';
 import { deleteBoard } from '../../api/boards';
+import { deleteUser } from '../../api/auth';
+import { IUser } from './../../models/IUser';
 
 interface IBoardData {
   token: string;
@@ -15,13 +17,13 @@ interface IColumnData {
   columnId: string;
 }
 
-type IData = IBoardData | IColumnData;
+type IData = IBoardData | IColumnData | IUser;
 
 interface IProps {
   isOpenModal: boolean;
   setIsOpenModal: (val: boolean) => void;
   data: IData;
-  action: 'delele_board' | 'delele_column';
+  action: 'delele_board' | 'delele_column' | 'delete_user';
 }
 
 const ConfirmModal: FC<IProps> = ({ isOpenModal, setIsOpenModal, data, action }) => {
@@ -30,6 +32,7 @@ const ConfirmModal: FC<IProps> = ({ isOpenModal, setIsOpenModal, data, action })
   const clickHandler = () => {
     if (action === 'delele_board') dispatch(deleteBoard(data as IBoardData));
     if (action === 'delele_column') dispatch(deleteColumn(data as IColumnData));
+    if (action === 'delete_user') dispatch(deleteUser(data as IUser));
     setIsOpenModal(false);
   };
 

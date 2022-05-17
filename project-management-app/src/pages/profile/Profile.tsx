@@ -1,5 +1,5 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { deleteUser, updateUser } from '../../api/auth';
 import Header from '../../components/header/Header';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
@@ -9,6 +9,10 @@ import jwtDecode from 'jwt-decode';
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
 import { useTranslation } from 'react-i18next';
 import { IJwt } from '../../models/IJwt';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { resetSuccess } from '../../store/authSlice';
+import ConfirmModal from '../../components/confirm-modal/ConfirmModal';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -33,14 +37,37 @@ const validationSchema = Yup.object().shape({
 
 const Profile = () => {
   const dispatch = useAppDispatch();
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const { token } = useAppSelector((state) => state.auth);
-  const { isLoading } = useAppSelector((state) => state.auth);
+  const { isLoading, error, isSuccess } = useAppSelector((state) => state.auth);
   const { userId: id } = jwtDecode<IJwt>(token);
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Profile changed successfully', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+      dispatch(resetSuccess());
+    }
+  }, [isSuccess]);
 
   return (
     <div className={styles.profile}>
       <Header />
+      <ToastContainer />
       <Formik
         initialValues={{ name: '', login: '', password: '', confirmPassword: '' }}
         onSubmit={({ name, login, password }, { resetForm }) => {
@@ -94,9 +121,15 @@ const Profile = () => {
               </div>
 
               <div className={styles.del_btn}>
-                <button onClick={() => dispatch(deleteUser({ id, token }))} disabled={isLoading}>
+                <button onClick={() => setIsOpenModal(true)} disabled={isLoading}>
                   {t('del_user')}
                 </button>
+                <ConfirmModal
+                  action="delete_user"
+                  data={{ id, token }}
+                  isOpenModal={isOpenModal}
+                  setIsOpenModal={setIsOpenModal}
+                />
               </div>
             </Form>
           );

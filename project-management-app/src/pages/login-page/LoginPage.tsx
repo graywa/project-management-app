@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './LoginPage.module.scss';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -7,6 +7,8 @@ import LoadingAnimation from '../../components/loading-animation/LoadingAnimatio
 import { fetchAuthLogin } from '../../api/auth';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginPage = () => {
   const dispatch = useAppDispatch();
@@ -28,12 +30,22 @@ const LoginPage = () => {
       .required('password is required'),
   });
 
+  useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+    }
+  }, [error]);
+
   return (
     <div className={styles.login}>
       <div className={styles.container}>
         <h2>{t('welcome_login')}</h2>
-        {error && <p className={styles.error}>{error}</p>}
         {isLoading && LoadingAnimation()}
+        <ToastContainer />
         <div className={styles.form && styles.sign__in}>
           <Formik
             initialValues={{
