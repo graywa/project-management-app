@@ -6,33 +6,36 @@ import { deleteColumn } from '../../api/columns';
 import { deleteBoard } from '../../api/boards';
 import { deleteUser } from '../../api/auth';
 import { IUser } from './../../models/IUser';
-
-interface IBoardData {
-  token: string;
-  id: string;
-}
+import { IBoard } from './../../models/IBoard';
+import { deleteTask } from '../../api/tasks';
 
 interface IColumnData {
   boardId: string;
   columnId: string;
 }
+interface ITaskData {
+  boardId: string | undefined;
+  columnId: string | undefined;
+  taskId: string | undefined;
+}
 
-type IData = IBoardData | IColumnData | IUser;
+type IData = IBoard | IColumnData | IUser | ITaskData;
 
 interface IProps {
   isOpenModal: boolean;
   setIsOpenModal: (val: boolean) => void;
   data: IData;
-  action: 'delele_board' | 'delele_column' | 'delete_user';
+  action: 'delele_board' | 'delele_column' | 'delete_user' | 'delele_task';
 }
 
 const ConfirmModal: FC<IProps> = ({ isOpenModal, setIsOpenModal, data, action }) => {
   const dispatch = useAppDispatch();
 
   const clickHandler = () => {
-    if (action === 'delele_board') dispatch(deleteBoard(data as IBoardData));
+    if (action === 'delele_board') dispatch(deleteBoard(data as IBoard));
     if (action === 'delele_column') dispatch(deleteColumn(data as IColumnData));
     if (action === 'delete_user') dispatch(deleteUser(data as IUser));
+    if (action === 'delele_task') dispatch(deleteTask(data as ITaskData));
     setIsOpenModal(false);
   };
 
