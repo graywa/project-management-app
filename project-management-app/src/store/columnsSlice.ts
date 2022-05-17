@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { addColumns, deleteColumn, getColumns } from '../api/columns';
+import { addColumns, deleteColumn, getColumns, updateColumn } from '../api/columns';
 import { IColumn } from '../models/IColumn';
 
 interface columnsState {
@@ -49,6 +49,20 @@ export const columnsSlice = createSlice({
       state.isLoading = true;
     },
     [addColumns.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    [updateColumn.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.error = '';
+      const { id } = action.payload;
+      state.columns[state.columns.findIndex((column) => column.id === id)] = action.payload;
+    },
+    [updateColumn.pending.type]: (state) => {
+      state.error = '';
+      state.isLoading = true;
+    },
+    [updateColumn.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.error = action.payload;
     },
