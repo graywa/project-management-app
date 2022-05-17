@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { deleteColumn } from '../../api/columns';
 import { getTasks } from '../../api/tasks';
 import { IColumn } from '../../models/IColumn';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
-import ConfirmationModal from '../confirmation-modal/ConfirmationModal';
+import ConfirmModal from '../confirm-modal/ConfirmModal';
 import TaskModal from '../task-modal/TaskModal';
 import Task from '../task/Task';
 import styles from './Column.module.scss';
@@ -29,10 +30,11 @@ const Columns = ({ column }: { column: IColumn }) => {
         <button className={styles.buttonDelete} onClick={() => setIsOpenConfirmationModal(true)}>
           {t('delete')}
         </button>
-        <ConfirmationModal
-          isOpenConfirmationModal={isOpenConfirmationModal}
-          setIsOpenConfirmationModal={setIsOpenConfirmationModal}
-          columnId={columnId}
+        <ConfirmModal
+          isOpenModal={isOpenConfirmationModal}
+          setIsOpenModal={setIsOpenConfirmationModal}
+          data={{ columnId, boardId }}
+          action={'delele_column'}
         />
       </div>
       <div className={styles.tasks}>

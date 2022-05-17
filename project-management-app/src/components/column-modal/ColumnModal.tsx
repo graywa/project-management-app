@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import { addColumns } from '../../api/columns';
 import LoadingAnimation from '../loading-animation/LoadingAnimation';
 import { useTranslation } from 'react-i18next';
+import cross from './../board-modal/assets/cross.svg';
 
 interface IProps {
   isOpenColumn: boolean;
@@ -24,6 +25,7 @@ const ColumnModal: FC<IProps> = ({ isOpenColumn, setIsOpenColumn }) => {
       onClick={() => setIsOpenColumn(false)}
     >
       <div className={styles.modal__content} onClick={(e) => e.stopPropagation()}>
+        <img width={32} src={cross} alt="cross" onClick={() => setIsOpenColumn(false)} />
         <Formik
           initialValues={{ title: '' }}
           onSubmit={({ title }, { resetForm }) => {

@@ -5,9 +5,9 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import { createBoard } from '../../api/boards';
-import LoadingAnimation from '../loading-animation/LoadingAnimation';
 import { useTranslation } from 'react-i18next';
 import cross from './assets/cross.svg';
+import LoadingAnimation from '../loading-animation/LoadingAnimation';
 
 interface IProps {
   isOpenBoard: boolean;

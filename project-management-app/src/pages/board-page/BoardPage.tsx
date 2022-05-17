@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import styles from './BoardPage.module.scss';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import { getColumns } from '../../api/columns';
-import loadingAnimation from '../../components/loading-animation/LoadingAnimation';
 import Column from '../../components/columns/Column';
 import { IColumn } from '../../models/IColumn';
 import Header from '../../components/header/Header';
 import ColumnModal from '../../components/column-modal/ColumnModal';
 import { useTranslation } from 'react-i18next';
+import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
 
 const BoardPage = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +25,11 @@ const BoardPage = () => {
       <Header />
       <div className={styles.board}>
         {error && <h3 className={styles.error}>{error}</h3>}
-        {isLoading && <div className={styles.loader}>{loadingAnimation()}</div>}
+        {isLoading && (
+          <div className={styles.loader}>
+            <LoadingAnimation />
+          </div>
+        )}
         {columns.map((column: IColumn, index: number) => {
           return <Column column={column} key={index} />;
         })}
