@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { NoContent, URL_SERVER } from '../constants/queryVariables';
+import axios, { AxiosError } from 'axios';
+import { NoContent, UNAUTHORIZED, URL_SERVER } from '../constants/queryVariables';
 import { IColumn } from '../models/IColumn';
 
 const getColumns = createAsyncThunk('columns/getAll', async (boardId: string, thunkAPI) => {
@@ -10,9 +10,17 @@ const getColumns = createAsyncThunk('columns/getAll', async (boardId: string, th
       url: `${URL_SERVER}/boards/${boardId}/columns`,
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
+
     return response.data;
   } catch (e) {
-    return thunkAPI.rejectWithValue('Columns not found!');
+    if (e instanceof AxiosError && e.response?.data.statusCode === UNAUTHORIZED) {
+      localStorage.setItem('isAuth', 'false');
+      localStorage.setItem('token', '');
+      return thunkAPI.rejectWithValue(e.response?.data.message);
+    }
+    if (e instanceof Error) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
   }
 });
 
@@ -28,7 +36,12 @@ const addColumns = createAsyncThunk(
       });
       return response.data;
     } catch (e) {
-      return thunkAPI.rejectWithValue('Error!');
+      if (e instanceof AxiosError && e.response?.data) {
+        return thunkAPI.rejectWithValue(e.response?.data.message);
+      }
+      if (e instanceof Error) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
     }
   }
 );
@@ -53,7 +66,12 @@ const updateColumn = createAsyncThunk(
 
       return response.data;
     } catch (e) {
-      return thunkAPI.rejectWithValue('Error!');
+      if (e instanceof AxiosError && e.response?.data) {
+        return thunkAPI.rejectWithValue(e.response?.data.message);
+      }
+      if (e instanceof Error) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
     }
   }
 );
@@ -72,7 +90,12 @@ const deleteColumn = createAsyncThunk(
         return columnId;
       }
     } catch (e) {
-      return thunkAPI.rejectWithValue('Error!');
+      if (e instanceof AxiosError && e.response?.data) {
+        return thunkAPI.rejectWithValue(e.response?.data.message);
+      }
+      if (e instanceof Error) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
     }
   }
 );

@@ -35,7 +35,10 @@ const ColumnModal: FC<IProps> = ({ isOpenColumn, setIsOpenColumn }) => {
             resetForm();
           }}
           validationSchema={Yup.object().shape({
-            title: Yup.string().min(3, 'min 3 characters').required('enter a title'),
+            title: Yup.string()
+              .min(3, 'min 3 characters')
+              .max(12, 'min 12 characters')
+              .required('enter a title'),
           })}
         >
           {({ handleSubmit }) => {

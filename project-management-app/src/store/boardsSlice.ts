@@ -9,61 +9,70 @@ interface IBoard {
 interface boardsState {
   boards: IBoard[];
   isLoading: boolean;
-  error: string;
+  isCreateBoard: boolean;
+  errorBoard: string;
 }
 
 const initialState: boardsState = {
   boards: [],
   isLoading: false,
-  error: '',
+  isCreateBoard: false,
+  errorBoard: '',
 };
 
 export const boardsSlice = createSlice({
   name: 'boards',
   initialState,
-  reducers: {},
+  reducers: {
+    resetCreateNewBoard(state) {
+      state.isCreateBoard = false;
+    },
+  },
   extraReducers: {
     [createBoard.fulfilled.type]: (state, action) => {
       state.isLoading = false;
-      state.error = '';
+      state.isCreateBoard = true;
+      state.errorBoard = '';
       state.boards.push(action.payload);
     },
     [createBoard.pending.type]: (state) => {
-      state.error = '';
+      state.errorBoard = '';
       state.isLoading = true;
     },
     [createBoard.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
-      state.error = action.payload;
+      state.errorBoard = action.payload;
     },
     [getBoards.fulfilled.type]: (state, action) => {
       state.isLoading = false;
-      state.error = '';
+      state.errorBoard = '';
       state.boards = action.payload;
     },
     [getBoards.pending.type]: (state) => {
-      state.error = '';
+      state.errorBoard = '';
       state.isLoading = true;
     },
     [getBoards.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
-      state.error = action.payload;
+      state.errorBoard = action.payload;
     },
     [deleteBoard.fulfilled.type]: (state, action) => {
       state.isLoading = false;
-      state.error = '';
+      state.errorBoard = '';
       const id = action.payload;
       state.boards = state.boards.filter((el) => el.id !== id);
     },
     [deleteBoard.pending.type]: (state) => {
-      state.error = '';
+      state.errorBoard = '';
       state.isLoading = true;
     },
     [deleteBoard.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
-      state.error = action.payload;
+      state.errorBoard = action.payload;
     },
   },
 });
+
+export const { resetCreateNewBoard } = boardsSlice.actions;
 
 export default boardsSlice.reducer;
