@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { URL_SERVER } from '../constants/queryVariables';
+import axios, { AxiosError } from 'axios';
+import { NoContent, UNAUTHORIZED, URL_SERVER } from '../constants/queryVariables';
 import { IBoard } from '../models/IBoard';
 
 export const createBoard = createAsyncThunk('boards/create', async (values: IBoard, thunkAPI) => {
@@ -19,14 +19,22 @@ export const createBoard = createAsyncThunk('boards/create', async (values: IBoa
   }
 });
 
-export const getBoards = createAsyncThunk('boards/get', async (token: string, thunkAPI) => {
+export const getBoards = createAsyncThunk('boards/getAll', async (token: string, thunkAPI) => {
   try {
     const response = await axios.get(`${URL_SERVER}/boards`, {
       headers: { Authorization: `Bearer ${token}` },
     });
+
     return response.data;
   } catch (e) {
-    return thunkAPI.rejectWithValue('Error');
+    if (e instanceof AxiosError && e.response?.data.statusCode === UNAUTHORIZED) {
+      localStorage.setItem('isAuth', 'false');
+      localStorage.setItem('token', '');
+      return thunkAPI.rejectWithValue('Authorisation Error!');
+    }
+    if (e instanceof Error) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
   }
 });
 
@@ -37,7 +45,7 @@ export const deleteBoard = createAsyncThunk('boards/delete', async (values: IBoa
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    if (response.status === 204) {
+    if (response.status === NoContent) {
       return id;
     }
   } catch (e) {

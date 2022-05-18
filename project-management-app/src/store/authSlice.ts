@@ -1,5 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { deleteUser, fetchAuthLogin, fetchAuthRegistration, updateUser } from '../api/auth';
+import { getBoards } from '../api/boards';
+import { getColumns } from '../api/columns';
+import { UNAUTHORIZED } from '../constants/queryVariables';
 
 interface authState {
   isAuth: boolean;
@@ -12,7 +15,7 @@ interface authState {
 }
 
 const initialState: authState = {
-  isAuth: !!localStorage.getItem('token'),
+  isAuth: localStorage.getItem('isAuth') === 'true',
   isLoading: false,
   isSuccess: false,
   name: '',
@@ -92,6 +95,16 @@ export const authSlice = createSlice({
     [deleteUser.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.error = action.payload;
+    },
+    [getBoards.rejected.type]: (state, action: PayloadAction<string>) => {
+      if (action.payload === 'Authorisation Error!') {
+        state.isAuth = false;
+      }
+    },
+    [getColumns.rejected.type]: (state, action: PayloadAction<string>) => {
+      if (action.payload === 'Authorisation Error!') {
+        state.isAuth = false;
+      }
     },
   },
 });

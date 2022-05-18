@@ -34,6 +34,7 @@ const fetchAuthLogin = createAsyncThunk('auth/signin', async (values: IUser, thu
     const token = response.data.token;
     const { login } = jwtDecode<IJwt>(token);
     localStorage.setItem('token', token);
+    localStorage.setItem('isAuth', 'true');
     localStorage.setItem('login', login || '');
     return { token, login };
   } catch (e) {
@@ -74,6 +75,7 @@ const deleteUser = createAsyncThunk('auth/delete', async (values: IUser, thunkAP
     const response = await axios.delete(`${URL_SERVER}/users/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
+    localStorage.setItem('isAuth', 'false');
     localStorage.setItem('token', '');
     localStorage.setItem('login', '');
     return response.data;
