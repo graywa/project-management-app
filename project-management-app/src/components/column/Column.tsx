@@ -85,7 +85,7 @@ const Columns = ({ column }: { column: IColumn }) => {
           isOpenModal={isOpenConfirmationModal}
           setIsOpenModal={setIsOpenConfirmationModal}
           data={{ columnId, boardId }}
-          action={'delele_column'}
+          action={'delete_column'}
         />
       </div>
       <div className={styles.tasks}>

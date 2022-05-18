@@ -65,7 +65,7 @@ const MainPage = () => {
                     <ConfirmModal
                       isOpenModal={isOpenModal}
                       setIsOpenModal={setIsOpenModal}
-                      action={'delele_board'}
+                      action={'delete_board'}
                       data={{ token, id }}
                     />
                   </div>
