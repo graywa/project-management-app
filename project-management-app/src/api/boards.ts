@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { URL_SERVER } from '../constants/queryVariables';
 import { IBoard } from '../models/IBoard';
 
@@ -26,7 +26,12 @@ export const getBoards = createAsyncThunk('boards/get', async (token: string, th
     });
     return response.data;
   } catch (e) {
-    return thunkAPI.rejectWithValue('Error');
+    if (e instanceof AxiosError && e.response?.data) {
+      return thunkAPI.rejectWithValue(e.response?.data.error);
+    }
+    if (e instanceof Error) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
   }
 });
 

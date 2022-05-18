@@ -10,6 +10,8 @@ import { useTranslation } from 'react-i18next';
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import { setColumns } from '../../store/columnsSlice';
 
 const BoardPage = () => {
   const dispatch = useAppDispatch();
@@ -19,7 +21,7 @@ const BoardPage = () => {
 
   useEffect(() => {
     dispatch(getColumns(boardId));
-  }, [columns.length]);
+  }, []);
 
   useEffect(() => {
     if (error) {
@@ -31,6 +33,22 @@ const BoardPage = () => {
     }
   }, [error]);
 
+  const reorder = (list: IColumn[], startIndex: number, endIndex: number) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+  };
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+    const { source, destination } = result;
+    const newColumns = reorder(columns, source.index, destination.index);
+    dispatch(setColumns(newColumns));
+    console.log(result);
+  };
+
   return (
     <div className={styles.container}>
       <Header />
@@ -41,9 +59,30 @@ const BoardPage = () => {
             <LoadingAnimation />
           </div>
         )}
-        {columns.map((column: IColumn, index: number) => {
-          return <Column column={column} key={index} />;
-        })}
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="droppable">
+            {(provided) => (
+              <div className={styles.boar} {...provided.droppableProps} ref={provided.innerRef}>
+                {columns?.map((column: IColumn, index: number) => {
+                  return (
+                    <Draggable key={column.id} draggableId={column.id as string} index={index}>
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <Column column={column} />;
+                        </div>
+                      )}
+                    </Draggable>
+                  );
+                })}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
         <button className={styles.buttonAddColumn} onClick={() => setIsOpenColumn(true)}>
           {t('add_column')}
         </button>

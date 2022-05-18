@@ -88,10 +88,11 @@ const Columns = ({ column }: { column: IColumn }) => {
           action={'delele_column'}
         />
       </div>
+
       <div className={styles.tasks}>
         {tasks[columnId] &&
           tasks[columnId].map((task, index) => {
-            return <Task task={task} index={index} key={index} />;
+            return <Task task={task} index={index} key={task.id} />;
           })}
         <button className={styles.buttonCreate} onClick={() => setIsOpenCreateTaskModal(true)}>
           {t('create_task')}

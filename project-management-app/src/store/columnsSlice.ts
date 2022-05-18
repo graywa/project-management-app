@@ -24,6 +24,9 @@ export const columnsSlice = createSlice({
       localStorage.setItem('boardId', action.payload);
       state.boardId = action.payload;
     },
+    setColumns(state, action) {
+      state.columns = action.payload;
+    },
   },
   extraReducers: {
     [getColumns.fulfilled.type]: (state, action) => {
@@ -83,6 +86,6 @@ export const columnsSlice = createSlice({
   },
 });
 
-export const { changeBoardId } = columnsSlice.actions;
+export const { changeBoardId, setColumns } = columnsSlice.actions;
 
 export default columnsSlice.reducer;

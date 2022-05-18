@@ -17,7 +17,7 @@ const Task: FC<IProps> = ({ task, index }) => {
   return (
     <div className={styles.task}>
       <div className={styles.taskHead}>
-        <h3 className={styles.title}>{`${index + 1}) ${title}`}</h3>{' '}
+        <h3 className={styles.title}>{`${index + 1}) ${title}`}</h3>
         <button className={styles.buttonDelete} onClick={() => setIsOpenModal(true)}>
           {t('delete')}
         </button>
