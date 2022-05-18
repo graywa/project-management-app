@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import styles from './BoardPage.module.scss';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import { getColumns } from '../../api/columns';
-import Column from '../../components/columns/Column';
+import Column from '../../components/column/Column';
 import { IColumn } from '../../models/IColumn';
 import Header from '../../components/header/Header';
 import ColumnModal from '../../components/column-modal/ColumnModal';

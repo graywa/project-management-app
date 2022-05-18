@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { deleteUser, updateUser } from '../../api/auth';
+import { updateUser } from '../../api/auth';
 import Header from '../../components/header/Header';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import styles from './Profile.module.scss';

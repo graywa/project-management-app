@@ -1,8 +1,6 @@
 import React, { FC, useState } from 'react';
 import styles from './Task.module.scss';
 import { ITask } from '../../models/ITask';
-import { useAppDispatch } from '../../redux-hooks/redux-hooks';
-import { deleteTask } from '../../api/tasks';
 import { useTranslation } from 'react-i18next';
 import ConfirmModal from '../confirm-modal/ConfirmModal';
 
@@ -13,7 +11,6 @@ interface IProps {
 
 const Task: FC<IProps> = ({ task, index }) => {
   const { title, description, boardId, columnId, id: taskId } = task;
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const [isOpenModal, setIsOpenModal] = useState(false);
 

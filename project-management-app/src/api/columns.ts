@@ -38,6 +38,31 @@ const addColumns = createAsyncThunk(
   }
 );
 
+const updateColumn = createAsyncThunk(
+  'columns/update',
+  async (
+    {
+      boardId,
+      columnId,
+      data,
+    }: { boardId: string; columnId: string; data: { title: string; order: number } },
+    thunkAPI
+  ) => {
+    try {
+      const response = await axios({
+        method: 'put',
+        url: `${URL_SERVER}/boards/${boardId}/columns/${columnId}`,
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        data,
+      });
+
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue('Error!');
+    }
+  }
+);
+
 const deleteColumn = createAsyncThunk(
   'columns/delete',
   async ({ boardId, columnId }: { boardId: string; columnId: string }, thunkAPI) => {
@@ -57,4 +82,4 @@ const deleteColumn = createAsyncThunk(
   }
 );
 
-export { getColumns, addColumns, deleteColumn };
+export { getColumns, addColumns, updateColumn, deleteColumn };
