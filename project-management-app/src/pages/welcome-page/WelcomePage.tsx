@@ -7,8 +7,11 @@ import cn from 'classnames';
 import { useAppSelector } from '../../redux-hooks/redux-hooks';
 import { useTranslation } from 'react-i18next';
 import CustomSelect from '../../components/custom-select/CustomSelect';
+import { toast, ToastContainer } from 'react-toastify';
 
 const WelcomePage = () => {
+  const { errorBoard } = useAppSelector((state) => state.boards);
+  const { errorColumn } = useAppSelector((state) => state.columns);
   const { isAuth } = useAppSelector((state) => state.auth);
   const [scroll, setScroll] = useState(false);
   const { t } = useTranslation();
@@ -21,8 +24,26 @@ const WelcomePage = () => {
     window.addEventListener('scroll', scrollHandler);
   }, []);
 
+  useEffect(() => {
+    if (errorBoard === 'Unauthorized') {
+      toast.error(errorBoard, {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+    }
+    if (errorColumn === 'Unauthorized') {
+      toast.error(errorColumn, {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+    }
+  }, [errorBoard, errorColumn]);
+
   return (
     <div className={styles.welcome_page}>
+      <ToastContainer />
       <div className={cn(styles.header_wrapper, { [styles.scroll]: scroll })}>
         <header className={styles.header}>
           <Link to="/" className={styles.header__logo}>

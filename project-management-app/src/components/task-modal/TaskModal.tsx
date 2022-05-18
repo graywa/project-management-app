@@ -53,7 +53,10 @@ const TaskModal: FC<IProps> = ({
             resetForm();
           }}
           validationSchema={Yup.object().shape({
-            title: Yup.string().min(4, 'min 4 characters').required('enter a title'),
+            title: Yup.string()
+              .min(4, 'min 4 characters')
+              .max(12, 'min 12 characters')
+              .required('enter a title'),
             description: Yup.string().min(2, 'min 2 characters').required('enter a description'),
           })}
         >

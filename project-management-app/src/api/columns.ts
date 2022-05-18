@@ -16,7 +16,7 @@ const getColumns = createAsyncThunk('columns/getAll', async (boardId: string, th
     if (e instanceof AxiosError && e.response?.data.statusCode === UNAUTHORIZED) {
       localStorage.setItem('isAuth', 'false');
       localStorage.setItem('token', '');
-      return thunkAPI.rejectWithValue('Authorisation Error!');
+      return thunkAPI.rejectWithValue(e.response?.data.message);
     }
     if (e instanceof Error) {
       return thunkAPI.rejectWithValue(e.message);
@@ -36,7 +36,12 @@ const addColumns = createAsyncThunk(
       });
       return response.data;
     } catch (e) {
-      return thunkAPI.rejectWithValue('Error!');
+      if (e instanceof AxiosError && e.response?.data) {
+        return thunkAPI.rejectWithValue(e.response?.data.message);
+      }
+      if (e instanceof Error) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
     }
   }
 );
@@ -61,7 +66,12 @@ const updateColumn = createAsyncThunk(
 
       return response.data;
     } catch (e) {
-      return thunkAPI.rejectWithValue('Error!');
+      if (e instanceof AxiosError && e.response?.data) {
+        return thunkAPI.rejectWithValue(e.response?.data.message);
+      }
+      if (e instanceof Error) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
     }
   }
 );
@@ -80,7 +90,12 @@ const deleteColumn = createAsyncThunk(
         return columnId;
       }
     } catch (e) {
-      return thunkAPI.rejectWithValue('Error!');
+      if (e instanceof AxiosError && e.response?.data) {
+        return thunkAPI.rejectWithValue(e.response?.data.message);
+      }
+      if (e instanceof Error) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
     }
   }
 );

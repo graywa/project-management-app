@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { NoContent, URL_SERVER } from '../constants/queryVariables';
 import { ITask } from '../models/ITask';
 
@@ -15,7 +15,12 @@ const getTasks = createAsyncThunk(
 
       return { response: response.data, columnId };
     } catch (e) {
-      return thunkAPI.rejectWithValue('Columns not found!');
+      if (e instanceof AxiosError && e.response?.data) {
+        return thunkAPI.rejectWithValue(e.response?.data.message);
+      }
+      if (e instanceof Error) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
     }
   }
 );
@@ -35,7 +40,12 @@ const addTask = createAsyncThunk(
       });
       return response.data;
     } catch (e) {
-      return thunkAPI.rejectWithValue('Error!');
+      if (e instanceof AxiosError && e.response?.data) {
+        return thunkAPI.rejectWithValue(e.response?.data.message);
+      }
+      if (e instanceof Error) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
     }
   }
 );
@@ -61,7 +71,12 @@ const deleteTask = createAsyncThunk(
         return { columnId, taskId };
       }
     } catch (e) {
-      return thunkAPI.rejectWithValue('Error!');
+      if (e instanceof AxiosError && e.response?.data) {
+        return thunkAPI.rejectWithValue(e.response?.data.message);
+      }
+      if (e instanceof Error) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
     }
   }
 );

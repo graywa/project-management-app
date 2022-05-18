@@ -15,7 +15,12 @@ export const createBoard = createAsyncThunk('boards/create', async (values: IBoa
     );
     return response.data;
   } catch (e) {
-    return thunkAPI.rejectWithValue('Error');
+    if (e instanceof AxiosError && e.response?.data) {
+      return thunkAPI.rejectWithValue(e.response?.data.message);
+    }
+    if (e instanceof Error) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
   }
 });
 
@@ -30,7 +35,8 @@ export const getBoards = createAsyncThunk('boards/getAll', async (token: string,
     if (e instanceof AxiosError && e.response?.data.statusCode === UNAUTHORIZED) {
       localStorage.setItem('isAuth', 'false');
       localStorage.setItem('token', '');
-      return thunkAPI.rejectWithValue('Authorisation Error!');
+      console.log(e.response?.data.message);
+      return thunkAPI.rejectWithValue(e.response?.data.message);
     }
     if (e instanceof Error) {
       return thunkAPI.rejectWithValue(e.message);
@@ -49,6 +55,11 @@ export const deleteBoard = createAsyncThunk('boards/delete', async (values: IBoa
       return id;
     }
   } catch (e) {
-    return thunkAPI.rejectWithValue('Error');
+    if (e instanceof AxiosError && e.response?.data) {
+      return thunkAPI.rejectWithValue(e.response?.data.message);
+    }
+    if (e instanceof Error) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
   }
 });
