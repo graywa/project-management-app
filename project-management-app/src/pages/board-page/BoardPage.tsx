@@ -9,6 +9,8 @@ import Header from '../../components/header/Header';
 import ColumnModal from '../../components/column-modal/ColumnModal';
 import { useTranslation } from 'react-i18next';
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BoardPage = () => {
   const dispatch = useAppDispatch();
@@ -20,11 +22,21 @@ const BoardPage = () => {
     dispatch(getColumns(boardId));
   }, [columns.length]);
 
+  useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+    }
+  }, [error]);
+
   return (
     <div className={styles.container}>
       <Header />
+      <ToastContainer />
       <div className={styles.board}>
-        {error && <h3 className={styles.error}>{error}</h3>}
         {isLoading && (
           <div className={styles.loader}>
             <LoadingAnimation />
