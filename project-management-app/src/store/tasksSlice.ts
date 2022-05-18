@@ -5,14 +5,16 @@ import { ITask } from '../models/ITask';
 interface taskState {
   columnId: string;
   isLoading: boolean;
-  error: string | null;
+  isCreateTask: boolean;
+  errorTask: string | null;
   tasks: { [x: string]: ITask[] };
 }
 
 const initialState: taskState = {
   columnId: localStorage.getItem('columnId') || '',
   isLoading: false,
-  error: null,
+  isCreateTask: false,
+  errorTask: null,
   tasks: {},
 };
 
@@ -24,53 +26,57 @@ export const tasksSlice = createSlice({
       localStorage.setItem('columnId', action.payload);
       state.columnId = action.payload;
     },
+    resetCreateNewTask(state) {
+      state.isCreateTask = false;
+    },
   },
   extraReducers: {
     [getTasks.fulfilled.type]: (state, action) => {
       state.isLoading = false;
-      state.error = '';
+      state.errorTask = '';
       const { columnId, response }: { columnId: string; response: ITask[] } = action.payload;
       state.tasks[columnId] = response;
     },
     [getTasks.pending.type]: (state) => {
-      state.error = '';
+      state.errorTask = '';
       state.isLoading = true;
     },
     [getTasks.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
-      state.error = action.payload;
+      state.errorTask = action.payload;
     },
     [addTask.fulfilled.type]: (state, action) => {
       state.isLoading = false;
-      state.error = '';
+      state.isCreateTask = true;
+      state.errorTask = '';
       const { columnId }: { columnId: string } = action.payload;
       state.tasks[columnId].push(action.payload);
     },
     [addTask.pending.type]: (state) => {
-      state.error = '';
+      state.errorTask = '';
       state.isLoading = true;
     },
     [addTask.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
-      state.error = action.payload;
+      state.errorTask = action.payload;
     },
     [deleteTask.fulfilled.type]: (state, action) => {
       state.isLoading = false;
-      state.error = '';
+      state.errorTask = '';
       const { columnId, taskId }: { columnId: string; taskId: string } = action.payload;
       state.tasks[columnId] = state.tasks[columnId].filter((el) => el.id !== taskId);
     },
     [deleteTask.pending.type]: (state) => {
-      state.error = '';
+      state.errorTask = '';
       state.isLoading = true;
     },
     [deleteTask.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
-      state.error = action.payload;
+      state.errorTask = action.payload;
     },
   },
 });
 
-export const { changeColumnId } = tasksSlice.actions;
+export const { changeColumnId, resetCreateNewTask } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

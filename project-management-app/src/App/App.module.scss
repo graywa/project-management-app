@@ -5,10 +5,16 @@
 }
 
 .content_wrapper {
-  max-width: 1200px;
+  max-width: 90%;
   width: 100%;
   padding: 0 25px;
   min-height: calc(100vh - 100px);
   margin: 0 auto;
   flex: 1 1 auto;
+}
+
+@media screen and (max-width: 1000px) {
+  .content_wrapper {
+    max-width: 100%;
+  }
 }

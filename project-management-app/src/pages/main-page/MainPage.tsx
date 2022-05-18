@@ -9,11 +9,12 @@ import styles from './MainPage.module.scss';
 import board from './assets/board.svg';
 import { useTranslation } from 'react-i18next';
 import ConfirmModal from '../../components/confirm-modal/ConfirmModal';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
+import { resetCreateNewBoard } from '../../store/boardsSlice';
 
 const MainPage = () => {
-  const { boards, isLoading, error } = useAppSelector((state) => state.boards);
+  const { boards, isLoading, isCreateBoard, errorBoard } = useAppSelector((state) => state.boards);
   const { token } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -26,24 +27,32 @@ const MainPage = () => {
   }, [boards.length]);
 
   useEffect(() => {
-    if (error) {
-      toast.error(error, {
+    if (isCreateBoard) {
+      toast.success('New board created', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+      dispatch(resetCreateNewBoard());
+    }
+    if (errorBoard !== 'Unauthorized' && errorBoard !== '') {
+      toast.error(errorBoard, {
         position: 'top-center',
         autoClose: 3000,
         hideProgressBar: true,
       });
     }
-  }, [error]);
+  }, [isCreateBoard, errorBoard]);
 
   return (
     <div className={styles.main}>
       <Header />
       <ToastContainer />
       <div className={styles.boards_wrapper}>
+        <ToastContainer />
         <h2>{t('boards')}</h2>
         <div className={styles.boards}>
           {isLoading && <LoadingAnimation />}
-
           {!!boards.length
             ? boards?.map(({ id, title }) => {
                 return (

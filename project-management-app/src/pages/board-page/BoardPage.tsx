@@ -8,14 +8,19 @@ import Header from '../../components/header/Header';
 import ColumnModal from '../../components/column-modal/ColumnModal';
 import { useTranslation } from 'react-i18next';
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { setColumns } from '../../store/columnsSlice';
+import { toast, ToastContainer } from 'react-toastify';
+import { resetCreateNewColumn } from '../../store/columnsSlice';
+import { resetCreateNewTask } from '../../store/tasksSlice';
 
 const BoardPage = () => {
   const dispatch = useAppDispatch();
-  const { isLoading, error, columns, boardId } = useAppSelector((state) => state.columns);
+  const { isLoading, columns, boardId, errorColumn, isCreateColumn } = useAppSelector(
+    (state) => state.columns
+  );
+  const { isCreateTask, errorTask } = useAppSelector((state) => state.tasks);
   const [isOpenColumn, setIsOpenColumn] = useState(false);
   const { t } = useTranslation();
 
@@ -24,14 +29,14 @@ const BoardPage = () => {
   }, []);
 
   useEffect(() => {
-    if (error) {
-      toast.error(error, {
+    if (errorTask) {
+      toast.error(errorTask, {
         position: 'top-center',
         autoClose: 3000,
         hideProgressBar: true,
       });
     }
-  }, [error]);
+  }, [errorTask]);
 
   const reorder = (list: IColumn[], startIndex: number, endIndex: number) => {
     const result = Array.from(list);
@@ -49,11 +54,45 @@ const BoardPage = () => {
     console.log(result);
   };
 
+  useEffect(() => {
+    if (isCreateColumn) {
+      toast.success('New column created', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+      dispatch(resetCreateNewColumn());
+    }
+    if (isCreateTask) {
+      toast.success('New task created', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+      dispatch(resetCreateNewTask());
+    }
+    if (errorColumn !== 'Unauthorized' && errorColumn !== '') {
+      toast.error(errorColumn, {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+    }
+    if (errorTask !== 'Unauthorized' && errorTask !== '') {
+      toast.error(errorTask, {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+    }
+  }, [errorColumn, errorTask, isCreateColumn, isCreateTask]);
+
   return (
     <div className={styles.container}>
       <Header />
       <ToastContainer />
       <div className={styles.board}>
+        <ToastContainer />
         {isLoading && (
           <div className={styles.loader}>
             <LoadingAnimation />
