@@ -10,14 +10,14 @@ import { useTranslation } from 'react-i18next';
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
 import { toast, ToastContainer } from 'react-toastify';
 import { resetCreateNewColumn } from '../../store/columnsSlice';
-import { resetCreateNewTask } from '../../store/tasksSlice';
+import { resetCreateNewTask, resetUpdateTask } from '../../store/tasksSlice';
 
 const BoardPage = () => {
   const dispatch = useAppDispatch();
   const { isLoading, columns, boardId, errorColumn, isCreateColumn } = useAppSelector(
     (state) => state.columns
   );
-  const { isCreateTask, errorTask } = useAppSelector((state) => state.tasks);
+  const { isCreateTask, isUpdateTask, errorTask } = useAppSelector((state) => state.tasks);
   const [isOpenColumn, setIsOpenColumn] = useState(false);
   const { t } = useTranslation();
 
@@ -42,6 +42,14 @@ const BoardPage = () => {
       });
       dispatch(resetCreateNewTask());
     }
+    if (isUpdateTask) {
+      toast.success('Update task', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+      dispatch(resetUpdateTask());
+    }
     if (errorColumn !== 'Unauthorized' && errorColumn !== '') {
       toast.error(errorColumn, {
         position: 'top-center',
@@ -56,7 +64,7 @@ const BoardPage = () => {
         hideProgressBar: true,
       });
     }
-  }, [errorColumn, errorTask, isCreateColumn, isCreateTask]);
+  }, [errorColumn, errorTask, isCreateColumn, isCreateTask, isUpdateTask]);
 
   return (
     <div className={styles.container}>

@@ -34,11 +34,13 @@ const Task: FC<IProps> = ({ task, index }) => {
         {description}
       </p>
       <TaskChangeModal
+        task={task}
         isOpenChangeTaskModal={isOpenChangeTaskModal}
         setIsOpenChangeTaskModal={setIsOpenChangeTaskModal}
-        boardId={boardId || ''}
-        columnId={columnId || ''}
-        taskId={taskId || ''}
+        numberTask={index + 1}
+        // boardId={boardId || ''}
+        // columnId={columnId || ''}
+        // taskId={taskId || ''}
       />
     </div>
   );
