@@ -10,14 +10,14 @@ import { useTranslation } from 'react-i18next';
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
 import { toast, ToastContainer } from 'react-toastify';
 import { resetCreateNewColumn } from '../../store/columnsSlice';
-import { resetCreateNewTask } from '../../store/tasksSlice';
+import { resetCreateNewTask, resetUpdateTask } from '../../store/tasksSlice';
 
 const BoardPage = () => {
   const dispatch = useAppDispatch();
   const { isLoading, columns, boardId, errorColumn, isCreateColumn } = useAppSelector(
     (state) => state.columns
   );
-  const { isCreateTask, errorTask } = useAppSelector((state) => state.tasks);
+  const { isCreateTask, isUpdateTask, errorTask } = useAppSelector((state) => state.tasks);
   const [isOpenColumn, setIsOpenColumn] = useState(false);
   const { t } = useTranslation();
 
@@ -27,7 +27,7 @@ const BoardPage = () => {
 
   useEffect(() => {
     if (isCreateColumn) {
-      toast.success('New column created', {
+      toast.success(t('new_column_created'), {
         position: 'top-center',
         autoClose: 3000,
         hideProgressBar: true,
@@ -35,12 +35,20 @@ const BoardPage = () => {
       dispatch(resetCreateNewColumn());
     }
     if (isCreateTask) {
-      toast.success('New task created', {
+      toast.success(t('new_task_created'), {
         position: 'top-center',
         autoClose: 3000,
         hideProgressBar: true,
       });
       dispatch(resetCreateNewTask());
+    }
+    if (isUpdateTask) {
+      toast.success(t('update_task'), {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+      dispatch(resetUpdateTask());
     }
     if (errorColumn !== 'Unauthorized' && errorColumn !== '') {
       toast.error(errorColumn, {
@@ -56,7 +64,7 @@ const BoardPage = () => {
         hideProgressBar: true,
       });
     }
-  }, [errorColumn, errorTask, isCreateColumn, isCreateTask]);
+  }, [errorColumn, errorTask, isCreateColumn, isCreateTask, isUpdateTask]);
 
   return (
     <div className={styles.container}>

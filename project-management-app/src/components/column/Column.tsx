@@ -39,14 +39,17 @@ const Columns = ({ column }: { column: IColumn }) => {
               setIsTitleInput(false);
             }}
             validationSchema={Yup.object().shape({
-              title: Yup.string().min(3, 'min 3 characters').required('enter a title'),
+              title: Yup.string()
+                .min(3, t('must_be_more_than_3_characters'))
+                .max(12, t('must_be_less_than_12_characters'))
+                .required(t('title_is_required')),
             })}
           >
             {({ handleSubmit }) => {
               return (
                 <Form className={styles.form} onSubmit={handleSubmit}>
                   <label htmlFor="title">
-                    {t('title_column')}{' '}
+                    {t('title_column')}
                     <Field id="title" name="title" className={styles.input} autoFocus={false} />
                     <div className={styles.error}>
                       <ErrorMessage name="title" />
@@ -85,7 +88,7 @@ const Columns = ({ column }: { column: IColumn }) => {
           isOpenModal={isOpenConfirmationModal}
           setIsOpenModal={setIsOpenConfirmationModal}
           data={{ columnId, boardId }}
-          action={'delele_column'}
+          action={'delete_column'}
         />
       </div>
       <div className={styles.tasks}>
