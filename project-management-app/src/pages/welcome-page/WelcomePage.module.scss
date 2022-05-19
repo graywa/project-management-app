@@ -56,6 +56,9 @@
   @media (max-width: 1000px) {
     max-width: 100%;
   }
+  @media (min-width: 2000px) {
+    max-width: 70%;
+  }
 
   @media (max-width: 350px) {
     padding: 8px 0;
