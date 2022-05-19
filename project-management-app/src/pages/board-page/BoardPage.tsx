@@ -13,13 +13,14 @@ import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautif
 import { setColumns } from '../../store/columnsSlice';
 import { toast, ToastContainer } from 'react-toastify';
 import { resetCreateNewColumn } from '../../store/columnsSlice';
-import { resetCreateNewTask } from '../../store/tasksSlice';
+import { resetCreateNewTask, setTasks } from '../../store/tasksSlice';
 
 const BoardPage = () => {
   const dispatch = useAppDispatch();
   const { isLoading, columns, boardId, errorColumn, isCreateColumn } = useAppSelector(
     (state) => state.columns
   );
+  const { tasks } = useAppSelector((state) => state.tasks);
   const { isCreateTask, errorTask } = useAppSelector((state) => state.tasks);
   const [isOpenColumn, setIsOpenColumn] = useState(false);
   const { t } = useTranslation();
@@ -38,20 +39,54 @@ const BoardPage = () => {
     }
   }, [errorTask]);
 
-  const reorder = (list: IColumn[], startIndex: number, endIndex: number) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
+  const reorder = (arr: IColumn[], startIndex: number, endIndex: number) => {
+    const result = [...arr];
+    const startItem = { ...result[startIndex] };
+    const endItem = { ...result[endIndex] };
+    [startItem.order, endItem.order] = [endItem.order, startItem.order];
+    result.splice(startIndex, 1, startItem);
+    result.splice(endIndex, 1, endItem);
+    result.sort((a, b) => a.order - b.order);
 
     return result;
   };
 
   const onDragEnd = (result: DropResult) => {
-    if (!result.destination) return;
-    const { source, destination } = result;
-    const newColumns = reorder(columns, source.index, destination.index);
-    dispatch(setColumns(newColumns));
+    const { source, destination, type } = result;
     console.log(result);
+
+    if (!destination) return;
+
+    if (type === 'column') {
+      const newColumns = reorder(columns, source.index, destination!.index);
+      dispatch(setColumns(newColumns));
+      return;
+    }
+
+    //reordering in same list
+    if (result.source.droppableId === destination.droppableId) {
+      const tasksOfColumn = tasks[source.droppableId];
+      const newTasks = reorder(tasksOfColumn, source.index, destination.index);
+      dispatch(setTasks({ newTasks, columnId: source.droppableId }));
+      return;
+    }
+
+    // moving between lists
+    const sourceColumn = tasks[source.droppableId];
+    const destinationColumn = tasks[destination.droppableId];
+    const item = sourceColumn[source.index];
+
+    // 1. remove item from source column
+    const newSourceColumn = [...sourceColumn];
+    newSourceColumn.splice(source.index, 1);
+
+    // 2. insert into destination column
+    const newDestinationColumn = [...destinationColumn];
+    // in line modification of items
+    newDestinationColumn.splice(destination.index, 0, item);
+
+    dispatch(setTasks({ newTasks: newSourceColumn, columnId: source.droppableId }));
+    dispatch(setTasks({ newTasks: newDestinationColumn, columnId: destination.droppableId }));
   };
 
   useEffect(() => {
@@ -92,31 +127,22 @@ const BoardPage = () => {
       <Header />
       <ToastContainer />
       <div className={styles.board}>
-        <ToastContainer />
         {isLoading && (
           <div className={styles.loader}>
             <LoadingAnimation />
           </div>
         )}
         <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="droppable">
+          <Droppable droppableId="all-droppable" direction="horizontal" type="column">
             {(provided) => (
-              <div className={styles.boar} {...provided.droppableProps} ref={provided.innerRef}>
-                {columns?.map((column: IColumn, index: number) => {
-                  return (
-                    <Draggable key={column.id} draggableId={column.id as string} index={index}>
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <Column column={column} />;
-                        </div>
-                      )}
-                    </Draggable>
-                  );
-                })}
+              <div
+                className={styles.board__body}
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {columns?.map((column: IColumn, index: number) => (
+                  <Column key={column.id} column={column} index={index} />
+                ))}
                 {provided.placeholder}
               </div>
             )}

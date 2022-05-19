@@ -26,6 +26,10 @@ export const tasksSlice = createSlice({
       localStorage.setItem('columnId', action.payload);
       state.columnId = action.payload;
     },
+    setTasks(state, action) {
+      const columnId = action.payload.columnId;
+      state.tasks[columnId] = action.payload.newTasks;
+    },
     resetCreateNewTask(state) {
       state.isCreateTask = false;
     },
@@ -77,6 +81,6 @@ export const tasksSlice = createSlice({
   },
 });
 
-export const { changeColumnId, resetCreateNewTask } = tasksSlice.actions;
+export const { changeColumnId, resetCreateNewTask, setTasks } = tasksSlice.actions;
 
 export default tasksSlice.reducer;
