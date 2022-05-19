@@ -27,7 +27,7 @@ const BoardPage = () => {
 
   useEffect(() => {
     if (isCreateColumn) {
-      toast.success('New column created', {
+      toast.success(t('new_column_created'), {
         position: 'top-center',
         autoClose: 3000,
         hideProgressBar: true,
@@ -35,7 +35,7 @@ const BoardPage = () => {
       dispatch(resetCreateNewColumn());
     }
     if (isCreateTask) {
-      toast.success('New task created', {
+      toast.success(t('new_task_created'), {
         position: 'top-center',
         autoClose: 3000,
         hideProgressBar: true,
@@ -43,7 +43,7 @@ const BoardPage = () => {
       dispatch(resetCreateNewTask());
     }
     if (isUpdateTask) {
-      toast.success('Update task', {
+      toast.success(t('update_task'), {
         position: 'top-center',
         autoClose: 3000,
         hideProgressBar: true,

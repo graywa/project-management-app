@@ -27,7 +27,7 @@ const MainPage = () => {
 
   useEffect(() => {
     if (isCreateBoard) {
-      toast.success('New board created', {
+      toast.success(t('new_board_created'), {
         position: 'top-center',
         autoClose: 3000,
         hideProgressBar: true,

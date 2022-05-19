@@ -53,7 +53,7 @@ const RegistrationPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success('Registration completed successfully', {
+      toast.success(t('registration_completed_successfully'), {
         position: 'top-center',
         autoClose: 3000,
         hideProgressBar: true,
