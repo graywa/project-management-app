@@ -37,7 +37,7 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
     <Draggable key={column.id} draggableId={column.id as string} index={index}>
       {(provided) => (
         <div className={styles.column} {...provided.draggableProps} ref={provided.innerRef}>
-          <div className={styles.columnHead}>
+          <div className={styles.columnHead} {...provided.dragHandleProps}>
             {isTitleInput ? (
               <Formik
                 initialValues={{ title: '' }}
@@ -69,11 +69,7 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
                 }}
               </Formik>
             ) : (
-              <h1
-                className={styles.title}
-                {...provided.dragHandleProps}
-                onClick={() => setIsTitleInput(true)}
-              >
+              <h1 className={styles.title} onClick={() => setIsTitleInput(true)}>
                 {title}
               </h1>
             )}
