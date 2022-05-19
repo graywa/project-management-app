@@ -16,11 +16,18 @@
 .header {
   margin: 0 auto;
   padding: 0 25px;
-  max-width: 1200px;
+  max-width: 90%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 70px;
+
+  @media (max-width: 1000px) {
+    max-width: 100%;
+  }
+  @media (min-width: 2000px) {
+    max-width: 70%;
+  }
 
   &__logo {
     display: flex;

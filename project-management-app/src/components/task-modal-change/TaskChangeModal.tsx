@@ -1,58 +1,55 @@
 import React, { FC } from 'react';
-import styles from './TaskModal.module.scss';
+import styles from './TaskChangeModal.module.scss';
 import cn from 'classnames';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
-import jwtDecode from 'jwt-decode';
-import { addTask } from '../../api/tasks';
+import { updateTask } from '../../api/tasks';
+import { ITask } from '../../models/ITask';
 import { useTranslation } from 'react-i18next';
 
 interface IProps {
-  isOpenCreateTaskModal: boolean;
-  setIsOpenCreateTaskModal: (val: boolean) => void;
-  boardId: string;
-  columnId: string;
+  task: ITask;
+  isOpenChangeTaskModal: boolean;
+  setIsOpenChangeTaskModal: (val: boolean) => void;
+  numberTask: number;
 }
 
-interface IJwt {
-  userId: string;
-}
-
-const TaskModal: FC<IProps> = ({
-  isOpenCreateTaskModal,
-  setIsOpenCreateTaskModal,
-  boardId,
-  columnId,
+const TaskChangeModal: FC<IProps> = ({
+  task,
+  isOpenChangeTaskModal,
+  setIsOpenChangeTaskModal,
+  numberTask,
 }) => {
   const dispatch = useAppDispatch();
-  const { tasks } = useAppSelector((state) => state.tasks);
-  const { userId } = jwtDecode<IJwt>(localStorage.getItem('token') || '');
+  const { login } = useAppSelector((state) => state.auth);
   const { t } = useTranslation();
 
   return (
     <div
-      className={cn(styles.modal, { [styles.open]: isOpenCreateTaskModal })}
-      onClick={() => setIsOpenCreateTaskModal(false)}
+      className={cn(styles.modal, { [styles.open]: isOpenChangeTaskModal })}
+      onClick={() => setIsOpenChangeTaskModal(false)}
     >
       <div className={styles.modal__content} onClick={(e) => e.stopPropagation()}>
+        <h2>{`${t('task_number')} ${numberTask}`}</h2>
         <Formik
-          initialValues={{ title: '', description: '' }}
-          onSubmit={({ title, description }, { resetForm }) => {
+          initialValues={{ title: task.title, description: task.description }}
+          onSubmit={({ title, description }) => {
             dispatch(
-              addTask({
-                boardId: boardId,
-                columnId: columnId,
-                values: {
-                  order: tasks[columnId].length + 1,
+              updateTask({
+                boardId: task.boardId,
+                columnId: task.columnId,
+                taskId: task.id,
+                data: {
                   title: title,
+                  order: task.order,
                   description: description,
-                  userId: userId,
+                  userId: task.userId,
+                  boardId: task.boardId,
+                  columnId: task.columnId,
                 },
               })
             );
-
-            resetForm();
           }}
           validationSchema={Yup.object().shape({
             title: Yup.string()
@@ -76,13 +73,21 @@ const TaskModal: FC<IProps> = ({
                 </label>
                 <label htmlFor="description">
                   {t('description_task')}
-                  <Field id="description" name="description" />
+                  <Field
+                    as="textarea"
+                    id="description"
+                    name="description"
+                    className={styles.text_area}
+                  />
                   <div className={styles.error}>
                     <ErrorMessage name="description" />
                   </div>
                 </label>
+                <h4>
+                  <span>{t('user')}</span> - {login}
+                </h4>
                 <div className={styles.sub_btn}>
-                  <button type="submit">{t('create')}</button>
+                  <button type="submit">{t('update')}</button>
                 </div>
               </Form>
             );
@@ -93,4 +98,4 @@ const TaskModal: FC<IProps> = ({
   );
 };
 
-export default TaskModal;
+export default TaskChangeModal;

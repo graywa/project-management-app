@@ -50,6 +50,49 @@ const addTask = createAsyncThunk(
   }
 );
 
+const updateTask = createAsyncThunk(
+  'tasks/update',
+  async (
+    {
+      data,
+      boardId,
+      columnId,
+      taskId,
+    }: {
+      data: {
+        title: string;
+        order: number;
+        description: string;
+        userId: string | undefined;
+        boardId: string | undefined;
+        columnId: string | undefined;
+      };
+      boardId: string | undefined;
+      columnId: string | undefined;
+      taskId: string | undefined;
+    },
+    thunkAPI
+  ) => {
+    try {
+      const response = await axios({
+        method: 'put',
+        url: `${URL_SERVER}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        data,
+      });
+
+      return response.data;
+    } catch (e) {
+      if (e instanceof AxiosError && e.response?.data) {
+        return thunkAPI.rejectWithValue(e.response?.data.message);
+      }
+      if (e instanceof Error) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
+    }
+  }
+);
+
 const deleteTask = createAsyncThunk(
   'tasks/delete',
   async (
@@ -81,4 +124,4 @@ const deleteTask = createAsyncThunk(
   }
 );
 
-export { getTasks, addTask, deleteTask };
+export { getTasks, addTask, updateTask, deleteTask };

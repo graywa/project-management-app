@@ -34,7 +34,9 @@ const BoardModal: FC<IProps> = ({ isOpenBoard, setIsOpenBoard }) => {
             resetForm();
           }}
           validationSchema={Yup.object().shape({
-            title: Yup.string().min(4, 'min 4 characters').required('enter a title'),
+            title: Yup.string()
+              .min(4, t('must_be_more_than_4_characters'))
+              .required(t('title_is_required')),
           })}
         >
           {({ handleSubmit }) => {

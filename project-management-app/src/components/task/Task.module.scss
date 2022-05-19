@@ -1,8 +1,8 @@
 .task {
   margin: 10px 0;
   padding: 10px;
-  background-color: #ffffff;
-  border-radius: 5px;
+  background-color: white;
+  border-radius: 10px;
 }
 
 .title {
@@ -15,6 +15,7 @@
   border-radius: 10px;
   padding: 5px 10px;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .taskHead {
