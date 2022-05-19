@@ -31,7 +31,7 @@ const TaskChangeModal: FC<IProps> = ({
       onClick={() => setIsOpenChangeTaskModal(false)}
     >
       <div className={styles.modal__content} onClick={(e) => e.stopPropagation()}>
-        <h2>{`Task number ${numberTask}`}</h2>
+        <h2>{`${t('task_number')} ${numberTask}`}</h2>
         <Formik
           initialValues={{ title: task.title, description: task.description }}
           onSubmit={({ title, description }) => {
@@ -53,24 +53,26 @@ const TaskChangeModal: FC<IProps> = ({
           }}
           validationSchema={Yup.object().shape({
             title: Yup.string()
-              .min(4, 'min 4 characters')
-              .max(12, 'min 12 characters')
-              .required('enter a title'),
-            description: Yup.string().min(2, 'min 2 characters').required('enter a description'),
+              .min(4, t('must_be_more_than_4_characters'))
+              .max(12, t('must_be_less_than_12_characters'))
+              .required(t('title_is_required')),
+            description: Yup.string()
+              .min(2, t('must_be_more_than_2_characters'))
+              .required(t('description_is_required')),
           })}
         >
           {({ handleSubmit }) => {
             return (
               <Form className={styles.form} onSubmit={handleSubmit}>
                 <label htmlFor="title">
-                  Title
+                  {t('title_task')}
                   <Field id="title" name="title" />
                   <div className={styles.error}>
                     <ErrorMessage name="title" />
                   </div>
                 </label>
                 <label htmlFor="description">
-                  Description
+                  {t('description_task')}
                   <Field
                     as="textarea"
                     id="description"
@@ -82,7 +84,7 @@ const TaskChangeModal: FC<IProps> = ({
                   </div>
                 </label>
                 <h4>
-                  <span>User</span> - {login}
+                  <span>{t('user')}</span> - {login}
                 </h4>
                 <div className={styles.sub_btn}>
                   <button type="submit">{t('update')}</button>

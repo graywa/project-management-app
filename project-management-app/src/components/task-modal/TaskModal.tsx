@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import jwtDecode from 'jwt-decode';
 import { addTask } from '../../api/tasks';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
   isOpenCreateTaskModal: boolean;
@@ -27,6 +28,7 @@ const TaskModal: FC<IProps> = ({
   const dispatch = useAppDispatch();
   const { tasks } = useAppSelector((state) => state.tasks);
   const { userId } = jwtDecode<IJwt>(localStorage.getItem('token') || '');
+  const { t } = useTranslation();
 
   return (
     <div
@@ -54,31 +56,33 @@ const TaskModal: FC<IProps> = ({
           }}
           validationSchema={Yup.object().shape({
             title: Yup.string()
-              .min(4, 'min 4 characters')
-              .max(12, 'min 12 characters')
-              .required('enter a title'),
-            description: Yup.string().min(2, 'min 2 characters').required('enter a description'),
+              .min(4, t('must_be_more_than_4_characters'))
+              .max(12, t('must_be_less_than_12_characters'))
+              .required(t('title_is_required')),
+            description: Yup.string()
+              .min(2, t('must_be_more_than_2_characters'))
+              .required(t('description_is_required')),
           })}
         >
           {({ handleSubmit }) => {
             return (
               <Form className={styles.form} onSubmit={handleSubmit}>
                 <label htmlFor="title">
-                  Title column
+                  {t('title_task')}
                   <Field id="title" name="title" />
                   <div className={styles.error}>
                     <ErrorMessage name="title" />
                   </div>
                 </label>
                 <label htmlFor="description">
-                  Description
+                  {t('description_task')}
                   <Field id="description" name="description" />
                   <div className={styles.error}>
                     <ErrorMessage name="description" />
                   </div>
                 </label>
                 <div className={styles.sub_btn}>
-                  <button type="submit">Create</button>
+                  <button type="submit">{t('create')}</button>
                 </div>
               </Form>
             );

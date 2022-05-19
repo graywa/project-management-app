@@ -13,6 +13,7 @@
   "name": "Имя",
   "boards": "Доски",
   "delete": "Удалить",
+  "really_delete": "Действительно удалить",
   "boards_not_found": "Доски не найдены",
   "profile": "Профиль",
   "confirm_pass": "Повторите пароль",
@@ -23,6 +24,10 @@
   "add_column": "добавить колонку",
   "title_board": "Название доски",
   "title_column": "Название колонки",
+  "title_task": "Название задачи",
+  "description_task": "Описание задачи",
+  "task_number": "Номер задачи",
+  "user": "Пользватель",
   "submit": "Изменить",
   "cancel": "Отменить",
   "create": "Создать",
@@ -31,5 +36,26 @@
   "edit_profile": "Изменить профиль",
   "sign_out": "Выйти",
   "create_new_board": "Создать новую доску",
-  "create_task": "Создать задачу"
+  "create_task": "Создать задачу",
+
+  "title_is_required": "заголовок обязательное поле",
+  "description_is_required": "описание обязательное поле",
+
+  "name_is_required": "имя обязательное поле",
+  "login_is_required": "логин обязательное поле",
+  "password_is_required": "пароль обязательное поле",
+  "confirm_password_is_required": "подтверждение пароля обязательное поле",
+
+  "please_enter_valid_name": "пожалуйста введите валидное имя",
+  "please_enter_valid_login": "пожалуйста введите валидный логин",
+  "password_can_contain_only_latin_letters_and_ciphers": "пароль может содержать только латинские буквы",
+  "passwords_do_not_match": "пароли не совпадают",
+
+  "must_be_more_than_2_characters": "должно быть больше 2 символов",
+  "must_be_more_than_3_characters": "должно быть больше 3 символов",
+  "must_be_more_than_4_characters": "должно быть больше 4 символов",
+  "must_be_less_than_30_characters": "должго быть меньше 30 символов",
+  "must_be_less_than_20_characters": "должго быть меньше 20 символов",
+  "must_be_less_than_16_characters": "должго быть меньше 16 символов",
+  "must_be_less_than_12_characters": "должго быть меньше 12 символов"
 }

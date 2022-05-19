@@ -8,6 +8,7 @@ import { deleteUser } from '../../api/auth';
 import { IUser } from './../../models/IUser';
 import { IBoard } from './../../models/IBoard';
 import { deleteTask } from '../../api/tasks';
+import { useTranslation } from 'react-i18next';
 
 interface IColumnData {
   boardId: string;
@@ -30,6 +31,7 @@ interface IProps {
 
 const ConfirmModal: FC<IProps> = ({ isOpenModal, setIsOpenModal, data, action }) => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const clickHandler = () => {
     if (action === 'delete_board') dispatch(deleteBoard(data as IBoard));
@@ -45,13 +47,13 @@ const ConfirmModal: FC<IProps> = ({ isOpenModal, setIsOpenModal, data, action })
       onClick={() => setIsOpenModal(false)}
     >
       <div className={styles.modal__content} onClick={(e) => e.stopPropagation()}>
-        <h3>really delete?</h3>
+        <h3>{t('really_delete')}?</h3>
         <div className={styles.sub_btn}>
           <button className={styles.buttonDelete} onClick={clickHandler}>
-            Delete
+            {t('delete')}
           </button>
           <button className={styles.buttonDelete} onClick={() => setIsOpenModal(false)}>
-            Cancel
+            {t('cancel')}
           </button>
         </div>
       </div>

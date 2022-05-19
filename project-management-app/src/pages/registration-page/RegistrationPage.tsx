@@ -19,26 +19,26 @@ const RegistrationPage = () => {
   const validationsSchemaSignUp = yup.object().shape({
     name: yup
       .string()
-      .matches(/^[A-Za-z ]*$/, 'please enter valid name')
-      .min(2, 'must be more than 2 characters')
-      .max(30, 'must be less than 30 characters')
-      .required('name is required'),
+      .matches(/^[A-Za-z ]*$/, t('please_enter_valid_name'))
+      .min(2, t('must_be_more_than_2_characters'))
+      .max(30, t('must_be_less_than_30_characters'))
+      .required(t('name_is_required')),
     login: yup
       .string()
-      .matches(/^[a-zA-Z0-9_-]*$/, 'please enter valid login')
-      .min(3, 'must be more than 3 characters')
-      .max(20, 'must be less than 20 characters')
-      .required('login is required'),
+      .matches(/^[a-zA-Z0-9_-]*$/, t('please_enter_valid_login'))
+      .min(3, t('must_be_more_than_3_characters'))
+      .max(20, t('must_be_less_than_20_characters'))
+      .required(t('login_is_required')),
     password: yup
       .string()
-      .matches(/^[a-zA-Z0-9]*$/, 'password can contain only latin letters and ciphers')
-      .min(4, 'must be more than 4 characters')
-      .max(16, 'must be less than 16 characters')
-      .required('password is required'),
+      .matches(/^[a-zA-Z0-9]*$/, t('password_can_contain_only_latin_letters_and_ciphers'))
+      .min(4, t('must_be_more_than_4_characters'))
+      .max(16, t('must_be_less_than_16_characters'))
+      .required(t('password_is_required')),
     confirmPassword: yup
       .string()
-      .oneOf([yup.ref('password')], 'passwords do not match')
-      .required('confirm password is required'),
+      .oneOf([yup.ref('password')], t('passwords_do_not_match'))
+      .required(t('confirm_password_is_required')),
   });
 
   useEffect(() => {
