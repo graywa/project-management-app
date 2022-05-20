@@ -8,7 +8,7 @@ $btnH: 36px;
 }
 
 .container {
-  width: 70vw;
+  width: 60vw;
   height: 60vh;
   margin: 10% auto;
   padding: 3%;
@@ -20,6 +20,13 @@ $btnH: 36px;
   align-items: center;
   flex-direction: column;
   position: relative;
+
+  @media (max-width: 1050px) {
+    width: 70vw;
+  }
+  @media (min-width: 2000px) {
+    width: 50vw;
+  }
 
   .toast_wrapper {
     position: absolute;

@@ -78,8 +78,7 @@ const RegistrationPage = () => {
             }}
             validateOnBlur
             onSubmit={(values, { resetForm }) => {
-              dispatch(fetchAuthRegistration(values));
-              resetForm();
+              dispatch(fetchAuthRegistration({ values, resetForm }));
             }}
             validationSchema={validationsSchemaSignUp}
           >
