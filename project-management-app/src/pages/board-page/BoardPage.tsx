@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './BoardPage.module.scss';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
-import { getColumns } from '../../api/columns';
+import { changeColumnsOrder, getColumns, updateColumn } from '../../api/columns';
 import Column from '../../components/column/Column';
 import { IColumn } from '../../models/IColumn';
 import Header from '../../components/header/Header';
@@ -59,18 +59,23 @@ const BoardPage = () => {
     if (!destination) return;
 
     if (type === 'column') {
-      const newColumns = reorder(columns, source.index, destination!.index);
-      dispatch(setColumns(newColumns));
+      const startItem = columns[source.index];
+      const endItem = columns[destination.index];
+
+      dispatch(changeColumnsOrder({ boardId, startItem, endItem }));
+
+      //const newColumns = reorder(columns, source.index, destination.index);
+      //dispatch(setColumns(newColumns));
       return;
     }
 
     //reordering in same list
-    if (result.source.droppableId === destination.droppableId) {
-      const tasksOfColumn = tasks[source.droppableId];
-      const newTasks = reorder(tasksOfColumn, source.index, destination.index);
-      dispatch(setTasks({ newTasks, columnId: source.droppableId }));
-      return;
-    }
+    // if (result.source.droppableId === destination.droppableId) {
+    //   const tasksOfColumn = tasks[source.droppableId];
+    //   const newTasks = reorder(tasksOfColumn, source.index, destination.index);
+    //   dispatch(setTasks({ newTasks, columnId: source.droppableId }));
+    //   return;
+    // }
 
     // moving between lists
     const sourceColumn = tasks[source.droppableId];

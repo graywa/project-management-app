@@ -1,5 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { addColumns, deleteColumn, getColumns, updateColumn } from '../api/columns';
+import {
+  addColumns,
+  changeColumnsOrder,
+  deleteColumn,
+  getColumns,
+  updateColumn,
+} from '../api/columns';
 import { IColumn } from '../models/IColumn';
 
 interface columnsState {
@@ -86,6 +92,19 @@ export const columnsSlice = createSlice({
       state.isLoading = true;
     },
     [deleteColumn.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.errorColumn = action.payload;
+    },
+    [changeColumnsOrder.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.errorColumn = '';
+      state.columns = action.payload.sort((a: IColumn, b: IColumn) => a.order - b.order);
+    },
+    [changeColumnsOrder.pending.type]: (state) => {
+      state.errorColumn = '';
+      state.isLoading = true;
+    },
+    [changeColumnsOrder.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.errorColumn = action.payload;
     },
