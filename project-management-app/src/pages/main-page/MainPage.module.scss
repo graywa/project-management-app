@@ -34,6 +34,10 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.253);
   transition: 0.2s linear;
 
+  @media (max-width: 389px) {
+    flex-direction: column;
+  }
+
   a {
     display: flex;
     gap: 20px;

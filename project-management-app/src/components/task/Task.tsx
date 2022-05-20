@@ -1,9 +1,10 @@
 import React, { FC, useState } from 'react';
 import styles from './Task.module.scss';
 import { ITask } from '../../models/ITask';
-import { useTranslation } from 'react-i18next';
 import ConfirmModal from '../confirm-modal/ConfirmModal';
 import TaskChangeModal from '../task-modal-change/TaskChangeModal';
+import refactorIcon from './assets/pencil.png';
+import deleteIcon from './assets/delete.png';
 
 interface IProps {
   task: ITask;
@@ -12,7 +13,6 @@ interface IProps {
 
 const Task: FC<IProps> = ({ task, index }) => {
   const { title, description, boardId, columnId, id: taskId } = task;
-  const { t } = useTranslation();
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenChangeTaskModal, setIsOpenChangeTaskModal] = useState(false);
 
@@ -20,9 +20,14 @@ const Task: FC<IProps> = ({ task, index }) => {
     <div className={styles.task}>
       <div className={styles.taskHead}>
         <h3 className={styles.title}>{`${index + 1}) ${title}`}</h3>
-        <button className={styles.buttonDelete} onClick={() => setIsOpenModal(true)}>
-          {t('delete')}
-        </button>
+        <div className={styles.refactor_delete}>
+          <div className={styles.refactor} onClick={() => setIsOpenChangeTaskModal(true)}>
+            <img src={refactorIcon} alt="refactor icon" />
+          </div>
+          <div className={styles.delete} onClick={() => setIsOpenModal(true)}>
+            <img src={deleteIcon} alt="delete icon" />
+          </div>
+        </div>
         <ConfirmModal
           isOpenModal={isOpenModal}
           setIsOpenModal={setIsOpenModal}
@@ -30,17 +35,12 @@ const Task: FC<IProps> = ({ task, index }) => {
           data={{ boardId, columnId, taskId }}
         />
       </div>
-      <p className={styles.description} onClick={() => setIsOpenChangeTaskModal(true)}>
-        {description}
-      </p>
+      <p className={styles.description}>{description}</p>
       <TaskChangeModal
         task={task}
         isOpenChangeTaskModal={isOpenChangeTaskModal}
         setIsOpenChangeTaskModal={setIsOpenChangeTaskModal}
         numberTask={index + 1}
-        // boardId={boardId || ''}
-        // columnId={columnId || ''}
-        // taskId={taskId || ''}
       />
     </div>
   );

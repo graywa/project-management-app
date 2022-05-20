@@ -12,6 +12,7 @@ import Task from '../task/Task';
 import styles from './Column.module.scss';
 import LoadingAnimation from '../loading-animation/LoadingAnimation';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
+import deleteIcon from './assets/delete.png';
 
 interface IProps {
   column: IColumn;
@@ -88,12 +89,9 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
                 {t('cancel')}
               </button>
             ) : (
-              <button
-                className={styles.buttonDelete}
-                onClick={() => setIsOpenConfirmationModal(true)}
-              >
-                {t('delete')}
-              </button>
+              <div className={styles.delete} onClick={() => setIsOpenConfirmationModal(true)}>
+                <img src={deleteIcon} alt="delete icon" />
+              </div>
             )}
             <ConfirmModal
               isOpenModal={isOpenConfirmationModal}

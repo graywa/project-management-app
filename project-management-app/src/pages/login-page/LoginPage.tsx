@@ -54,8 +54,7 @@ const LoginPage = () => {
             }}
             validateOnBlur
             onSubmit={(values, { resetForm }) => {
-              dispatch(fetchAuthLogin(values));
-              resetForm();
+              dispatch(fetchAuthLogin({ values, resetForm }));
             }}
             validationSchema={validationsSchemaSignIn}
           >
