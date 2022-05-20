@@ -115,16 +115,34 @@ const updColumn = async (boardId: string, columnId: string, title: string, order
 const changeColumnsOrder = createAsyncThunk(
   'columns/changeColumnsOrder',
   async (
-    { boardId, startItem, endItem }: { boardId: string; startItem: IColumn; endItem: IColumn },
+    {
+      boardId,
+      startIndex,
+      endIndex,
+      columns,
+    }: { boardId: string; startIndex: number; endIndex: number; columns: IColumn[] },
     thunkAPI
   ) => {
     try {
-      const startItemOrder = startItem.order;
-      const endItemOrder = endItem.order;
+      const startItem = columns[startIndex];
 
       await updColumn(boardId, startItem.id, startItem.title, 1000);
-      await updColumn(boardId, endItem.id, endItem.title, startItemOrder);
-      await updColumn(boardId, startItem.id, startItem.title, endItemOrder);
+
+      if (startIndex < endIndex) {
+        for (let i = startIndex + 1; i <= endIndex; i++) {
+          const column = columns[i];
+          await updColumn(boardId, column.id, column.title, i);
+        }
+      }
+
+      if (startIndex > endIndex) {
+        for (let i = startIndex - 1; i >= endIndex; i--) {
+          const column = columns[i];
+          await updColumn(boardId, column.id, column.title, i + 2);
+        }
+      }
+
+      await updColumn(boardId, startItem.id, startItem.title, endIndex + 1);
 
       const response = await axios({
         method: 'get',

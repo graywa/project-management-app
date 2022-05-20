@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { addTask, deleteTask, getTasks, updateTask } from '../api/tasks';
+import { addTask, changeTasksOrder, deleteTask, getTasks, updateTask } from '../api/tasks';
 import { ITask } from '../models/ITask';
 
 interface taskState {
@@ -44,7 +44,7 @@ export const tasksSlice = createSlice({
       state.isLoading = false;
       state.errorTask = '';
       const { columnId, response }: { columnId: string; response: ITask[] } = action.payload;
-      state.tasks[columnId] = response;
+      state.tasks[columnId] = response.sort((a: ITask, b: ITask) => a.order - b.order);
     },
     [getTasks.pending.type]: (state) => {
       state.errorTask = '';
@@ -97,6 +97,21 @@ export const tasksSlice = createSlice({
       state.isLoading = true;
     },
     [deleteTask.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.errorTask = action.payload;
+    },
+    [changeTasksOrder.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.errorTask = '';
+
+      const { columnId, response }: { columnId: string; response: ITask[] } = action.payload;
+      state.tasks[columnId] = response.sort((a: ITask, b: ITask) => a.order - b.order);
+    },
+    [changeTasksOrder.pending.type]: (state) => {
+      state.errorTask = '';
+      state.isLoading = true;
+    },
+    [changeTasksOrder.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.errorTask = action.payload;
     },

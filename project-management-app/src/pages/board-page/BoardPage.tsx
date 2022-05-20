@@ -14,6 +14,8 @@ import { setColumns } from '../../store/columnsSlice';
 import { toast, ToastContainer } from 'react-toastify';
 import { resetCreateNewColumn } from '../../store/columnsSlice';
 import { resetCreateNewTask, resetUpdateTask, setTasks } from '../../store/tasksSlice';
+import { ITask } from '../../models/ITask';
+import { changeTasksOrder } from '../../api/tasks';
 
 const BoardPage = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +30,7 @@ const BoardPage = () => {
 
   useEffect(() => {
     dispatch(getColumns(boardId));
-  }, []);
+  }, [columns.length]);
 
   useEffect(() => {
     if (errorTask) {
@@ -40,42 +42,48 @@ const BoardPage = () => {
     }
   }, [errorTask]);
 
-  const reorder = (arr: IColumn[], startIndex: number, endIndex: number) => {
+  const reorder = (arr: IColumn[] | ITask[], startIndex: number, endIndex: number) => {
     const result = [...arr];
-    const startItem = { ...result[startIndex] };
-    const endItem = { ...result[endIndex] };
-    [startItem.order, endItem.order] = [endItem.order, startItem.order];
-    result.splice(startIndex, 1, startItem);
-    result.splice(endIndex, 1, endItem);
-    result.sort((a, b) => a.order - b.order);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    result.forEach((el, index) => {
+      const newEl = { ...el };
+      newEl.order = index + 1;
+      result[index] = newEl;
+    });
 
     return result;
   };
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination, type } = result;
-    console.log(result);
 
     if (!destination) return;
 
+    const startIndex = source.index;
+    const endIndex = destination.index;
+
     if (type === 'column') {
-      const startItem = columns[source.index];
-      const endItem = columns[destination.index];
-
-      dispatch(changeColumnsOrder({ boardId, startItem, endItem }));
-
-      //const newColumns = reorder(columns, source.index, destination.index);
+      //const startItem = columns[source.index];
+      //const endItem = columns[destination.index];
+      //const newColumns = reorder(columns, startIndex, endIndex);
       //dispatch(setColumns(newColumns));
+
+      dispatch(
+        changeColumnsOrder({ boardId, startIndex, endIndex, columns: columns as IColumn[] })
+      );
       return;
     }
 
     //reordering in same list
-    // if (result.source.droppableId === destination.droppableId) {
-    //   const tasksOfColumn = tasks[source.droppableId];
-    //   const newTasks = reorder(tasksOfColumn, source.index, destination.index);
-    //   dispatch(setTasks({ newTasks, columnId: source.droppableId }));
-    //   return;
-    // }
+    if (source.droppableId === destination.droppableId) {
+      const tasksOfColumn = tasks[source.droppableId];
+      const columnId = source.droppableId;
+      //const newTasks = reorder(tasksOfColumn, source.index, destination.index);
+      //dispatch(setTasks({ newTasks, columnId: source.droppableId }));
+      dispatch(changeTasksOrder({ boardId, columnId, startIndex, endIndex, tasksOfColumn }));
+      return;
+    }
 
     // moving between lists
     const sourceColumn = tasks[source.droppableId];

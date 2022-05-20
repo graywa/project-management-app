@@ -43,7 +43,7 @@ export const columnsSlice = createSlice({
     [getColumns.fulfilled.type]: (state, action) => {
       state.isLoading = false;
       state.errorColumn = '';
-      state.columns = action.payload;
+      state.columns = action.payload.sort((a: IColumn, b: IColumn) => a.order - b.order);
     },
     [getColumns.pending.type]: (state) => {
       state.errorColumn = '';
@@ -98,7 +98,7 @@ export const columnsSlice = createSlice({
     [changeColumnsOrder.fulfilled.type]: (state, action) => {
       state.isLoading = false;
       state.errorColumn = '';
-      state.columns = action.payload.sort((a: IColumn, b: IColumn) => a.order - b.order);
+      state.columns = action.payload?.sort((a: IColumn, b: IColumn) => a.order - b.order);
     },
     [changeColumnsOrder.pending.type]: (state) => {
       state.errorColumn = '';
