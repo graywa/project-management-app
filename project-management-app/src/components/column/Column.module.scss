@@ -62,24 +62,18 @@
   margin-bottom: 10px;
 }
 
-.buttonDelete {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: #bd170c;
-  color: #fff;
-  font-size: 14px;
-  text-transform: uppercase;
+.delete {
+  width: 40px;
+  height: 40px;
   cursor: pointer;
-  transition: 0.2s linear;
 
-  &:hover {
-    background-color: #f54b3f;
+  img {
+    width: 100%;
+    height: 100%;
   }
 
-  &:disabled {
-    cursor: not-allowed;
-    background-color: #9e625e;
+  &:hover {
+    transform: scale(1.1);
   }
 }
 

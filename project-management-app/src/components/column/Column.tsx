@@ -11,6 +11,7 @@ import TaskModal from '../task-modal/TaskModal';
 import Task from '../task/Task';
 import styles from './Column.module.scss';
 import LoadingAnimation from '../loading-animation/LoadingAnimation';
+import deleteIcon from './assets/delete.png';
 
 const Columns = ({ column }: { column: IColumn }) => {
   const { title, id: columnId = '', order } = column;
@@ -80,9 +81,9 @@ const Columns = ({ column }: { column: IColumn }) => {
             {t('cancel')}
           </button>
         ) : (
-          <button className={styles.buttonDelete} onClick={() => setIsOpenConfirmationModal(true)}>
-            {t('delete')}
-          </button>
+          <div className={styles.delete} onClick={() => setIsOpenConfirmationModal(true)}>
+            <img src={deleteIcon} alt="delete icon" />
+          </div>
         )}
         <ConfirmModal
           isOpenModal={isOpenConfirmationModal}
