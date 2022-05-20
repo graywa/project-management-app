@@ -47,15 +47,19 @@ const Header = () => {
           <CustomSelect />
         </div>
         <div
-          className={cn(styles.burger__btn, { [styles.burger__btn__animation]: isOpenBurgerMenu })}
+          className={cn(styles['burger-btn'], {
+            [styles['burger-btn--animation']]: isOpenBurgerMenu,
+          })}
           onClick={() => setIsOpenBurgerMenu(!isOpenBurgerMenu)}
         >
           <span></span>
         </div>
         <div
-          className={cn(styles.burger__menu, { [styles.burger__menu__hidden]: isOpenBurgerMenu })}
+          className={cn(styles['burger-menu'], {
+            [styles['burger-menu--hidden']]: isOpenBurgerMenu,
+          })}
         >
-          <div className={styles.burger__btns}>
+          <div className={styles['burger-menu__btns']}>
             <button onClick={() => setIsOpenBurgerMenu(true)}>
               <Link to="/profile">{t('edit_profile')}</Link>
             </button>
