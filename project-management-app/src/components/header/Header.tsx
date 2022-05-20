@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 const Header = () => {
   const [scroll, setScroll] = useState(false);
   const [isOpenBoard, setIsOpenBoard] = useState(false);
+  const [isOpenBurgerMenu, setIsOpenBurgerMenu] = useState(true);
   const dispatch = useAppDispatch();
   const { login } = useAppSelector((state) => state.auth);
   const { t } = useTranslation();
@@ -34,18 +35,45 @@ const Header = () => {
       <header className={styles.header}>
         <Link to="/main" className={styles.header__logo}>
           <img width={25} src={logo} alt="logo" />
-          <span>Trello</span>
+          <span className={styles.logo}>Trello</span>
         </Link>
+        <span className={styles.login}>{login}</span>
         <div className={styles.header__btns}>
-          <span>{login}</span>
           <button>
             <Link to="/profile">{t('edit_profile')}</Link>
           </button>
           <button onClick={signOutHandler}>{t('sign_out')}</button>
           <button onClick={() => setIsOpenBoard(true)}>{t('create_new_board')}</button>
-          <BoardModal isOpenBoard={isOpenBoard} setIsOpenBoard={setIsOpenBoard} />
           <CustomSelect />
         </div>
+        <div
+          className={cn(styles.burger__btn, { [styles.burger__btn__animation]: isOpenBurgerMenu })}
+          onClick={() => setIsOpenBurgerMenu(!isOpenBurgerMenu)}
+        >
+          <span></span>
+        </div>
+        <div
+          className={cn(styles.burger__menu, { [styles.burger__menu__hidden]: isOpenBurgerMenu })}
+        >
+          <div className={styles.burger__btns}>
+            <button onClick={() => setIsOpenBurgerMenu(true)}>
+              <Link to="/profile">{t('edit_profile')}</Link>
+            </button>
+            <button onClick={() => (signOutHandler(), setIsOpenBurgerMenu(true))}>
+              {t('sign_out')}
+            </button>
+            <button
+              onClick={() => {
+                setIsOpenBurgerMenu(true);
+                setIsOpenBoard(true);
+              }}
+            >
+              {t('create_new_board')}
+            </button>
+            <CustomSelect />
+          </div>
+        </div>
+        <BoardModal isOpenBoard={isOpenBoard} setIsOpenBoard={setIsOpenBoard} />
       </header>
     </div>
   );

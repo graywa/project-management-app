@@ -22,6 +22,25 @@
   align-items: center;
   height: 70px;
 
+  @media (max-width: 1050px) {
+    .header__btns {
+      display: none;
+    }
+  }
+  @media (min-width: 1050px) {
+    .burger__btn {
+      display: none;
+    }
+    .burger__menu {
+      display: none;
+    }
+  }
+  @media (max-width: 500px) {
+    .logo {
+      display: none;
+    }
+  }
+
   @media (max-width: 1000px) {
     max-width: 100%;
   }
@@ -37,17 +56,17 @@
     font-weight: 600;
   }
 
+  .login {
+    font-size: 26px;
+    background-color: rgb(245, 245, 245);
+    padding: 0 10px;
+    border-radius: 5px;
+  }
+
   &__btns {
     display: flex;
     align-items: center;
     gap: 10px;
-
-    span {
-      font-size: 26px;
-      background-color: rgb(245, 245, 245);
-      padding: 0 10px;
-      border-radius: 5px;
-    }
   }
 
   button {
@@ -65,5 +84,93 @@
       background-color: #024dbe;
     }
   }
-}
 
+  .burger__btn {
+    width: 25px;
+    height: 25px;
+    position: relative;
+    cursor: pointer;
+    transform: rotateZ(0deg);
+    transition: all .3s;
+
+    &:hover {
+      box-shadow: 0px 0px 20px black;
+    }
+
+    &.burger__btn__animation {
+      transform: rotateZ(-180deg);
+    }
+
+    span {
+      content: '';
+      position: absolute;
+      top: 11px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #645669;
+    }
+  }
+  .burger__btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #645669;
+  }
+  .burger__btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #645669;
+  }
+
+  .burger__menu {
+    position: absolute;
+    top: 80px;
+    right: 0;
+    width: 400px;
+    height: 100vh;
+    transition: all .3s;
+    background: linear-gradient(0deg, #fff, #eae6ff 100%);
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+
+    .burger__btns {
+      width: 50%;
+      height: 100vh;
+      margin: 20px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+      gap: 20px;
+    }
+  
+    button {
+      margin: 0 5px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #0065ff;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      transition: 0.2s linear;
+  
+      &:hover {
+        background-color: #024dbe;
+      }
+    }
+  }
+
+  .burger__menu__hidden {
+    transform: translateX(100%);
+  }
+}
