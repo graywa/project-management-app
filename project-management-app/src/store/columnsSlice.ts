@@ -1,5 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { addColumns, deleteColumn, getColumns, updateColumn } from '../api/columns';
+import {
+  addColumns,
+  changeColumnsOrder,
+  deleteColumn,
+  getColumns,
+  updateColumn,
+} from '../api/columns';
 import { IColumn } from '../models/IColumn';
 
 interface columnsState {
@@ -26,6 +32,9 @@ export const columnsSlice = createSlice({
       localStorage.setItem('boardId', action.payload);
       state.boardId = action.payload;
     },
+    setColumns(state, action) {
+      state.columns = action.payload;
+    },
     resetCreateNewColumn(state) {
       state.isCreateColumn = false;
     },
@@ -34,7 +43,7 @@ export const columnsSlice = createSlice({
     [getColumns.fulfilled.type]: (state, action) => {
       state.isLoading = false;
       state.errorColumn = '';
-      state.columns = action.payload;
+      state.columns = action.payload.sort((a: IColumn, b: IColumn) => a.order - b.order);
     },
     [getColumns.pending.type]: (state) => {
       state.errorColumn = '';
@@ -86,9 +95,22 @@ export const columnsSlice = createSlice({
       state.isLoading = false;
       state.errorColumn = action.payload;
     },
+    [changeColumnsOrder.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.errorColumn = '';
+      state.columns = action.payload?.sort((a: IColumn, b: IColumn) => a.order - b.order);
+    },
+    [changeColumnsOrder.pending.type]: (state) => {
+      state.errorColumn = '';
+      state.isLoading = true;
+    },
+    [changeColumnsOrder.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.errorColumn = action.payload;
+    },
   },
 });
 
-export const { changeBoardId, resetCreateNewColumn } = columnsSlice.actions;
+export const { changeBoardId, resetCreateNewColumn, setColumns } = columnsSlice.actions;
 
 export default columnsSlice.reducer;

@@ -9,6 +9,7 @@ import styles from './MainPage.module.scss';
 import board from './assets/board.svg';
 import { useTranslation } from 'react-i18next';
 import ConfirmModal from '../../components/confirm-modal/ConfirmModal';
+import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { resetCreateNewBoard } from '../../store/boardsSlice';
 
@@ -46,6 +47,7 @@ const MainPage = () => {
   return (
     <div className={styles.main}>
       <Header />
+      <ToastContainer />
       <div className={styles.boards_wrapper}>
         <ToastContainer />
         <h2>{t('boards')}</h2>

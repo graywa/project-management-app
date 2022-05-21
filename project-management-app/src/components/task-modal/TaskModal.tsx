@@ -45,9 +45,9 @@ const TaskModal: FC<IProps> = ({
                 columnId: columnId,
                 values: {
                   order: tasks[columnId].length + 1,
-                  title: title,
-                  description: description,
-                  userId: userId,
+                  title,
+                  description,
+                  userId,
                 },
               })
             );
