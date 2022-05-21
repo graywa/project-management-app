@@ -1,5 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { addTask, changeTasksOrder, deleteTask, getTasks, updateTask } from '../api/tasks';
+import {
+  addTask,
+  changeTasksOrderOneColumn,
+  changeTasksOrderTwoColumns,
+  deleteTask,
+  getTasks,
+  updateTask,
+} from '../api/tasks';
 import { ITask } from '../models/ITask';
 
 interface taskState {
@@ -44,7 +51,7 @@ export const tasksSlice = createSlice({
       state.isLoading = false;
       state.errorTask = '';
       const { columnId, response }: { columnId: string; response: ITask[] } = action.payload;
-      state.tasks[columnId] = response.sort((a: ITask, b: ITask) => a.order - b.order);
+      state.tasks[columnId] = response?.sort((a: ITask, b: ITask) => a.order - b.order);
     },
     [getTasks.pending.type]: (state) => {
       state.errorTask = '';
@@ -100,18 +107,43 @@ export const tasksSlice = createSlice({
       state.isLoading = false;
       state.errorTask = action.payload;
     },
-    [changeTasksOrder.fulfilled.type]: (state, action) => {
+    [changeTasksOrderOneColumn.fulfilled.type]: (state, action) => {
       state.isLoading = false;
       state.errorTask = '';
 
       const { columnId, response }: { columnId: string; response: ITask[] } = action.payload;
       state.tasks[columnId] = response.sort((a: ITask, b: ITask) => a.order - b.order);
     },
-    [changeTasksOrder.pending.type]: (state) => {
+    [changeTasksOrderOneColumn.pending.type]: (state) => {
       state.errorTask = '';
       state.isLoading = true;
     },
-    [changeTasksOrder.rejected.type]: (state, action: PayloadAction<string>) => {
+    [changeTasksOrderOneColumn.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.errorTask = action.payload;
+    },
+    [changeTasksOrderTwoColumns.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.errorTask = '';
+
+      const {
+        responseSourceColumn,
+        sourceColumnId,
+        responseDestinationColumn,
+        destinationColumnId,
+      } = action.payload;
+      state.tasks[sourceColumnId] = responseSourceColumn?.sort(
+        (a: ITask, b: ITask) => a.order - b.order
+      );
+      state.tasks[destinationColumnId] = responseDestinationColumn?.sort(
+        (a: ITask, b: ITask) => a.order - b.order
+      );
+    },
+    [changeTasksOrderTwoColumns.pending.type]: (state) => {
+      state.errorTask = '';
+      state.isLoading = true;
+    },
+    [changeTasksOrderTwoColumns.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.errorTask = action.payload;
     },

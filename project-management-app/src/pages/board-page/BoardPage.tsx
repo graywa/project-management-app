@@ -15,7 +15,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { resetCreateNewColumn } from '../../store/columnsSlice';
 import { resetCreateNewTask, resetUpdateTask, setTasks } from '../../store/tasksSlice';
 import { ITask } from '../../models/ITask';
-import { changeTasksOrder } from '../../api/tasks';
+import { changeTasksOrderOneColumn, changeTasksOrderTwoColumns } from '../../api/tasks';
 
 const BoardPage = () => {
   const dispatch = useAppDispatch();
@@ -42,6 +42,7 @@ const BoardPage = () => {
     }
   }, [errorTask]);
 
+  //local reorder
   const reorder = (arr: IColumn[] | ITask[], startIndex: number, endIndex: number) => {
     const result = [...arr];
     const [removed] = result.splice(startIndex, 1);
@@ -68,6 +69,7 @@ const BoardPage = () => {
       //const endItem = columns[destination.index];
       //const newColumns = reorder(columns, startIndex, endIndex);
       //dispatch(setColumns(newColumns));
+      if (startIndex === endIndex) return;
 
       dispatch(
         changeColumnsOrder({ boardId, startIndex, endIndex, columns: columns as IColumn[] })
@@ -77,30 +79,45 @@ const BoardPage = () => {
 
     //reordering in same list
     if (source.droppableId === destination.droppableId) {
+      if (startIndex === endIndex) return;
       const tasksOfColumn = tasks[source.droppableId];
       const columnId = source.droppableId;
       //const newTasks = reorder(tasksOfColumn, source.index, destination.index);
       //dispatch(setTasks({ newTasks, columnId: source.droppableId }));
-      dispatch(changeTasksOrder({ boardId, columnId, startIndex, endIndex, tasksOfColumn }));
+      dispatch(
+        changeTasksOrderOneColumn({ boardId, columnId, startIndex, endIndex, tasksOfColumn })
+      );
       return;
     }
 
     // moving between lists
     const sourceColumn = tasks[source.droppableId];
     const destinationColumn = tasks[destination.droppableId];
-    const item = sourceColumn[source.index];
+    const destinationColumnId = destination.droppableId;
+
+    dispatch(
+      changeTasksOrderTwoColumns({
+        boardId,
+        sourceColumn,
+        destinationColumn,
+        startIndex,
+        endIndex,
+        destinationColumnId,
+      })
+    );
+    //const item = sourceColumn[source.index];
 
     // 1. remove item from source column
-    const newSourceColumn = [...sourceColumn];
-    newSourceColumn.splice(source.index, 1);
+    // const newSourceColumn = [...sourceColumn];
+    // newSourceColumn.splice(source.index, 1);
 
     // 2. insert into destination column
-    const newDestinationColumn = [...destinationColumn];
+    //const newDestinationColumn = [...destinationColumn];
     // in line modification of items
-    newDestinationColumn.splice(destination.index, 0, item);
+    //newDestinationColumn.splice(destination.index, 0, item);
 
-    dispatch(setTasks({ newTasks: newSourceColumn, columnId: source.droppableId }));
-    dispatch(setTasks({ newTasks: newDestinationColumn, columnId: destination.droppableId }));
+    // dispatch(setTasks({ newTasks: newSourceColumn, columnId: source.droppableId }));
+    // dispatch(setTasks({ newTasks: newDestinationColumn, columnId: destination.droppableId }));
   };
 
   useEffect(() => {

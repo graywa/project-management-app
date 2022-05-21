@@ -149,8 +149,8 @@ const updTask = async (
   });
 };
 
-const changeTasksOrder = createAsyncThunk(
-  'tasks/changeTasksOrder',
+const changeTasksOrderOneColumn = createAsyncThunk(
+  'tasks/changeTasksOrderOneColumn',
   async (
     {
       boardId,
@@ -230,4 +230,108 @@ const changeTasksOrder = createAsyncThunk(
   }
 );
 
-export { getTasks, addTask, updateTask, deleteTask, changeTasksOrder };
+const changeTasksOrderTwoColumns = createAsyncThunk(
+  'tasks/changeTasksOrderTwoColumns',
+  async (
+    {
+      boardId,
+      sourceColumn,
+      destinationColumn,
+      startIndex,
+      endIndex,
+      destinationColumnId,
+    }: {
+      boardId: string;
+      sourceColumn: ITask[];
+      destinationColumn: ITask[];
+      startIndex: number;
+      endIndex: number;
+      destinationColumnId: string;
+    },
+    thunkAPI
+  ) => {
+    try {
+      const startTask = sourceColumn[startIndex];
+      const sourceColumnId = startTask.columnId;
+
+      await axios({
+        method: 'delete',
+        url: `${URL_SERVER}/boards/${boardId}/columns/${sourceColumnId}/tasks/${startTask.id}`,
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+
+      for (let i = startIndex + 1; i < sourceColumn.length; i++) {
+        const task = sourceColumn[i];
+        await updTask(
+          boardId,
+          sourceColumnId,
+          task.id,
+          task.title,
+          i,
+          task.description,
+          task.userId
+        );
+      }
+
+      for (let i = destinationColumn.length - 1; i >= endIndex; i--) {
+        const task = destinationColumn[i];
+        await updTask(
+          boardId,
+          destinationColumnId,
+          task.id,
+          task.title,
+          i + 2,
+          task.description,
+          task.userId
+        );
+      }
+
+      await axios({
+        method: 'post',
+        url: `${URL_SERVER}/boards/${boardId}/columns/${destinationColumnId}/tasks`,
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        data: {
+          title: startTask.title,
+          order: endIndex + 1,
+          description: startTask.description,
+          userId: startTask.userId,
+        },
+      });
+
+      const responseSourceColumn = await axios({
+        method: 'get',
+        url: `${URL_SERVER}/boards/${boardId}/columns/${sourceColumnId}/tasks`,
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+
+      const responseDestinationColumn = await axios({
+        method: 'get',
+        url: `${URL_SERVER}/boards/${boardId}/columns/${destinationColumnId}/tasks`,
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+
+      return {
+        responseSourceColumn: responseSourceColumn.data,
+        sourceColumnId,
+        responseDestinationColumn: responseDestinationColumn.data,
+        destinationColumnId,
+      };
+    } catch (e) {
+      if (e instanceof AxiosError && e.response?.data) {
+        return thunkAPI.rejectWithValue(e.response?.data.message);
+      }
+      if (e instanceof Error) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
+    }
+  }
+);
+
+export {
+  getTasks,
+  addTask,
+  updateTask,
+  deleteTask,
+  changeTasksOrderOneColumn,
+  changeTasksOrderTwoColumns,
+};
