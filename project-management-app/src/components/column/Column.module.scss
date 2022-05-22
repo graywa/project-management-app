@@ -37,6 +37,13 @@
   align-items: center;
   margin-bottom: 20px;
   position: relative;
+  
+  .titleColumnBlock {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 @media screen and (max-width: 380px) {
@@ -101,32 +108,49 @@
 }
 
 .form {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  
   label {
     margin: 0 0 30px 0;
     padding: 0 10px 0 0;
   }
   .input {
-    font-size: 14px;
+    height: 30px;
+    font-size: 16px;
+    margin: 15px 0 0 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
   }
   .error {
+    width: 100%;
+    position: absolute;
+    font-size: 14px;
     color: red;
-  }
+    text-transform: lowercase;
+  } 
   button {
     cursor: pointer;
   }
-  .buttonCreate {
-    margin: 0 1px;
-    padding: 5px;
+  .buttons {
+    display: flex;
+    align-self: center;
   }
-}
-
-.buttonCancel {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  @extend .buttonCreate; 
-  background-color: grey;
-  &:hover {
-    background-color: rgb(158, 147, 147);
+  .buttonCancel, .buttonSubmit {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    background: none;
+    outline: none;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+  img {
+    max-width: 100%;
   }
 }

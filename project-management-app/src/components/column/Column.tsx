@@ -13,6 +13,8 @@ import styles from './Column.module.scss';
 import LoadingAnimation from '../loading-animation/LoadingAnimation';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import deleteIcon from './assets/delete.png';
+import submitIcon from './assets/submit.png';
+import cancelIcon from './assets/cancel.png';
 
 interface IProps {
   column: IColumn;
@@ -41,7 +43,7 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
           <div className={styles.columnHead} {...provided.dragHandleProps}>
             {isTitleInput ? (
               <Formik
-                initialValues={{ title: '' }}
+                initialValues={{ title }}
                 onSubmit={({ title }, { resetForm }) => {
                   dispatch(updateColumn({ boardId, columnId, data: { order, title } }));
                   resetForm();
@@ -57,40 +59,41 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
                 {({ handleSubmit }) => {
                   return (
                     <Form className={styles.form} onSubmit={handleSubmit}>
+                      <div className={styles.buttons}>
+                        <button className={styles.buttonSubmit} type="submit">
+                          <img src={submitIcon} alt="submit button" />
+                        </button>
+                        <button
+                          type="button"
+                          className={styles.buttonCancel}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setIsTitleInput(false);
+                          }}
+                        >
+                          <img src={cancelIcon} alt="cancel button" />
+                        </button>
+                      </div>
                       <label htmlFor="title">
                         {t('title_column')}
-                        <Field id="title" name="title" className={styles.input} autoFocus={false} />
+                        <Field id="title" name="title" className={styles.input} autoFocus={true} />
                         <div className={styles.error}>
                           <ErrorMessage name="title" />
                         </div>
                       </label>
                       <div className={styles.loader}>{isLoading && <LoadingAnimation />}</div>
-                      <button className={styles.buttonCreate} type="submit">
-                        {t('submit')}
-                      </button>
                     </Form>
                   );
                 }}
               </Formik>
             ) : (
-              <h1 className={styles.title} onClick={() => setIsTitleInput(true)}>
-                {title}
-              </h1>
-            )}
-            {isTitleInput ? (
-              <button
-                type="button"
-                className={styles.buttonCancel}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsTitleInput(false);
-                }}
-              >
-                {t('cancel')}
-              </button>
-            ) : (
-              <div className={styles.delete} onClick={() => setIsOpenConfirmationModal(true)}>
-                <img src={deleteIcon} alt="delete icon" />
+              <div className={styles.titleColumnBlock}>
+                <h1 className={styles.title} onClick={() => setIsTitleInput(true)}>
+                  {title}
+                </h1>
+                <div className={styles.delete} onClick={() => setIsOpenConfirmationModal(true)}>
+                  <img src={deleteIcon} alt="delete icon" />
+                </div>
               </div>
             )}
             <ConfirmModal
