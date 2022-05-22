@@ -48,7 +48,7 @@ const Header = () => {
         </div>
         <div
           className={cn(styles['burger-btn'], {
-            [styles['burger-btn--animation']]: isOpenBurgerMenu,
+            [styles['burger-btn_animation']]: isOpenBurgerMenu,
           })}
           onClick={() => setIsOpenBurgerMenu(!isOpenBurgerMenu)}
         >
@@ -56,7 +56,7 @@ const Header = () => {
         </div>
         <div
           className={cn(styles['burger-menu'], {
-            [styles['burger-menu--hidden']]: isOpenBurgerMenu,
+            [styles['burger-menu_hidden']]: isOpenBurgerMenu,
           })}
         >
           <div className={styles['burger-menu__btns']}>

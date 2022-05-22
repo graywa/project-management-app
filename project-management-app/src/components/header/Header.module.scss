@@ -97,7 +97,7 @@
       box-shadow: 0px 0px 20px black;
     }
 
-    &.burger-btn--animation {
+    &.burger-btn_animation {
       transform: rotateZ(-180deg);
     }
 
@@ -170,7 +170,7 @@
     }
   }
 
-  .burger-menu--hidden {
+  .burger-menu_hidden {
     transform: translateX(100%);
   }
 }
