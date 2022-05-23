@@ -15,7 +15,7 @@
   width: 12px;      
 }
 .board::-webkit-scrollbar-track {
-  background: linear-gradient(0deg, #fff, #ffffff 100%);   
+  background: rgba(255, 255, 255, 0.4);   
   border-radius: 20px;
 }
 .board::-webkit-scrollbar-thumb {
