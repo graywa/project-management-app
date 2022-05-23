@@ -9,15 +9,19 @@ import { IUser } from './../../models/IUser';
 import { IBoard } from './../../models/IBoard';
 import { deleteTask } from '../../api/tasks';
 import { useTranslation } from 'react-i18next';
+import { IColumn } from '../../models/IColumn';
+import { ITask } from '../../models/ITask';
 
 interface IColumnData {
   boardId: string;
   columnId: string;
+  columns: IColumn[];
 }
 interface ITaskData {
-  boardId: string | undefined;
-  columnId: string | undefined;
-  taskId: string | undefined;
+  boardId: string;
+  columnId: string;
+  taskId: string;
+  tasks: ITask[];
 }
 
 type IData = IBoard | IColumnData | IUser | ITaskData;

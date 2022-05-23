@@ -22,7 +22,7 @@ interface IProps {
 const Columns: FC<IProps> = React.memo(({ column, index }) => {
   const { title, id: columnId = '', order } = column;
   const dispatch = useAppDispatch();
-  const { boardId, isLoading } = useAppSelector((state) => state.columns);
+  const { boardId, isLoading, columns } = useAppSelector((state) => state.columns);
   const { tasks, isLoading: isLoadingTasks } = useAppSelector((state) => state.tasks);
   const { t } = useTranslation();
 
@@ -38,6 +38,11 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
     <Draggable key={column.id} draggableId={column.id as string} index={index}>
       {(provided) => (
         <div className={styles.column} {...provided.draggableProps} ref={provided.innerRef}>
+          {isLoadingTasks && (
+            <div className={styles.loader}>
+              <LoadingAnimation />
+            </div>
+          )}
           <div className={styles.columnHead} {...provided.dragHandleProps}>
             {isTitleInput ? (
               <Formik
@@ -64,7 +69,7 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
                           <ErrorMessage name="title" />
                         </div>
                       </label>
-                      <div className={styles.loader}>{isLoading && <LoadingAnimation />}</div>
+                      {isLoading && <div className={styles.loader}>{<LoadingAnimation />}</div>}
                       <button className={styles.buttonCreate} type="submit">
                         {t('submit')}
                       </button>
@@ -96,7 +101,7 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
             <ConfirmModal
               isOpenModal={isOpenConfirmationModal}
               setIsOpenModal={setIsOpenConfirmationModal}
-              data={{ columnId, boardId }}
+              data={{ columns, columnId, boardId }}
               action={'delete_column'}
             />
           </div>
@@ -104,7 +109,6 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
           <Droppable droppableId={column.id as string}>
             {(provided) => (
               <div className={styles.tasks} {...provided.droppableProps} ref={provided.innerRef}>
-                {isLoadingTasks && <LoadingAnimation />}
                 {tasks[columnId] &&
                   tasks[columnId].map((task, index) => {
                     return (

@@ -1,11 +1,12 @@
 .board {
+  position: relative;
   overflow-x: auto;
   height: 75vh;
   margin-top: 100px;
   display: flex;
   
 
-  &__body {
+  &__body {    
     display: flex;
     align-items: flex-start;
   }
@@ -34,8 +35,15 @@
 
 .loader {
   position: absolute;
-  top: 50%;
-  left: 45%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.562);
 }
 .error {
   font-size: 20px;

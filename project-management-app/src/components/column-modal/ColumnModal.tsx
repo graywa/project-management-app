@@ -29,9 +29,8 @@ const ColumnModal: FC<IProps> = ({ isOpenColumn, setIsOpenColumn }) => {
         <Formik
           initialValues={{ title: '' }}
           onSubmit={({ title }, { resetForm }) => {
-            dispatch(
-              addColumns({ boardId: boardId, values: { order: columns.length + 1, title: title } })
-            );
+            const order = columns.length + 1;
+            dispatch(addColumns({ boardId: boardId, values: { order, title: title } }));
             resetForm();
           }}
           validationSchema={Yup.object().shape({

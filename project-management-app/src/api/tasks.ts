@@ -3,6 +3,23 @@ import axios, { AxiosError } from 'axios';
 import { NoContent, URL_SERVER } from '../constants/queryVariables';
 import { ITask } from '../models/ITask';
 
+const updTask = async (
+  boardId: string,
+  columnId: string,
+  taskId: string,
+  title: string,
+  order: number,
+  description: string,
+  userId: string
+) => {
+  await axios({
+    method: 'put',
+    url: `${URL_SERVER}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
+    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    data: { title, order, description, userId, boardId, columnId },
+  });
+};
+
 const getTasks = createAsyncThunk(
   'tasks/getAll',
   async ({ boardId, columnId }: { boardId: string; columnId: string }, thunkAPI) => {
@@ -108,7 +125,13 @@ const deleteTask = createAsyncThunk(
       boardId,
       columnId,
       taskId,
-    }: { boardId: string | undefined; columnId: string | undefined; taskId: string | undefined },
+      tasks,
+    }: {
+      boardId: string;
+      columnId: string;
+      taskId: string;
+      tasks: ITask[];
+    },
     thunkAPI
   ) => {
     try {
@@ -118,8 +141,21 @@ const deleteTask = createAsyncThunk(
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
 
+      const deleteTaskIndex = tasks.findIndex((el) => el.id === taskId);
+
+      for (let i = deleteTaskIndex + 1; i < tasks.length; i++) {
+        const task = tasks[i];
+        await updTask(boardId, columnId, task.id, task.title, i, task.description, task.userId);
+      }
+
+      const newTasksResponse = await axios({
+        method: 'get',
+        url: `${URL_SERVER}/boards/${boardId}/columns/${columnId}/tasks`,
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+
       if (response.status === NoContent) {
-        return { columnId, taskId };
+        return { columnId, taskId, newTasks: newTasksResponse.data };
       }
     } catch (e) {
       if (e instanceof AxiosError && e.response?.data) {
@@ -131,23 +167,6 @@ const deleteTask = createAsyncThunk(
     }
   }
 );
-
-const updTask = async (
-  boardId: string,
-  columnId: string,
-  taskId: string,
-  title: string,
-  order: number,
-  description: string,
-  userId: string
-) => {
-  await axios({
-    method: 'put',
-    url: `${URL_SERVER}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    data: { title, order, description, userId, boardId, columnId },
-  });
-};
 
 const changeTasksOrderOneColumn = createAsyncThunk(
   'tasks/changeTasksOrderOneColumn',
