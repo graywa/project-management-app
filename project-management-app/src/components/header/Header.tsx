@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Header.module.scss';
 import cn from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import logo from './../../pages/welcome-page/assets/trello.svg';
 import CustomSelect from '../custom-select/CustomSelect';
 import BoardModal from '../board-modal/BoardModal';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import { changeIsAuth } from '../../store/authSlice';
 import { useTranslation } from 'react-i18next';
+import ColumnModal from '../column-modal/ColumnModal';
 
 const Header = () => {
   const [scroll, setScroll] = useState(false);
   const [isOpenBoard, setIsOpenBoard] = useState(false);
+  const [isOpenColumn, setIsOpenColumn] = useState(false);
   const [isOpenBurgerMenu, setIsOpenBurgerMenu] = useState(true);
   const dispatch = useAppDispatch();
   const { login } = useAppSelector((state) => state.auth);
   const { t } = useTranslation();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const scrollHandler = () => {
@@ -43,7 +46,11 @@ const Header = () => {
             <Link to="/profile">{t('edit_profile')}</Link>
           </button>
           <button onClick={signOutHandler}>{t('sign_out')}</button>
-          <button onClick={() => setIsOpenBoard(true)}>{t('create_new_board')}</button>
+          <button
+            onClick={() => (pathname === '/board' ? setIsOpenColumn(true) : setIsOpenBoard(true))}
+          >
+            {pathname === '/board' ? t('add_column') : t('create_new_board')}
+          </button>
           <CustomSelect />
         </div>
         <div
@@ -67,17 +74,19 @@ const Header = () => {
               {t('sign_out')}
             </button>
             <button
-              onClick={() => {
-                setIsOpenBurgerMenu(true);
-                setIsOpenBoard(true);
-              }}
+              onClick={() =>
+                pathname === '/board'
+                  ? (setIsOpenColumn(true), setIsOpenBurgerMenu(true))
+                  : (setIsOpenBoard(true), setIsOpenBurgerMenu(true))
+              }
             >
-              {t('create_new_board')}
+              {pathname === '/board' ? t('add_column') : t('create_new_board')}
             </button>
             <CustomSelect />
           </div>
         </div>
         <BoardModal isOpenBoard={isOpenBoard} setIsOpenBoard={setIsOpenBoard} />
+        <ColumnModal isOpenColumn={isOpenColumn} setIsOpenColumn={setIsOpenColumn} />
       </header>
     </div>
   );
