@@ -47,9 +47,11 @@ const Header = () => {
           </button>
           <button onClick={signOutHandler}>{t('sign_out')}</button>
           <button
-            onClick={() => (pathname === '/board' ? setIsOpenColumn(true) : setIsOpenBoard(true))}
+            onClick={() =>
+              pathname.includes('/board') ? setIsOpenColumn(true) : setIsOpenBoard(true)
+            }
           >
-            {pathname === '/board' ? t('add_column') : t('create_new_board')}
+            {pathname.includes('/board') ? t('add_column') : t('create_new_board')}
           </button>
           <CustomSelect />
         </div>
@@ -75,12 +77,12 @@ const Header = () => {
             </button>
             <button
               onClick={() =>
-                pathname === '/board'
+                pathname.includes('/board')
                   ? (setIsOpenColumn(true), setIsOpenBurgerMenu(true))
                   : (setIsOpenBoard(true), setIsOpenBurgerMenu(true))
               }
             >
-              {pathname === '/board' ? t('add_column') : t('create_new_board')}
+              {pathname.includes('/board') ? t('add_column') : t('create_new_board')}
             </button>
             <CustomSelect />
           </div>

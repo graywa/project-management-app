@@ -9,8 +9,9 @@ import BoardPage from '../../pages/board-page/BoardPage';
 import { useAppSelector } from '../../redux-hooks/redux-hooks';
 
 const AppRouter = () => {
-  const { pathname } = useLocation();
+  let { pathname } = useLocation();
   const { isAuth } = useAppSelector((state) => state.auth);
+  if (pathname.slice(0, 6) === '/board') pathname = '/board';
 
   const allowedPaths = ['/', '/login', '/registration', '/main', '/profile', '/board'];
 
@@ -21,7 +22,7 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route path="/main" element={<MainPage />} />
-        <Route path="/board" element={<BoardPage />} />
+        <Route path="/board/:id" element={<BoardPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<Navigate to="/main" />} />
       </Routes>

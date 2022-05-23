@@ -96,8 +96,13 @@ export const tasksSlice = createSlice({
     [deleteTask.fulfilled.type]: (state, action) => {
       state.isLoading = false;
       state.errorTask = '';
-      const { columnId, taskId }: { columnId: string; taskId: string } = action.payload;
+      const {
+        columnId,
+        taskId,
+        newTasks,
+      }: { columnId: string; taskId: string; newTasks: ITask[] } = action.payload;
       state.tasks[columnId] = state.tasks[columnId].filter((el) => el.id !== taskId);
+      state.tasks[columnId] = newTasks?.sort((a: ITask, b: ITask) => a.order - b.order);
     },
     [deleteTask.pending.type]: (state) => {
       state.errorTask = '';

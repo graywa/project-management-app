@@ -5,6 +5,7 @@ import ConfirmModal from '../confirm-modal/ConfirmModal';
 import TaskChangeModal from '../task-modal-change/TaskChangeModal';
 import refactorIcon from './assets/pencil.png';
 import deleteIcon from './assets/delete.png';
+import { useAppSelector } from '../../redux-hooks/redux-hooks';
 
 interface IProps {
   task: ITask;
@@ -13,6 +14,8 @@ interface IProps {
 
 const Task: FC<IProps> = ({ task, index }) => {
   const { title, description, boardId, columnId, id: taskId } = task;
+  const { tasks: allTasks } = useAppSelector((state) => state.tasks);
+  const tasks = allTasks[columnId];
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenChangeTaskModal, setIsOpenChangeTaskModal] = useState(false);
 
@@ -32,7 +35,7 @@ const Task: FC<IProps> = ({ task, index }) => {
           isOpenModal={isOpenModal}
           setIsOpenModal={setIsOpenModal}
           action={'delete_task'}
-          data={{ boardId, columnId, taskId }}
+          data={{ boardId, columnId, taskId, tasks }}
         />
       </div>
       <p className={styles.description}>{description}</p>

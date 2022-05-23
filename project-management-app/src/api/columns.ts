@@ -3,6 +3,15 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 import { NoContent, UNAUTHORIZED, URL_SERVER } from '../constants/queryVariables';
 
+const updColumn = async (boardId: string, columnId: string, title: string, order: number) => {
+  await axios({
+    method: 'put',
+    url: `${URL_SERVER}/boards/${boardId}/columns/${columnId}`,
+    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    data: { title, order },
+  });
+};
+
 const getColumns = createAsyncThunk('columns/getAll', async (boardId: string, thunkAPI) => {
   try {
     const response = await axios({
@@ -81,13 +90,25 @@ const updateColumn = createAsyncThunk(
 
 const deleteColumn = createAsyncThunk(
   'columns/delete',
-  async ({ boardId, columnId }: { boardId: string; columnId: string }, thunkAPI) => {
+  async (
+    { boardId, columnId, columns }: { boardId: string; columnId: string; columns: IColumn[] },
+    thunkAPI
+  ) => {
     try {
       const response = await axios({
         method: 'delete',
         url: `${URL_SERVER}/boards/${boardId}/columns/${columnId}`,
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
+
+      const deleteColumnIndex = columns.findIndex((el) => el.id === columnId);
+
+      for (let i = deleteColumnIndex + 1; i < columns.length; i++) {
+        const column = columns[i];
+        await updColumn(boardId, column.id, column.title, i);
+      }
+
+      getColumns(boardId);
 
       if (response.status === NoContent) {
         return columnId;
@@ -102,15 +123,6 @@ const deleteColumn = createAsyncThunk(
     }
   }
 );
-
-const updColumn = async (boardId: string, columnId: string, title: string, order: number) => {
-  await axios({
-    method: 'put',
-    url: `${URL_SERVER}/boards/${boardId}/columns/${columnId}`,
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    data: { title, order },
-  });
-};
 
 const changeColumnsOrder = createAsyncThunk(
   'columns/changeColumnsOrder',

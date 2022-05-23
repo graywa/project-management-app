@@ -1,4 +1,5 @@
 .column {
+  position: relative;
   max-width: 350px;
   min-width: 300px;
   max-height: 95%;
@@ -9,6 +10,19 @@
   cursor: grab;
   padding: 20px;
   overflow-y: auto;
+
+  .loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.562);
+  }
 
   h1 {
     font-size: 22px;
@@ -111,7 +125,8 @@
   display: flex;
   justify-content: space-between;
   align-content: center;
-  
+  position: relative;
+
   label {
     margin: 0 0 30px 0;
     padding: 0 10px 0 0;
@@ -127,6 +142,7 @@
   .error {
     width: 100%;
     position: absolute;
+    left: 30px;
     font-size: 14px;
     color: red;
     text-transform: lowercase;
