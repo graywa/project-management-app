@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from './LoginPage.module.scss';
-import { Formik } from 'formik';
+import { Field, Formik } from 'formik';
 import * as yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
@@ -68,11 +68,12 @@ const LoginPage = () => {
               handleBlur,
               handleSubmit,
             }) => (
-              <div className={styles.form_inputs}>
+              <form className={styles.form_inputs} onSubmit={handleSubmit}>
                 <label htmlFor="login">{t('login')}</label>
-                <input
+                <Field
                   className={styles.input}
                   type="text"
+                  id="login"
                   name="login"
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -81,9 +82,10 @@ const LoginPage = () => {
                 {touched.login && errors.login && <p className={styles.error}>{errors.login}</p>}
 
                 <label htmlFor="password">{t('password')}</label>
-                <input
+                <Field
                   className={styles.input}
                   type="password"
+                  id="password"
                   name="password"
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -93,15 +95,10 @@ const LoginPage = () => {
                   <p className={styles.error}>{errors.password}</p>
                 )}
 
-                <button
-                  className={styles.submit}
-                  disabled={!isValid && !dirty}
-                  onClick={() => handleSubmit()}
-                  type="submit"
-                >
+                <button className={styles.submit} disabled={!isValid && !dirty} type="submit">
                   {t('sign_in')}
                 </button>
-              </div>
+              </form>
             )}
           </Formik>
         </div>

@@ -97,7 +97,7 @@
       box-shadow: 0px 0px 20px black;
     }
 
-    &.burger-btn--animation {
+    &.burger-btn_animation {
       transform: rotateZ(-180deg);
     }
 
@@ -137,7 +137,8 @@
     width: 400px;
     height: 100vh;
     transition: all .3s;
-    background: linear-gradient(0deg, #fff, #eae6ff 100%);
+    background-color: rgba(#645669, .5);
+    border-radius: 10px 0 0 0;
 
     @media (max-width: 768px) {
       width: 100%;
@@ -170,7 +171,7 @@
     }
   }
 
-  .burger-menu--hidden {
+  .burger-menu_hidden {
     transform: translateX(100%);
   }
 }

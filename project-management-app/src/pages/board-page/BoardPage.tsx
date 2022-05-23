@@ -5,7 +5,6 @@ import { changeColumnsOrder, getColumns, updateColumn } from '../../api/columns'
 import Column from '../../components/column/Column';
 import { IColumn } from '../../models/IColumn';
 import Header from '../../components/header/Header';
-import ColumnModal from '../../components/column-modal/ColumnModal';
 import { useTranslation } from 'react-i18next';
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,7 +24,6 @@ const BoardPage = () => {
 
   const { tasks } = useAppSelector((state) => state.tasks);
   const { isCreateTask, isUpdateTask, errorTask } = useAppSelector((state) => state.tasks);
-  const [isOpenColumn, setIsOpenColumn] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -187,10 +185,6 @@ const BoardPage = () => {
             )}
           </Droppable>
         </DragDropContext>
-        <button className={styles.buttonAddColumn} onClick={() => setIsOpenColumn(true)}>
-          {t('add_column')}
-        </button>
-        <ColumnModal isOpenColumn={isOpenColumn} setIsOpenColumn={setIsOpenColumn} />
       </div>
     </div>
   );

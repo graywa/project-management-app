@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from './RegistrationPage.module.scss';
-import { Formik } from 'formik';
+import { Field, Formik } from 'formik';
 import * as yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
@@ -92,12 +92,13 @@ const RegistrationPage = () => {
               handleBlur,
               handleSubmit,
             }) => (
-              <div className={styles.form_inputs}>
+              <form className={styles.form_inputs} onSubmit={handleSubmit}>
                 <p>
                   <label htmlFor="name">{t('name')}</label>
-                  <input
+                  <Field
                     className={styles.input}
                     type="text"
+                    id="name"
                     name="name"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -108,9 +109,10 @@ const RegistrationPage = () => {
 
                 <p>
                   <label htmlFor="login">{t('login')}</label>
-                  <input
+                  <Field
                     className={styles.input}
                     type="text"
+                    id="login"
                     name="login"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -121,9 +123,10 @@ const RegistrationPage = () => {
 
                 <p>
                   <label htmlFor="password">{t('password')}</label>
-                  <input
+                  <Field
                     className={styles.input}
                     type="password"
+                    id="password"
                     name="password"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -136,9 +139,10 @@ const RegistrationPage = () => {
 
                 <p>
                   <label htmlFor="confirmPassword">{t('confirm_pass')}</label>
-                  <input
+                  <Field
                     className={styles.input}
                     type="password"
+                    id="confirmPassword"
                     name="confirmPassword"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -149,15 +153,10 @@ const RegistrationPage = () => {
                   <p className={styles.error}>{errors.confirmPassword}</p>
                 )}
 
-                <button
-                  className={styles.submit}
-                  disabled={!dirty && !isValid}
-                  onClick={() => handleSubmit()}
-                  type="submit"
-                >
+                <button className={styles.submit} disabled={!dirty && !isValid} type="submit">
                   {t('sign_up')}
                 </button>
-              </div>
+              </form>
             )}
           </Formik>
         </div>
