@@ -57,7 +57,7 @@ const MainPage = () => {
             ? boards?.map(({ id, title }) => {
                 return (
                   <div key={id} className={styles.board}>
-                    <Link to="/board" onClick={() => dispatch(changeBoardId(id))}>
+                    <Link to={`/board/${id}`} onClick={() => dispatch(changeBoardId(id))}>
                       <img width={40} src={board} alt="board" />
                       {title}
                     </Link>
