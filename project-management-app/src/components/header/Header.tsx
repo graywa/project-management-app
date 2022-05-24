@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import styles from './Header.module.scss';
 import cn from 'classnames';
 import { Link, useLocation } from 'react-router-dom';
-import logo from './../../pages/welcome-page/assets/trello.svg';
 import CustomSelect from '../custom-select/CustomSelect';
 import BoardModal from '../board-modal/BoardModal';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import { changeIsAuth } from '../../store/authSlice';
 import { useTranslation } from 'react-i18next';
 import ColumnModal from '../column-modal/ColumnModal';
+import logo from './../../pages/welcome-page/assets/vezha.png';
 
 const Header = () => {
   const [scroll, setScroll] = useState(false);
@@ -37,8 +37,8 @@ const Header = () => {
     <div className={cn(styles.header_wrapper, { [styles.scroll]: scroll })}>
       <header className={styles.header}>
         <Link to="/main" className={styles.header__logo}>
-          <img width={25} src={logo} alt="logo" />
-          <span className={styles.logo}>Trello</span>
+          <img width={26} src={logo} alt="logo" />
+          <span className={styles.logo}>Vezha</span>
         </Link>
         <span className={styles.login}>{login}</span>
         <div className={styles.header__btns}>
