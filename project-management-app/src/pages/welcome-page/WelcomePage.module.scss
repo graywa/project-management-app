@@ -73,7 +73,7 @@
 }
 
 .intro {
-  margin-top: 120px;
+  margin: 120px 20px 0;
   display: flex;
   gap: 20px;
   justify-content: space-around;
@@ -102,6 +102,7 @@
   }
 
   @media (max-width: 945px) {
+    margin: 120px 0 0;
     flex-direction: column;
   }
 

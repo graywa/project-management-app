@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, Suspense, useEffect, useState } from 'react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
@@ -37,7 +37,7 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
   }, [columnId]);
 
   return (
-    <Draggable key={column.id} draggableId={column.id as string} index={index}>
+    <Draggable draggableId={column.id as string} index={index}>
       {(provided) => (
         <div className={styles.column} {...provided.draggableProps} ref={provided.innerRef}>
           {isLoadingTasks && (
@@ -114,21 +114,7 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
               <div className={styles.tasks} {...provided.droppableProps} ref={provided.innerRef}>
                 {tasks[columnId] &&
                   tasks[columnId].map((task, index) => {
-                    return (
-                      <Draggable key={task.id} draggableId={task.id as string} index={index}>
-                        {(provided) => {
-                          return (
-                            <div
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              ref={provided.innerRef}
-                            >
-                              <Task task={task} index={index} />
-                            </div>
-                          );
-                        }}
-                      </Draggable>
-                    );
+                    return <Task key={task.id} task={task} index={index} />;
                   })}
                 {provided.placeholder}
               </div>
