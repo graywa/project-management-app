@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, FocusEventHandler, Suspense, useEffect, useState } from 'react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
@@ -37,7 +37,7 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
   }, [columnId]);
 
   return (
-    <Draggable key={column.id} draggableId={column.id as string} index={index}>
+    <Draggable draggableId={column.id as string} index={index}>
       {(provided) => (
         <div className={styles.column} {...provided.draggableProps} ref={provided.innerRef}>
           {isLoadingTasks && (
@@ -61,15 +61,25 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
                     .required(t('title_is_required')),
                 })}
               >
-                {({ handleSubmit }) => {
+                {({ handleSubmit, handleBlur }) => {
                   return (
-                    <Form className={styles.form} onSubmit={handleSubmit}>
+                    <Form
+                      className={styles.title_form}
+                      onSubmit={handleSubmit}
+                      onBlur={(e) => {
+                        handleBlur(e);
+                        setTimeout(() => {
+                          setIsTitleInput(false);
+                        }, 100);
+                      }}
+                    >
                       <div className={styles.buttons}>
-                        <button className={styles.buttonSubmit} type="submit">
+                        <button className={styles.buttonSubmit} type="submit" title={t('save')}>
                           <img src={submitIcon} alt="submit button" />
                         </button>
                         <button
                           type="button"
+                          title={t('cancel')}
                           className={styles.buttonCancel}
                           onClick={(e) => {
                             e.preventDefault();
@@ -93,10 +103,18 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
               </Formik>
             ) : (
               <div className={styles.titleColumnBlock}>
-                <h1 className={styles.title} onClick={() => setIsTitleInput(true)}>
+                <h1
+                  className={styles.title}
+                  title={t('click_to_change')}
+                  onClick={() => setIsTitleInput(true)}
+                >
                   {title}
                 </h1>
-                <div className={styles.delete} onClick={() => setIsOpenConfirmationModal(true)}>
+                <div
+                  className={styles.delete}
+                  title={t('delete')}
+                  onClick={() => setIsOpenConfirmationModal(true)}
+                >
                   <img src={deleteIcon} alt="delete icon" />
                 </div>
               </div>
@@ -114,21 +132,7 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
               <div className={styles.tasks} {...provided.droppableProps} ref={provided.innerRef}>
                 {tasks[columnId] &&
                   tasks[columnId].map((task, index) => {
-                    return (
-                      <Draggable key={task.id} draggableId={task.id as string} index={index}>
-                        {(provided) => {
-                          return (
-                            <div
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              ref={provided.innerRef}
-                            >
-                              <Task task={task} index={index} />
-                            </div>
-                          );
-                        }}
-                      </Draggable>
-                    );
+                    return <Task key={task.id} task={task} index={index} />;
                   })}
                 {provided.placeholder}
               </div>

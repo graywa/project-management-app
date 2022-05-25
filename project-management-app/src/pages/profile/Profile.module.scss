@@ -64,6 +64,10 @@
       cursor: not-allowed;
       background-color: #697a94;
     }
+
+    @media (max-width: 480px) {
+      font-size: 16px;
+    }
   }
 
   .sub_btn {
@@ -92,6 +96,9 @@
       }
       &:disabled {
         background-color: #9e625e;
+      }
+      @media (max-width: 480px) {
+        font-size: 14px;
       }
     }
   }

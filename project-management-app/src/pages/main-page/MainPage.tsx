@@ -12,6 +12,7 @@ import ConfirmModal from '../../components/confirm-modal/ConfirmModal';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { resetCreateNewBoard } from '../../store/boardsSlice';
+import PageLoader from '../../components/page-loader/PageLoader';
 
 const MainPage = () => {
   const { boards, isLoading, isCreateBoard, errorBoard } = useAppSelector((state) => state.boards);
@@ -19,6 +20,7 @@ const MainPage = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [targetId, setTargetId] = useState('');
 
   useEffect(() => {
     if (!boards.length) {
@@ -44,6 +46,11 @@ const MainPage = () => {
     }
   }, [isCreateBoard, errorBoard]);
 
+  const deleteHandler = (id: string) => {
+    setTargetId(id);
+    setIsOpenModal(true);
+  };
+
   return (
     <div className={styles.main}>
       <Header />
@@ -61,19 +68,19 @@ const MainPage = () => {
                       <img width={40} src={board} alt="board" />
                       {title}
                     </Link>
-                    <button disabled={isLoading} onClick={() => setIsOpenModal(true)}>
+                    <button disabled={isLoading} onClick={() => deleteHandler(id)}>
                       {t('delete')}
                     </button>
-                    <ConfirmModal
-                      isOpenModal={isOpenModal}
-                      setIsOpenModal={setIsOpenModal}
-                      action={'delete_board'}
-                      data={{ token, id }}
-                    />
                   </div>
                 );
               })
             : `${t('boards_not_found')}`}
+          <ConfirmModal
+            isOpenModal={isOpenModal}
+            setIsOpenModal={setIsOpenModal}
+            action={'delete_board'}
+            data={{ token, id: targetId }}
+          />
         </div>
       </div>
     </div>
