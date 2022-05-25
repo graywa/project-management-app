@@ -74,12 +74,12 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
                       }}
                     >
                       <div className={styles.buttons}>
-                        <button className={styles.buttonSubmit} type="submit" title="save">
+                        <button className={styles.buttonSubmit} type="submit" title={t('save')}>
                           <img src={submitIcon} alt="submit button" />
                         </button>
                         <button
                           type="button"
-                          title="cancel"
+                          title={t('cancel')}
                           className={styles.buttonCancel}
                           onClick={(e) => {
                             e.preventDefault();
@@ -105,14 +105,14 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
               <div className={styles.titleColumnBlock}>
                 <h1
                   className={styles.title}
-                  title="click to change"
+                  title={t('click_to_change')}
                   onClick={() => setIsTitleInput(true)}
                 >
                   {title}
                 </h1>
                 <div
                   className={styles.delete}
-                  title="delete"
+                  title={t('delete')}
                   onClick={() => setIsOpenConfirmationModal(true)}
                 >
                   <img src={deleteIcon} alt="delete icon" />

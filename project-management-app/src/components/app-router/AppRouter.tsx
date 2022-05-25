@@ -27,7 +27,7 @@ const AppRouter = () => {
         <Route
           path="/main"
           element={
-            <Suspense fallback={<PageLoader title="main" />}>
+            <Suspense fallback={<PageLoader title="Main" />}>
               <MainPage />
             </Suspense>
           }

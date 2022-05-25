@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import LoadingAnimation from '../loading-animation/LoadingAnimation';
 import styles from './PageLoader.module.scss';
 
@@ -7,9 +8,12 @@ interface IProps {
 }
 
 const PageLoader: FC<IProps> = ({ title }) => {
+  const { t } = useTranslation();
+  const fullTitle = `loading_${title}_page`;
+
   return (
     <div className={styles.body}>
-      <h2>Loading {title} page</h2>
+      <h2>{t(fullTitle)}</h2>
       <LoadingAnimation />
     </div>
   );

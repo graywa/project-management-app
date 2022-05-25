@@ -7,6 +7,7 @@ import refactorIcon from './assets/pencil.png';
 import deleteIcon from './assets/delete.png';
 import { useAppSelector } from '../../redux-hooks/redux-hooks';
 import { Draggable } from 'react-beautiful-dnd';
+import { t } from 'i18next';
 
 interface IProps {
   task: ITask;
@@ -30,12 +31,16 @@ const Task: FC<IProps> = React.memo(({ task, index }) => {
               <div className={styles.refactor_delete}>
                 <div
                   className={styles.refactor}
-                  title="edit"
+                  title={t('edit')}
                   onClick={() => setIsOpenChangeTaskModal(true)}
                 >
                   <img src={refactorIcon} alt="refactor icon" />
                 </div>
-                <div className={styles.delete} title="delete" onClick={() => setIsOpenModal(true)}>
+                <div
+                  className={styles.delete}
+                  title={t('delete')}
+                  onClick={() => setIsOpenModal(true)}
+                >
                   <img src={deleteIcon} alt="delete icon" />
                 </div>
               </div>

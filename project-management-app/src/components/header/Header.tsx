@@ -36,7 +36,7 @@ const Header = () => {
   return (
     <div className={cn(styles.header_wrapper, { [styles.scroll]: scroll })}>
       <header className={styles.header}>
-        <Link to="/main" className={styles.header__logo} title="go main">
+        <Link to="/main" className={styles.header__logo} title={t('go_main')}>
           <img width={26} src={logo} alt="logo" />
           <span className={styles.logo}>Vezha</span>
         </Link>

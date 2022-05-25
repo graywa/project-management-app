@@ -35,6 +35,9 @@
   "user": "User",
   "create": "Create",
   "submit": "Submit",
+  "save": "Save",
+  "edit": "Edit",
+  "click_to_change": "Click to change",
   "cancel": "Cancel",
   "update": "Update",
   "dev_by": "Developed by:",
@@ -62,5 +65,9 @@
   "must_be_less_than_30_characters": "must be less than 30 characters",
   "must_be_less_than_20_characters": "must be less than 20 characters",
   "must_be_less_than_16_characters": "must be less than 16 characters",
-  "must_be_less_than_12_characters": "must be less than 12 characters"
+  "must_be_less_than_12_characters": "must be less than 12 characters",
+
+  "loading_Main_page": "Loading Main page",
+  "loading_profile_page": "Loading profile page",
+  "loading_board_page": "Loading board page"
 }
