@@ -12,6 +12,7 @@ import ConfirmModal from '../../components/confirm-modal/ConfirmModal';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { resetCreateNewBoard } from '../../store/boardsSlice';
+import PageLoader from '../../components/page-loader/PageLoader';
 
 const MainPage = () => {
   const { boards, isLoading, isCreateBoard, errorBoard } = useAppSelector((state) => state.boards);

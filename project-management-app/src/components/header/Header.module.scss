@@ -5,7 +5,7 @@
   right: 0;
   z-index: 10;
   height: 80px;
-  transition: .2s linear;
+  transition: 0.2s linear;
 
   &.scroll {
     background-color: #f5f4ff;
@@ -85,13 +85,33 @@
     }
   }
 
+  .burger-modal {
+    visibility: visible;
+    opacity: 1;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background: #12121263;
+
+    transition: 0.2s linear;
+
+    &.hidden {
+      visibility: hidden;
+      opacity: 0;
+    }
+  }
+
   .burger-btn {
     width: 25px;
     height: 25px;
     position: relative;
+    z-index: 20;
     cursor: pointer;
     transform: rotateZ(0deg);
-    transition: all .3s;
+    transition: all 0.3s;
 
     &.burger-btn_animation {
       transform: rotateZ(-180deg);
@@ -110,7 +130,7 @@
   .burger-btn::before {
     content: '';
     position: absolute;
-    top: 0;
+    top: 1px;
     left: 0;
     width: 100%;
     height: 2px;
@@ -119,7 +139,7 @@
   .burger-btn::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: 2px;
     left: 0;
     width: 100%;
     height: 2px;
@@ -128,20 +148,17 @@
 
   .burger-menu {
     position: absolute;
-    top: 80px;
+    top: 0;
     right: 0;
-    width: 400px;
+    max-width: 340px;
+    width: 100%;
     height: 100vh;
-    transition: all .3s;
-    background-color: rgba(#645669, .8);
-    border-radius: 10px 0 0 0;
-
-    @media (max-width: 768px) {
-      width: 100%;
-    }
+    padding-top: 80px;
+    transition: all 0.3s;
+    background-color: #ffffff;    
 
     .burger-menu__btns {
-      width: 50%;
+      max-width: 260px;
       height: 100vh;
       margin: 20px auto;
       display: flex;
@@ -149,7 +166,7 @@
       align-items: left;
       gap: 20px;
     }
-  
+
     button {
       margin: 0 5px;
       padding: 5px 10px;
@@ -160,7 +177,7 @@
       font-size: 18px;
       cursor: pointer;
       transition: 0.2s linear;
-  
+
       &:hover {
         background-color: #024dbe;
       }

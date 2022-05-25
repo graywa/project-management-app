@@ -5,6 +5,7 @@ import Page404 from '../../pages/page-404/Page404';
 import WelcomePage from '../../pages/welcome-page/WelcomePage';
 import { useAppSelector } from '../../redux-hooks/redux-hooks';
 import { lazy, Suspense } from 'react';
+import PageLoader from '../page-loader/PageLoader';
 
 const MainPage = lazy(() => import('../../pages/main-page/MainPage'));
 const BoardPage = lazy(() => import('../../pages/board-page/BoardPage'));
@@ -26,7 +27,7 @@ const AppRouter = () => {
         <Route
           path="/main"
           element={
-            <Suspense fallback={<h2>Loading Main Page...</h2>}>
+            <Suspense fallback={<PageLoader title="main" />}>
               <MainPage />
             </Suspense>
           }
@@ -34,7 +35,7 @@ const AppRouter = () => {
         <Route
           path="/board/:id"
           element={
-            <Suspense fallback={<h2>Loading Board Page...</h2>}>
+            <Suspense fallback={<PageLoader title="board" />}>
               <BoardPage />
             </Suspense>
           }
@@ -42,7 +43,7 @@ const AppRouter = () => {
         <Route
           path="/profile"
           element={
-            <Suspense fallback={<h2>Loading Profile Page...</h2>}>
+            <Suspense fallback={<PageLoader title="profile" />}>
               <ProfilePage />
             </Suspense>
           }

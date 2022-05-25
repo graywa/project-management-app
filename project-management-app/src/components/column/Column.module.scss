@@ -25,7 +25,7 @@
 
   h1 {
     font-size: 22px;
-    padding-right: 10px;
+    padding: 0 10px;
   }
 }
 .column::-webkit-scrollbar {
@@ -86,6 +86,7 @@
   width: 40px;
   height: 40px;
   cursor: pointer;
+  transition: .2s linear;
 
   img {
     width: 100%;
@@ -120,23 +121,24 @@
   }
 }
 
-.form {
+.title_form {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-content: center;
   position: relative;
 
-  label {
-    margin: 0 0 30px 0;
-    padding: 0 10px 0 0;
+  label {    
+    margin: 0;
+    color: #494949;
+    font-size: 14px;
   }
   .input {
-    height: 30px;
-    font-size: 16px;
+    width: 90%;
+    font-size: 18px;
     margin: 15px 0 0 10px;
-    padding: 5px;
+    padding: 5px 10px;
     border-radius: 5px;
-    border: none;
+    border: none;    
   }
   .error {
     width: 100%;
@@ -150,7 +152,10 @@
     cursor: pointer;
   }
   .buttons {
+    margin-left: 10px;
     display: flex;
+    flex-direction: column;
+    gap: 5px;
     align-self: center;
   }
   .buttonCancel, .buttonSubmit {
@@ -161,6 +166,8 @@
     border: none;
     background: none;
     outline: none;
+    transition: .2s linear;
+
     &:hover {
       transform: scale(1.1);
     }

@@ -28,10 +28,14 @@ const Task: FC<IProps> = React.memo(({ task, index }) => {
             <div className={styles.taskHead} {...provided.dragHandleProps}>
               <h3 className={styles.title}>{`${index + 1}) ${title}`}</h3>
               <div className={styles.refactor_delete}>
-                <div className={styles.refactor} onClick={() => setIsOpenChangeTaskModal(true)}>
+                <div
+                  className={styles.refactor}
+                  title="edit"
+                  onClick={() => setIsOpenChangeTaskModal(true)}
+                >
                   <img src={refactorIcon} alt="refactor icon" />
                 </div>
-                <div className={styles.delete} onClick={() => setIsOpenModal(true)}>
+                <div className={styles.delete} title="delete" onClick={() => setIsOpenModal(true)}>
                   <img src={deleteIcon} alt="delete icon" />
                 </div>
               </div>

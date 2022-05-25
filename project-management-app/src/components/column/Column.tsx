@@ -1,4 +1,4 @@
-import React, { FC, Suspense, useEffect, useState } from 'react';
+import React, { FC, FocusEventHandler, Suspense, useEffect, useState } from 'react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
@@ -61,15 +61,25 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
                     .required(t('title_is_required')),
                 })}
               >
-                {({ handleSubmit }) => {
+                {({ handleSubmit, handleBlur }) => {
                   return (
-                    <Form className={styles.form} onSubmit={handleSubmit}>
+                    <Form
+                      className={styles.title_form}
+                      onSubmit={handleSubmit}
+                      onBlur={(e) => {
+                        handleBlur(e);
+                        setTimeout(() => {
+                          setIsTitleInput(false);
+                        }, 100);
+                      }}
+                    >
                       <div className={styles.buttons}>
-                        <button className={styles.buttonSubmit} type="submit">
+                        <button className={styles.buttonSubmit} type="submit" title="save">
                           <img src={submitIcon} alt="submit button" />
                         </button>
                         <button
                           type="button"
+                          title="cancel"
                           className={styles.buttonCancel}
                           onClick={(e) => {
                             e.preventDefault();
@@ -93,10 +103,18 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
               </Formik>
             ) : (
               <div className={styles.titleColumnBlock}>
-                <h1 className={styles.title} onClick={() => setIsTitleInput(true)}>
+                <h1
+                  className={styles.title}
+                  title="click to change"
+                  onClick={() => setIsTitleInput(true)}
+                >
                   {title}
                 </h1>
-                <div className={styles.delete} onClick={() => setIsOpenConfirmationModal(true)}>
+                <div
+                  className={styles.delete}
+                  title="delete"
+                  onClick={() => setIsOpenConfirmationModal(true)}
+                >
                   <img src={deleteIcon} alt="delete icon" />
                 </div>
               </div>
