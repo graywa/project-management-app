@@ -16,9 +16,6 @@ const Footer = () => {
         <div className={styles.devs_block}>
           <span>{t('dev_by')}</span>
           <div className={styles.devs}>
-            <a href="https://github.com/davidoff-a" target="_blank" rel="noopener noreferrer">
-              davidoff-a
-            </a>
             <a href="https://github.com/GoldenManBel" target="_blank" rel="noopener noreferrer">
               GoldenManBel
             </a>

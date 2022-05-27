@@ -7,9 +7,9 @@ import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import { updateTask } from '../../api/tasks';
 import { ITask } from '../../models/ITask';
 import { useTranslation } from 'react-i18next';
-import { supportedImageFormat } from '../../constants/supportedImageFormat';
 import { fileDownload, fileUpload } from '../../api/files';
 import cross from './../board-modal/assets/cross.svg';
+import { supportedImageFormat } from '../../constants/supportedImageFormat';
 
 interface IProps {
   task: ITask;

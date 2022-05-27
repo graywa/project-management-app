@@ -1,30 +1,53 @@
+.container {
+  .title {
+    margin: 90px auto 0;
+    padding: 6px 20px;
+    max-width: 420px;
+    font-weight: 400;
+    font-size: 24px;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+    background: linear-gradient(90deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.3) 100%);    
+  }
+}
+
 .board {
   position: relative;
   overflow-x: auto;
-  height: 75vh;
-  margin-top: 100px;
+  margin-bottom: 10px;
   display: flex;
+  border-top: 1px solid #ffffffb3;
 
   &__body {    
     display: flex;
     align-items: flex-start;
+    height: calc(100vh - 270px);
+
+    h4 {
+      margin-top: 30px;  
+      padding: 10px 30px;
+      border-radius: 10px;
+      font-size: 24px;
+      font-weight: 400;    
+    }
   }
 }
 
 .board::-webkit-scrollbar {
-  width: 12px;      
+  width: 12px;  
+  height: 12px;  
 }
 .board::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.4);   
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.4);  
+  border-radius: 6px;       
 }
 .board::-webkit-scrollbar-thumb {
+  width: 12px;
   background-color: #645669;    
-  border-radius: 20px;       
-  border: 3px solid orange; 
+  border-radius: 6px;   
 }
 .board::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #7a6980;
 }
 
 .loader {

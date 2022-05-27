@@ -20,6 +20,7 @@
   }
 
   &__content {
+    position: relative;
     border-radius: 10px;
     text-align: center;
     max-width: 320px;
@@ -93,6 +94,7 @@
     top: 70px;
     font-size: 14px;
     color: red;
+    text-transform: lowercase;
   }  
 
   .sub_btn {

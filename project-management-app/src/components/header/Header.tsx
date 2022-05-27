@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import styles from './Header.module.scss';
 import cn from 'classnames';
 import { Link, useLocation } from 'react-router-dom';
-import logo from './../../pages/welcome-page/assets/trello.svg';
 import CustomSelect from '../custom-select/CustomSelect';
 import BoardModal from '../board-modal/BoardModal';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import { changeIsAuth } from '../../store/authSlice';
 import { useTranslation } from 'react-i18next';
 import ColumnModal from '../column-modal/ColumnModal';
+import logo from './../../pages/welcome-page/assets/vezha.png';
 
 const Header = () => {
   const [scroll, setScroll] = useState(false);
@@ -36,9 +36,9 @@ const Header = () => {
   return (
     <div className={cn(styles.header_wrapper, { [styles.scroll]: scroll })}>
       <header className={styles.header}>
-        <Link to="/main" className={styles.header__logo}>
-          <img width={25} src={logo} alt="logo" />
-          <span className={styles.logo}>Trello</span>
+        <Link to="/main" className={styles.header__logo} title={t('go_main')}>
+          <img width={26} src={logo} alt="logo" />
+          <span className={styles.logo}>Vezha</span>
         </Link>
         <span className={styles.login}>{login}</span>
         <div className={styles.header__btns}>
@@ -64,29 +64,38 @@ const Header = () => {
           <span></span>
         </div>
         <div
-          className={cn(styles['burger-menu'], {
-            [styles['burger-menu_hidden']]: isOpenBurgerMenu,
+          className={cn(styles['burger-modal'], {
+            [styles['hidden']]: isOpenBurgerMenu,
           })}
+          onClick={() => setIsOpenBurgerMenu(true)}
         >
-          <div className={styles['burger-menu__btns']}>
-            <button onClick={() => setIsOpenBurgerMenu(true)}>
-              <Link to="/profile">{t('edit_profile')}</Link>
-            </button>
-            <button onClick={() => (signOutHandler(), setIsOpenBurgerMenu(true))}>
-              {t('sign_out')}
-            </button>
-            <button
-              onClick={() =>
-                pathname.includes('/board')
-                  ? (setIsOpenColumn(true), setIsOpenBurgerMenu(true))
-                  : (setIsOpenBoard(true), setIsOpenBurgerMenu(true))
-              }
-            >
-              {pathname.includes('/board') ? t('add_column') : t('create_new_board')}
-            </button>
-            <CustomSelect />
+          <div
+            className={cn(styles['burger-menu'], {
+              [styles['burger-menu_hidden']]: isOpenBurgerMenu,
+            })}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className={styles['burger-menu__btns']}>
+              <button onClick={() => setIsOpenBurgerMenu(true)}>
+                <Link to="/profile">{t('edit_profile')}</Link>
+              </button>
+              <button onClick={() => (signOutHandler(), setIsOpenBurgerMenu(true))}>
+                {t('sign_out')}
+              </button>
+              <button
+                onClick={() =>
+                  pathname.includes('/board')
+                    ? (setIsOpenColumn(true), setIsOpenBurgerMenu(true))
+                    : (setIsOpenBoard(true), setIsOpenBurgerMenu(true))
+                }
+              >
+                {pathname.includes('/board') ? t('add_column') : t('create_new_board')}
+              </button>
+              <CustomSelect />
+            </div>
           </div>
         </div>
+
         <BoardModal isOpenBoard={isOpenBoard} setIsOpenBoard={setIsOpenBoard} />
         <ColumnModal isOpenColumn={isOpenColumn} setIsOpenColumn={setIsOpenColumn} />
       </header>

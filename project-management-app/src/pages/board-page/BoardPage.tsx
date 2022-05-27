@@ -1,34 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import styles from './BoardPage.module.scss';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
-import { changeColumnsOrder, getColumns, updateColumn } from '../../api/columns';
+import { changeColumnsOrder, getColumns } from '../../api/columns';
 import Column from '../../components/column/Column';
 import { IColumn } from '../../models/IColumn';
 import Header from '../../components/header/Header';
 import { useTranslation } from 'react-i18next';
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
 import 'react-toastify/dist/ReactToastify.css';
-import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
-import { setColumns } from '../../store/columnsSlice';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { toast, ToastContainer } from 'react-toastify';
 import { resetCreateNewColumn } from '../../store/columnsSlice';
-import { resetCreateNewTask, resetUpdateTask, setTasks } from '../../store/tasksSlice';
-import { ITask } from '../../models/ITask';
+import { resetCreateNewTask, resetUpdateTask } from '../../store/tasksSlice';
 import { changeTasksOrderOneColumn, changeTasksOrderTwoColumns } from '../../api/tasks';
+import { getBoards } from '../../api/boards';
 
-const BoardPage = () => {
+const BoardPage = React.memo(() => {
   const dispatch = useAppDispatch();
+  const { token } = useAppSelector((state) => state.auth);
+  const { boards } = useAppSelector((state) => state.boards);
   const { isLoading, columns, boardId, errorColumn, isCreateColumn } = useAppSelector(
     (state) => state.columns
   );
-
-  const { tasks } = useAppSelector((state) => state.tasks);
-  const { isCreateTask, isUpdateTask, errorTask } = useAppSelector((state) => state.tasks);
+  const targetBoard = boards.find((el) => el.id === boardId);
+  const { isCreateTask, isUpdateTask, errorTask, tasks } = useAppSelector((state) => state.tasks);
   const { t } = useTranslation();
 
   useEffect(() => {
+    if (!boards.length) {
+      dispatch(getBoards(token));
+    }
+  }, [boards.length]);
+
+  useEffect(() => {
     dispatch(getColumns(boardId));
-  }, [columns.length]);
+  }, [boardId]);
 
   useEffect(() => {
     if (errorTask) {
@@ -40,20 +46,6 @@ const BoardPage = () => {
     }
   }, [errorTask]);
 
-  //local reorder
-  const reorder = (arr: IColumn[] | ITask[], startIndex: number, endIndex: number) => {
-    const result = [...arr];
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    result.forEach((el, index) => {
-      const newEl = { ...el };
-      newEl.order = index + 1;
-      result[index] = newEl;
-    });
-
-    return result;
-  };
-
   const onDragEnd = (result: DropResult) => {
     const { source, destination, type } = result;
 
@@ -63,10 +55,6 @@ const BoardPage = () => {
     const endIndex = destination.index;
 
     if (type === 'column') {
-      //const startItem = columns[source.index];
-      //const endItem = columns[destination.index];
-      //const newColumns = reorder(columns, startIndex, endIndex);
-      //dispatch(setColumns(newColumns));
       if (startIndex === endIndex) return;
 
       dispatch(
@@ -80,8 +68,6 @@ const BoardPage = () => {
       if (startIndex === endIndex) return;
       const tasksOfColumn = tasks[source.droppableId];
       const columnId = source.droppableId;
-      //const newTasks = reorder(tasksOfColumn, source.index, destination.index);
-      //dispatch(setTasks({ newTasks, columnId: source.droppableId }));
       dispatch(
         changeTasksOrderOneColumn({ boardId, columnId, startIndex, endIndex, tasksOfColumn })
       );
@@ -103,19 +89,6 @@ const BoardPage = () => {
         destinationColumnId,
       })
     );
-    //const item = sourceColumn[source.index];
-
-    // 1. remove item from source column
-    // const newSourceColumn = [...sourceColumn];
-    // newSourceColumn.splice(source.index, 1);
-
-    // 2. insert into destination column
-    //const newDestinationColumn = [...destinationColumn];
-    // in line modification of items
-    //newDestinationColumn.splice(destination.index, 0, item);
-
-    // dispatch(setTasks({ newTasks: newSourceColumn, columnId: source.droppableId }));
-    // dispatch(setTasks({ newTasks: newDestinationColumn, columnId: destination.droppableId }));
   };
 
   useEffect(() => {
@@ -163,6 +136,7 @@ const BoardPage = () => {
     <div className={styles.container}>
       <Header />
       <ToastContainer />
+      <h1 className={styles.title}>{targetBoard?.title}</h1>
       <div className={styles.board}>
         {isLoading && (
           <div className={styles.loader}>
@@ -177,9 +151,13 @@ const BoardPage = () => {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {columns?.map((column: IColumn, index: number) => (
-                  <Column key={column.id} column={column} index={index} />
-                ))}
+                {!!columns.length ? (
+                  columns?.map((column: IColumn, index: number) => (
+                    <Column key={column.id} column={column} index={index} />
+                  ))
+                ) : (
+                  <h4>{t('columns_not_found')}</h4>
+                )}
                 {provided.placeholder}
               </div>
             )}
@@ -188,6 +166,6 @@ const BoardPage = () => {
       </div>
     </div>
   );
-};
+});
 
 export default BoardPage;

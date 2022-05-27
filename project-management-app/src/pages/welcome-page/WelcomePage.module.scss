@@ -8,7 +8,7 @@
   left: 0;
   right: 0;
   z-index: 10;
-  transition: .2s linear;
+  transition: 0.2s linear;
 
   &.scroll {
     background-color: #f5f4ff;
@@ -35,10 +35,12 @@
 
   .btn_wrapper {
     display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
   }
 
   button {
-    margin: 0 5px;
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
@@ -51,6 +53,10 @@
     &:hover {
       background-color: #024dbe;
     }
+
+    @media (max-width: 380px) {
+      font-size: 14px;
+    }
   }
 
   @media (max-width: 1000px) {
@@ -59,21 +65,22 @@
   @media (min-width: 2000px) {
     max-width: 70%;
   }
-
-  @media (max-width: 350px) {
+  @media (max-width: 500px) {
     padding: 8px 0;
     height: 90px;
-    flex-direction: column;    
-  }  
+    flex-direction: column;
+  }
 }
 
 .intro {
-  margin-top: 120px;
+  margin: 120px 20px 0;
   display: flex;
   gap: 20px;
   justify-content: space-around;
   align-items: center;
-  text-shadow: 1px 1px 2px white;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 50px 30px;
 
   &__block {
     max-width: 600px;
@@ -95,8 +102,9 @@
   }
 
   @media (max-width: 945px) {
+    margin: 120px 0 0;
     flex-direction: column;
-  }  
+  }
 
   @media (max-width: 535px) {
     &__title {

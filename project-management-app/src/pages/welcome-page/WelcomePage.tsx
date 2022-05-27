@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './WelcomePage.module.scss';
-import logo from './assets/trello.svg';
+import logo from './assets/vezha.png';
 import hero from './assets/hero.png';
 import cn from 'classnames';
 import { useAppSelector } from '../../redux-hooks/redux-hooks';
@@ -47,8 +47,8 @@ const WelcomePage = () => {
       <div className={cn(styles.header_wrapper, { [styles.scroll]: scroll })}>
         <header className={styles.header}>
           <Link to="/" className={styles.header__logo}>
-            <img width={25} src={logo} alt="logo" />
-            <span>Trello</span>
+            <img width={26} src={logo} alt="logo" />
+            <span>Vezha</span>
           </Link>
           <div className={styles.btn_wrapper}>
             {isAuth ? (
@@ -58,14 +58,14 @@ const WelcomePage = () => {
                 </Link>
               </div>
             ) : (
-              <div>
+              <>
                 <Link to="/login">
                   <button>{t('log_in')}</button>
                 </Link>
                 <Link to="/registration">
                   <button>{t('sign_up')}</button>
                 </Link>
-              </div>
+              </>
             )}
             <CustomSelect />
           </div>

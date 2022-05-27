@@ -20,9 +20,20 @@
     text-align: center;
     letter-spacing: 3px;
   }
+
+  @media (max-width: 500px) {
+    padding:50px 25px;
+  }
 }
 
 .boards {
+  h4 {
+    margin-top: 30px;  
+    padding: 10px 30px;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: 400;    
+  }
 }
 
 .board {
@@ -34,8 +45,18 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.253);
   transition: 0.2s linear;
 
-  @media (max-width: 389px) {
+  @media (max-width: 425px) {
     flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+
+    img {
+      width: 30px;
+    }
+    button {
+      margin: 0 auto;
+    }
   }
 
   a {
