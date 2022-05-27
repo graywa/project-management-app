@@ -13,20 +13,28 @@ import { toast, ToastContainer } from 'react-toastify';
 import { resetCreateNewColumn } from '../../store/columnsSlice';
 import { resetCreateNewTask, resetUpdateTask } from '../../store/tasksSlice';
 import { changeTasksOrderOneColumn, changeTasksOrderTwoColumns } from '../../api/tasks';
+import { getBoards } from '../../api/boards';
 
-const BoardPage = () => {
+const BoardPage = React.memo(() => {
   const dispatch = useAppDispatch();
+  const { token } = useAppSelector((state) => state.auth);
+  const { boards } = useAppSelector((state) => state.boards);
   const { isLoading, columns, boardId, errorColumn, isCreateColumn } = useAppSelector(
     (state) => state.columns
   );
-
-  const { tasks } = useAppSelector((state) => state.tasks);
-  const { isCreateTask, isUpdateTask, errorTask } = useAppSelector((state) => state.tasks);
+  const targetBoard = boards.find((el) => el.id === boardId);
+  const { isCreateTask, isUpdateTask, errorTask, tasks } = useAppSelector((state) => state.tasks);
   const { t } = useTranslation();
 
   useEffect(() => {
+    if (!boards.length) {
+      dispatch(getBoards(token));
+    }
+  }, [boards.length]);
+
+  useEffect(() => {
     dispatch(getColumns(boardId));
-  }, [columns.length]);
+  }, [boardId]);
 
   useEffect(() => {
     if (errorTask) {
@@ -128,6 +136,7 @@ const BoardPage = () => {
     <div className={styles.container}>
       <Header />
       <ToastContainer />
+      <h1 className={styles.title}>{targetBoard?.title}</h1>
       <div className={styles.board}>
         {isLoading && (
           <div className={styles.loader}>
@@ -142,9 +151,13 @@ const BoardPage = () => {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {columns?.map((column: IColumn, index: number) => (
-                  <Column key={column.id} column={column} index={index} />
-                ))}
+                {!!columns.length ? (
+                  columns?.map((column: IColumn, index: number) => (
+                    <Column key={column.id} column={column} index={index} />
+                  ))
+                ) : (
+                  <h4>{t('columns_not_found')}</h4>
+                )}
                 {provided.placeholder}
               </div>
             )}
@@ -153,6 +166,6 @@ const BoardPage = () => {
       </div>
     </div>
   );
-};
+});
 
 export default BoardPage;

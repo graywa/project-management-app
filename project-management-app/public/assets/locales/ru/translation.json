@@ -62,12 +62,14 @@
   "must_be_more_than_2_characters": "должно быть больше 2 символов",
   "must_be_more_than_3_characters": "должно быть больше 3 символов",
   "must_be_more_than_4_characters": "должно быть больше 4 символов",
-  "must_be_less_than_30_characters": "должго быть меньше 30 символов",
-  "must_be_less_than_20_characters": "должго быть меньше 20 символов",
-  "must_be_less_than_16_characters": "должго быть меньше 16 символов",
-  "must_be_less_than_12_characters": "должго быть меньше 12 символов",
+  "must_be_less_than_30_characters": "должно быть меньше 30 символов",
+  "must_be_less_than_20_characters": "должно быть меньше 20 символов",
+  "must_be_less_than_16_characters": "должно быть меньше 16 символов",
+  "must_be_less_than_12_characters": "должно быть меньше 12 символов",
 
   "loading_Main_page": "Загрузка Главной страницы",
   "loading_profile_page": "Загрузка страницы профиля",
-  "loading_board_page": "Загрузка страницы доски"
+  "loading_board_page": "Загрузка страницы доски",
+
+  "columns_not_found": "Колонки не найдены"
 }

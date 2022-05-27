@@ -14,27 +14,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { resetSuccess } from '../../store/authSlice';
 import ConfirmModal from '../../components/confirm-modal/ConfirmModal';
 
-const validationSchema = Yup.object().shape({
-  name: Yup.string()
-    .matches(/^[A-Za-z ]*$/, 'please enter valid name')
-    .min(2, 'must be more than 2 characters')
-    .max(30, 'must be less than 30 characters')
-    .required('name is required'),
-  login: Yup.string()
-    .matches(/^[a-zA-Z0-9_-]*$/, 'please enter valid login')
-    .min(3, 'must be more than 3 characters')
-    .max(20, 'must be less than 20 characters')
-    .required('login is required'),
-  password: Yup.string()
-    .matches(/^[a-zA-Z0-9]*$/, 'password can contain only latin letters and ciphers')
-    .min(4, 'must be more than 4 characters')
-    .max(16, 'must be less than 16 characters')
-    .required('password is required'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password')], 'passwords do not match')
-    .required('confirm password is required'),
-});
-
 const Profile = () => {
   const dispatch = useAppDispatch();
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -42,6 +21,27 @@ const Profile = () => {
   const { isLoading, error, isSuccess } = useAppSelector((state) => state.auth);
   const { userId: id } = jwtDecode<IJwt>(token);
   const { t } = useTranslation();
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .matches(/^[A-Za-z ]*$/, t('please_enter_valid_name'))
+      .min(2, t('must_be_more_than_2_characters'))
+      .max(30, t('must_be_less_than_30_characters'))
+      .required(t('name_is_required')),
+    login: Yup.string()
+      .matches(/^[a-zA-Z0-9_-]*$/, t('please_enter_valid_login'))
+      .min(3, t('must_be_more_than_3_characters'))
+      .max(20, t('must_be_less_than_20_characters'))
+      .required(t('login_is_required')),
+    password: Yup.string()
+      .matches(/^[a-zA-Z0-9]*$/, t('password_can_contain_only_latin_letters_and_ciphers'))
+      .min(4, t('must_be_more_than_4_characters'))
+      .max(16, t('must_be_less_than_16_characters'))
+      .required(t('password_is_required')),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password')], t('passwords_do_not_match'))
+      .required(t('confirm_password_is_required')),
+  });
 
   useEffect(() => {
     if (error) {

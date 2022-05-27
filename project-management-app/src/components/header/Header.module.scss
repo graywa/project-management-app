@@ -20,7 +20,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 70px;
+  height: 80px;
 
   @media (max-width: 1050px) {
     .header__btns {
@@ -155,7 +155,7 @@
     height: 100vh;
     padding-top: 80px;
     transition: all 0.3s;
-    background-color: #ffffff;    
+    background-color: #f5f4ff;    
 
     .burger-menu__btns {
       max-width: 260px;

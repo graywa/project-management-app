@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import { updateTask } from '../../api/tasks';
 import { ITask } from '../../models/ITask';
 import { useTranslation } from 'react-i18next';
+import cross from './../board-modal/assets/cross.svg';
 
 interface IProps {
   task: ITask;
@@ -31,6 +32,7 @@ const TaskChangeModal: FC<IProps> = ({
       onClick={() => setIsOpenChangeTaskModal(false)}
     >
       <div className={styles.modal__content} onClick={(e) => e.stopPropagation()}>
+        <img width={32} src={cross} alt="cross" onClick={() => setIsOpenChangeTaskModal(false)} />
         <h2>{`${t('task_number')} ${numberTask}`}</h2>
         <Formik
           initialValues={{ title: task.title, description: task.description }}

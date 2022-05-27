@@ -69,5 +69,7 @@
 
   "loading_Main_page": "Loading Main page",
   "loading_profile_page": "Loading profile page",
-  "loading_board_page": "Loading board page"
+  "loading_board_page": "Loading board page",
+
+  "columns_not_found": "Columns not found"
 }
