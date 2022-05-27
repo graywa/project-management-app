@@ -92,7 +92,7 @@ const RegistrationPage = () => {
               handleBlur,
               handleSubmit,
             }) => (
-              <form className={styles.form_inputs} onSubmit={handleSubmit}>
+              <form className={styles['form-inputs']} onSubmit={handleSubmit}>
                 <p>
                   <label htmlFor="name">{t('name')}</label>
                   <Field

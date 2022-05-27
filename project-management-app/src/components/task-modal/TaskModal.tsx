@@ -37,7 +37,12 @@ const TaskModal: FC<IProps> = ({
       onClick={() => setIsOpenCreateTaskModal(false)}
     >
       <div className={styles.modal__content} onClick={(e) => e.stopPropagation()}>
-        <img width={32} src={cross} alt="cross" onClick={() => setIsOpenCreateTaskModal(false)} />
+        <img
+          className={styles.cross}
+          src={cross}
+          alt="cross"
+          onClick={() => setIsOpenCreateTaskModal(false)}
+        />
         <Formik
           initialValues={{ title: '', description: '' }}
           onSubmit={({ title, description }, { resetForm }) => {

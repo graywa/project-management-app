@@ -1,8 +1,11 @@
 {
   "name": "project-management-app",
   "version": "0.1.0",
+  "homepage": "https://goldenmanbel.github.io/project-management-app/",
   "private": true,
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
