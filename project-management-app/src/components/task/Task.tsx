@@ -34,14 +34,14 @@ const Task: FC<IProps> = React.memo(({ task, index }) => {
                   title={t('edit')}
                   onClick={() => setIsOpenChangeTaskModal(true)}
                 >
-                  <img src={refactorIcon} alt="refactor icon" />
+                  <img width={26} src={refactorIcon} alt="refactor icon" />
                 </div>
                 <div
                   className={styles.delete}
                   title={t('delete')}
                   onClick={() => setIsOpenModal(true)}
                 >
-                  <img src={deleteIcon} alt="delete icon" />
+                  <img width={30} src={deleteIcon} alt="delete icon" />
                 </div>
               </div>
               <ConfirmModal

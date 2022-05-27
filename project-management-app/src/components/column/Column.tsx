@@ -12,7 +12,7 @@ import Task from '../task/Task';
 import styles from './Column.module.scss';
 import LoadingAnimation from '../loading-animation/LoadingAnimation';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
-import deleteIcon from './assets/delete.png';
+import deleteIcon from './../../components/task/assets/delete.png';
 import submitIcon from './assets/submit.png';
 import cancelIcon from './assets/cancel.png';
 
@@ -61,16 +61,18 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
                     .required(t('title_is_required')),
                 })}
               >
-                {({ handleSubmit, handleBlur }) => {
+                {({ handleSubmit, handleBlur, isValid }) => {
                   return (
                     <Form
                       className={styles.title_form}
                       onSubmit={handleSubmit}
                       onBlur={(e) => {
                         handleBlur(e);
-                        setTimeout(() => {
-                          setIsTitleInput(false);
-                        }, 100);
+                        if (isValid) {
+                          setTimeout(() => {
+                            setIsTitleInput(false);
+                          }, 100);
+                        }
                       }}
                     >
                       <div className={styles.buttons}>

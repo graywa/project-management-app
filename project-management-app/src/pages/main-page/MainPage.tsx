@@ -12,7 +12,6 @@ import ConfirmModal from '../../components/confirm-modal/ConfirmModal';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { resetCreateNewBoard } from '../../store/boardsSlice';
-import PageLoader from '../../components/page-loader/PageLoader';
 
 const MainPage = () => {
   const { boards, isLoading, isCreateBoard, errorBoard } = useAppSelector((state) => state.boards);
@@ -60,21 +59,23 @@ const MainPage = () => {
         <h2>{t('boards')}</h2>
         <div className={styles.boards}>
           {isLoading && <LoadingAnimation />}
-          {!!boards.length
-            ? boards?.map(({ id, title }) => {
-                return (
-                  <div key={id} className={styles.board}>
-                    <Link to={`/board/${id}`} onClick={() => dispatch(changeBoardId(id))}>
-                      <img width={40} src={board} alt="board" />
-                      {title}
-                    </Link>
-                    <button disabled={isLoading} onClick={() => deleteHandler(id)}>
-                      {t('delete')}
-                    </button>
-                  </div>
-                );
-              })
-            : `${t('boards_not_found')}`}
+          {!!boards.length ? (
+            boards?.map(({ id, title }) => {
+              return (
+                <div key={id} className={styles.board}>
+                  <Link to={`/board/${id}`} onClick={() => dispatch(changeBoardId(id))}>
+                    <img width={40} src={board} alt="board" />
+                    {title}
+                  </Link>
+                  <button disabled={isLoading} onClick={() => deleteHandler(id)}>
+                    {t('delete')}
+                  </button>
+                </div>
+              );
+            })
+          ) : (
+            <h4>{t('boards_not_found')}</h4>
+          )}
           <ConfirmModal
             isOpenModal={isOpenModal}
             setIsOpenModal={setIsOpenModal}
