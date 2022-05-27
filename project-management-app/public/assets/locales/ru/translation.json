@@ -42,6 +42,9 @@
   "sign_out": "Выйти",
   "create_new_board": "Создать новую доску",
   "create_task": "Создать задачу",
+  "image": "Изображение",
+  "error-image_size": "этот файл слишком большой",
+  "error-image_type": "тип файла не поддерживается",
 
   "title_is_required": "заголовок обязательное поле",
   "description_is_required": "описание обязательное поле",

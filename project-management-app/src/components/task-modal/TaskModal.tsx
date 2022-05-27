@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import jwtDecode from 'jwt-decode';
 import { addTask } from '../../api/tasks';
 import { useTranslation } from 'react-i18next';
+import cross from './../board-modal/assets/cross.svg';
 
 interface IProps {
   isOpenCreateTaskModal: boolean;
@@ -36,6 +37,12 @@ const TaskModal: FC<IProps> = ({
       onClick={() => setIsOpenCreateTaskModal(false)}
     >
       <div className={styles.modal__content} onClick={(e) => e.stopPropagation()}>
+        <img
+          className={styles.cross}
+          src={cross}
+          alt="cross"
+          onClick={() => setIsOpenCreateTaskModal(false)}
+        />
         <Formik
           initialValues={{ title: '', description: '' }}
           onSubmit={({ title, description }, { resetForm }) => {

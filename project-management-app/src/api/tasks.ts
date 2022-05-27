@@ -141,6 +141,7 @@ const deleteTask = createAsyncThunk(
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
 
+      localStorage.removeItem(taskId);
       const deleteTaskIndex = tasks.findIndex((el) => el.id === taskId);
 
       for (let i = deleteTaskIndex + 1; i < tasks.length; i++) {
@@ -279,6 +280,7 @@ const changeTasksOrderTwoColumns = createAsyncThunk(
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
 
+      localStorage.removeItem(startTask.id);
       for (let i = startIndex + 1; i < sourceColumn.length; i++) {
         const task = sourceColumn[i];
         await updTask(

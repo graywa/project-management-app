@@ -42,6 +42,9 @@
   "sign_out": "Sign out",
   "create_new_board": "Create new board",
   "create_task": "Create task",
+  "image": "Image",
+  "error-image_size": "this file is to large",
+  "error-image_type": "file type not supported",
 
   "title_is_required": "title is required",
   "description_is_required": "description is required",
