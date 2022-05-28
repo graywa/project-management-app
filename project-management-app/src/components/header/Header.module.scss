@@ -57,10 +57,16 @@
   }
 
   .login {
-    font-size: 26px;
+    position: relative;
+    font-size: 22px;
     background-color: rgb(245, 245, 245);
-    padding: 0 10px;
-    border-radius: 5px;
+    padding: 0 14px;
+
+    img {
+      position: absolute;
+      top: -10px;
+      left: -42px;
+    }
   }
 
   &__btns {
