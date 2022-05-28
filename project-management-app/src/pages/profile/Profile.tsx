@@ -78,7 +78,7 @@ const Profile = () => {
       >
         {({ handleSubmit }) => {
           return (
-            <Form className={styles.form} onSubmit={handleSubmit}>
+            <Form className={styles.form_profile} onSubmit={handleSubmit}>
               <h1>{t('profile')}</h1>
               <label htmlFor="name">
                 {t('name')}

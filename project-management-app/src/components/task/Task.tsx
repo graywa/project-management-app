@@ -46,9 +46,8 @@ const Task: FC<IProps> = React.memo(({ task, index }) => {
           <div className={styles.task} {...provided.draggableProps} ref={provided.innerRef}>
             <div className={styles.taskHead} {...provided.dragHandleProps}>
               <div className={styles.hat}>
-                <div className={styles['image-preview']}>
-                  <img src={preview} alt="default preview" />
-                </div>
+                <h3 className={styles.title}>{`${index + 1}) ${title}`}</h3>
+
                 <div className={styles['refactor-delete']}>
                   <div
                     className={styles.refactor}
@@ -66,7 +65,10 @@ const Task: FC<IProps> = React.memo(({ task, index }) => {
                   </div>
                 </div>
               </div>
-              <h3 className={styles.title}>{`${index + 1}) ${title}`}</h3>
+              <div className={styles['image-preview']}>
+                <img width={50} src={preview} alt="default preview" />
+              </div>
+
               <ConfirmModal
                 isOpenModal={isOpenModal}
                 setIsOpenModal={setIsOpenModal}

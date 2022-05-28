@@ -74,5 +74,6 @@
   "loading_profile_page": "Загрузка страницы профиля",
   "loading_board_page": "Загрузка страницы доски",
 
-  "columns_not_found": "Колонки не найдены"
+  "columns_not_found": "Колонки не найдены",
+  "choose_image": "Выберите изображение"
 }

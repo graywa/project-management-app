@@ -9,6 +9,7 @@ import { changeIsAuth } from '../../store/authSlice';
 import { useTranslation } from 'react-i18next';
 import ColumnModal from '../column-modal/ColumnModal';
 import logo from './../../pages/welcome-page/assets/vezha.png';
+import user from './assets/user.png';
 
 const Header = () => {
   const [scroll, setScroll] = useState(false);
@@ -40,7 +41,10 @@ const Header = () => {
           <img width={26} src={logo} alt="logo" />
           <span className={styles.logo}>Vezha</span>
         </Link>
-        <span className={styles.login}>{login}</span>
+        <Link to="/profile" className={styles.login} title={t('profile')}>
+          <img width={50} src={user} alt="user" />
+          {login}
+        </Link>
         <div className={styles.header__btns}>
           <button>
             <Link to="/profile">{t('edit_profile')}</Link>
@@ -95,7 +99,6 @@ const Header = () => {
             </div>
           </div>
         </div>
-
         <BoardModal isOpenBoard={isOpenBoard} setIsOpenBoard={setIsOpenBoard} />
         <ColumnModal isOpenColumn={isOpenColumn} setIsOpenColumn={setIsOpenColumn} />
       </header>

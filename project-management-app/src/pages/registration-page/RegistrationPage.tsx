@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { resetSuccess } from '../../store/authSlice';
+import { resetError, resetSuccess } from '../../store/authSlice';
 
 const RegistrationPage = () => {
   const dispatch = useAppDispatch();
@@ -49,6 +49,7 @@ const RegistrationPage = () => {
         hideProgressBar: true,
       });
     }
+    dispatch(resetError());
   }, [error]);
 
   useEffect(() => {
@@ -68,98 +69,100 @@ const RegistrationPage = () => {
         <h2>{t('welcome_registration')}</h2>
         <ToastContainer />
         {isLoading && LoadingAnimation()}
-        <div className={styles.form && styles.sign__up}>
-          <Formik
-            initialValues={{
-              name: '',
-              login: '',
-              password: '',
-              confirmPassword: '',
-            }}
-            validateOnBlur
-            onSubmit={(values, { resetForm }) => {
-              dispatch(fetchAuthRegistration({ values, resetForm }));
-            }}
-            validationSchema={validationsSchemaSignUp}
-          >
-            {({
-              values,
-              errors,
-              touched,
-              isValid,
-              dirty,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-            }) => (
-              <form className={styles['form-inputs']} onSubmit={handleSubmit}>
-                <p>
-                  <label htmlFor="name">{t('name')}</label>
-                  <Field
-                    className={styles.input}
-                    type="text"
-                    id="name"
-                    name="name"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.name}
-                  />
-                </p>
+        <Formik
+          initialValues={{
+            name: '',
+            login: '',
+            password: '',
+            confirmPassword: '',
+          }}
+          validateOnBlur
+          onSubmit={(values, { resetForm }) => {
+            dispatch(fetchAuthRegistration({ values, resetForm }));
+          }}
+          validationSchema={validationsSchemaSignUp}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            isValid,
+            dirty,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+          }) => (
+            <form className={styles['form-registaration']} onSubmit={handleSubmit}>
+              <label htmlFor="name">
+                {t('name')}
+                <Field
+                  className={styles.input}
+                  type="text"
+                  id="name"
+                  name="name"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.name}
+                />
                 {touched.name && errors.name && <p className={styles.error}>{errors.name}</p>}
+              </label>
 
-                <p>
-                  <label htmlFor="login">{t('login')}</label>
-                  <Field
-                    className={styles.input}
-                    type="text"
-                    id="login"
-                    name="login"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.login}
-                  />
-                </p>
+              <label htmlFor="login">
+                {t('login')}
+                <Field
+                  className={styles.input}
+                  type="text"
+                  id="login"
+                  name="login"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.login}
+                />
                 {touched.login && errors.login && <p className={styles.error}>{errors.login}</p>}
+              </label>
 
-                <p>
-                  <label htmlFor="password">{t('password')}</label>
-                  <Field
-                    className={styles.input}
-                    type="password"
-                    id="password"
-                    name="password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.password}
-                  />
-                </p>
+              <label htmlFor="password">
+                {t('password')}
+                <Field
+                  className={styles.input}
+                  type="password"
+                  id="password"
+                  name="password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.password}
+                />
                 {touched.password && errors.password && (
                   <p className={styles.error}>{errors.password}</p>
                 )}
+              </label>
 
-                <p>
-                  <label htmlFor="confirmPassword">{t('confirm_pass')}</label>
-                  <Field
-                    className={styles.input}
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.confirmPassword}
-                  />
-                </p>
+              <label htmlFor="confirmPassword">
+                {t('confirm_pass')}
+                <Field
+                  className={styles.input}
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.confirmPassword}
+                />
                 {touched.confirmPassword && errors.confirmPassword && (
                   <p className={styles.error}>{errors.confirmPassword}</p>
                 )}
+              </label>
 
-                <button className={styles.submit} disabled={!dirty && !isValid} type="submit">
-                  {t('sign_up')}
-                </button>
-              </form>
-            )}
-          </Formik>
-        </div>
+              <button
+                className={styles.submit}
+                disabled={(!isValid && !dirty) || isLoading}
+                type="submit"
+              >
+                {t('sign_up')}
+              </button>
+            </form>
+          )}
+        </Formik>
         <Link className={styles.switch__form} to="/login">
           {t('login')}
         </Link>

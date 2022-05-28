@@ -28,9 +28,14 @@
     max-width: 320px;
     width: 100%;
     background: #fff;
-    padding: 50px;
+    padding: 50px 40px;
     margin-top: 100px;
     box-shadow: 4px 3px 20px 1px #0000005d;
+
+    h2 {
+      margin-bottom: 40px;
+      font-size: 22px;
+    }
   }
 
   .cross {
@@ -60,9 +65,12 @@
   }
 
   label {
+    display: block;
+    width: 100%;
     position: relative;
     font-size: 16px;
-    margin-bottom: 60px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
     color: #919191;
     cursor: pointer;
   }
@@ -101,7 +109,7 @@
   }  
 
   .sub_btn {
-    margin-top: 80px;
+    margin-top: 40px;
     position: relative;
 
     .loader {
@@ -119,19 +127,21 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  font-size: 1rem;
-  border: 1px solid gray;
-  color: gray;
-  border-radius: 10px;
-  resize: vertical;
+  outline: none;
+  font-size: 18px;
+  border: 1px solid transparent;
+  background-color: #f5f5f5;
+  resize: none;
   width: 100%;
+  margin-top: 10px;
   min-height: 100px;
   max-height: 400px;
-  box-sizing: border-box;
-  padding: 0.65rem 0.5rem;
-  font-family: -apple-system, BlinkMacSystemFont, "avenir next", avenir,
-    "helvetica neue", helvetica, ubuntu, roboto, noto, "segoe ui", arial,
-    sans-serif;
+  padding: 10px 15px;  
+  transition: .2s linear;
+
+  &:focus {
+    border: 1px solid #b4b4b4;
+  }
 }
 
 h4>span {
@@ -145,5 +155,20 @@ h4>span {
     border-radius: 10px;
     max-height: 200px;
     max-width: 100%;
+  }
+}
+
+.file {
+  cursor: pointer;
+
+  input {
+    display: none;
+  }
+
+  p {
+    margin-top: 10px;
+    color: #000;
+    text-transform: lowercase;
+    word-wrap: break-word;
   }
 }

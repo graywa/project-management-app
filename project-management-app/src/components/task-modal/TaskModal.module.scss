@@ -58,9 +58,12 @@
   }
 
   label {
+    display: block;
+    width: 100%;
     position: relative;
     font-size: 16px;
-    margin-bottom: 60px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
     color: #919191;
   }
 
@@ -91,7 +94,7 @@
   .error {
     width: 100%;
     position: absolute;
-    top: 70px;
+    top: 64px;
     font-size: 14px;
     color: red;
     text-transform: lowercase;

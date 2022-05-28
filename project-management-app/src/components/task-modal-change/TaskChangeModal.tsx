@@ -10,6 +10,8 @@ import { useTranslation } from 'react-i18next';
 import { fileDownload, fileUpload } from '../../api/files';
 import cross from './../board-modal/assets/cross.svg';
 import { supportedImageFormat } from '../../constants/supportedImageFormat';
+import LoadingAnimation from '../loading-animation/LoadingAnimation';
+import upload from './assets/upload.png';
 
 interface IProps {
   task: ITask;
@@ -26,6 +28,7 @@ const TaskChangeModal: FC<IProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { login } = useAppSelector((state) => state.auth);
+  const { isLoading } = useAppSelector((state) => state.tasks);
   const { t } = useTranslation();
   const image = localStorage.getItem(task.id);
   const [urlImage, setUrlImage] = useState('');
@@ -65,7 +68,7 @@ const TaskChangeModal: FC<IProps> = ({
           initialValues={{
             title: task.title,
             description: task.description,
-            file: Blob,
+            file: null as null | File,
           }}
           onSubmit={({ title, description, file }) => {
             dispatch(
@@ -84,7 +87,7 @@ const TaskChangeModal: FC<IProps> = ({
               })
             );
 
-            if (typeof file === 'object' && !image) {
+            if (file && !image) {
               dispatch(fileUpload({ taskId: task.id, file: file, fileName: file['name'] }));
             }
           }}
@@ -119,7 +122,8 @@ const TaskChangeModal: FC<IProps> = ({
               }),
           })}
         >
-          {({ handleSubmit, setFieldValue }) => {
+          {({ handleSubmit, setFieldValue, values }) => {
+            console.log(values.file);
             return (
               <Form className={styles.form} onSubmit={handleSubmit}>
                 <label htmlFor="title">
@@ -142,27 +146,30 @@ const TaskChangeModal: FC<IProps> = ({
                   </div>
                 </label>
                 {!image && (
-                  <label htmlFor="file">
-                    {t('image')}
+                  <label className={styles.file} htmlFor="file">
+                    {t('choose_image')}
+                    <img width={50} src={upload} alt="upload" />
                     <input
                       id="file"
                       type="file"
+                      name="file"
                       onChange={(event: React.ChangeEvent) => {
                         const target = event.target as HTMLInputElement;
                         const file: File = (target.files as FileList)[0];
                         setFieldValue('file', file);
                       }}
                     />
+                    {values.file?.size && <p>{values.file.name}</p>}
                     <div className={styles.error}>
                       <ErrorMessage name="file" />
                     </div>
                   </label>
                 )}
-                <h4>
-                  <span>{t('user')}</span> - {login}
-                </h4>
                 <div className={styles.sub_btn}>
-                  <button type="submit">{t('update')}</button>
+                  <div className={styles.loader}>{isLoading && <LoadingAnimation />}</div>
+                  <button type="submit" disabled={isLoading}>
+                    {t('update')}
+                  </button>
                 </div>
               </Form>
             );

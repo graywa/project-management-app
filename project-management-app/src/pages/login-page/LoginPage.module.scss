@@ -2,16 +2,13 @@ $inputW: 360px;
 $btnH: 36px;
 
 .login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .container {
-  width: 60vw;
-  height: 60vh;
-  margin: 10% auto;
-  padding: 3%;
+  max-width: 600px;
+  width: 100%;
+  margin: 120px auto 20px;
+  padding: 50px 40px;
   border-radius: 10px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   background-color: white;
@@ -20,13 +17,6 @@ $btnH: 36px;
   align-items: center;
   flex-direction: column;
   position: relative;
-
-  @media (max-width: 1050px) {
-    width: 70vw;
-  }
-  @media (min-width: 2000px) {
-    width: 50vw;
-  }
 
   .toast_wrapper {
     position: absolute;
@@ -38,15 +28,78 @@ $btnH: 36px;
   }
 }
 
-.form {
-  height: 700px;
+.form_login { 
+  text-align: center;
+  width: 100%;
+
+  label {
+    position: relative;
+    display: block;
+    max-width: $inputW;
+    margin: 40px auto 0;
+    text-align: center;
+    font-size: 16px;
+    color: #6d6d6d;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  
+  .input, .submit {
+    border: none;
+    outline: none;
+    background: none;
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding-bottom: 5px;
+    font-size: 18px;
+    font-weight: 400;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    text-align: center;
+  }
+
+  input {
+    &:focus {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.781);
+    }
+  }
+
+  .error {
+    width: 100%;
+    position: absolute;
+    top: 60px;
+    font-size: 14px;
+    color: red;
+    text-transform: lowercase;
+  } 
+  
+  .submit {
+    margin: 40px auto 20px;
+    max-width: $inputW;
+    height: $btnH;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    background: #645669;
+    text-transform: uppercase;
+    transition: .2s linear;
+  }
+  .submit:hover {
+    background-color: #eae6ff ;
+    color: #645669;
+  }
+  .submit:active {
+    transform: scale(.95);
+  }
+  .submit:disabled {
+    background-color: gray;
+    transform: scale(1);
+  }
 }
 
 .switch__form {
   cursor: pointer;
-  position: absolute;
-  bottom: 10%;
-  right: 7%;
   text-transform: uppercase;
   border: none;
   outline: none;
@@ -57,81 +110,15 @@ $btnH: 36px;
   text-decoration: underline;
 }
 
-@media screen and (max-width: 600px) {
-  .switch__form {
-    bottom: -10%;
-    right: 0%;
-  }
-}
-
 h2 {
-  width: 100%;
-  font-size: 27px;
+  max-width: $inputW;
+  font-size: 26px;
+  font-weight: 600;
   text-align: center;
+  margin-bottom: 80px;
 }
   
-label {
-  display: block;
-  max-width: $inputW;
-  margin: 25px auto 0;
-  text-align: center;
-  font-size: 12px;
-  color: #cfcfcf;
-  text-transform: uppercase;
-  cursor: pointer;
-}
 
-.input, .submit {
-  border: none;
-  outline: none;
-  background: none;
-  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-  display: block;
-  width: 100%;
-  margin-top: 5px;
-  padding-bottom: 5px;
-  font-size: 16px;
-  border-bottom: 1px solid rgba(0,0,0,0.4);
-  text-align: center;
-}
 
-.error {
-  width: 100%;
-  position: absolute;
-  font-size: 14px;
-  color: red;
-  text-transform: lowercase;
-} 
 
-.submit {
-  margin-top: 40px;
-  margin-bottom: 20px;
-  width: $inputW;
-  height: $btnH;
-  border-radius: 30px;
-  color: #fff;
-  font-size: 15px;
-  cursor: pointer;
-  background: #645669;
-  text-transform: uppercase;
-}
-.submit:hover {
-  background-color: #eae6ff ;
-  color: #645669;
-}
-.submit:active {
-  transform: scale(.95);
-}
-.submit:disabled {
-  background-color: gray;
-  transform: scale(1);
-}
 
-@media screen and (max-width: 900px) {
-  .submit {
-    width: 100%;
-  }
-  .switch__form {
-    right: 5%;
-  }
-}

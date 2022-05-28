@@ -8,6 +8,7 @@ import jwtDecode from 'jwt-decode';
 import { addTask } from '../../api/tasks';
 import { useTranslation } from 'react-i18next';
 import cross from './../board-modal/assets/cross.svg';
+import LoadingAnimation from '../loading-animation/LoadingAnimation';
 
 interface IProps {
   isOpenCreateTaskModal: boolean;
@@ -27,7 +28,7 @@ const TaskModal: FC<IProps> = ({
   columnId,
 }) => {
   const dispatch = useAppDispatch();
-  const { tasks } = useAppSelector((state) => state.tasks);
+  const { tasks, isLoading } = useAppSelector((state) => state.tasks);
   const { userId } = jwtDecode<IJwt>(localStorage.getItem('token') || '');
   const { t } = useTranslation();
 
@@ -89,7 +90,10 @@ const TaskModal: FC<IProps> = ({
                   </div>
                 </label>
                 <div className={styles.sub_btn}>
-                  <button type="submit">{t('create')}</button>
+                  <div className={styles.loader}>{isLoading && <LoadingAnimation />}</div>
+                  <button type="submit" disabled={isLoading}>
+                    {t('create')}
+                  </button>
                 </div>
               </Form>
             );

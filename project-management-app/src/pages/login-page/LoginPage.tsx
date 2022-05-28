@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { resetError } from '../../store/authSlice';
 
 const LoginPage = () => {
   const dispatch = useAppDispatch();
@@ -38,6 +39,7 @@ const LoginPage = () => {
         hideProgressBar: true,
       });
     }
+    dispatch(resetError());
   }, [error]);
 
   return (
@@ -46,30 +48,30 @@ const LoginPage = () => {
         <h2>{t('welcome_login')}</h2>
         {isLoading && LoadingAnimation()}
         <ToastContainer />
-        <div className={styles.form && styles.sign__in}>
-          <Formik
-            initialValues={{
-              login: '',
-              password: '',
-            }}
-            validateOnBlur
-            onSubmit={(values, { resetForm }) => {
-              dispatch(fetchAuthLogin({ values, resetForm }));
-            }}
-            validationSchema={validationsSchemaSignIn}
-          >
-            {({
-              values,
-              errors,
-              touched,
-              isValid,
-              dirty,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-            }) => (
-              <form className={styles.form_inputs} onSubmit={handleSubmit}>
-                <label htmlFor="login">{t('login')}</label>
+        <Formik
+          initialValues={{
+            login: '',
+            password: '',
+          }}
+          validateOnBlur
+          onSubmit={(values, { resetForm }) => {
+            dispatch(fetchAuthLogin({ values, resetForm }));
+          }}
+          validationSchema={validationsSchemaSignIn}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            isValid,
+            dirty,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+          }) => (
+            <form className={styles.form_login} onSubmit={handleSubmit}>
+              <label htmlFor="login">
+                {t('login')}
                 <Field
                   className={styles.input}
                   type="text"
@@ -80,8 +82,10 @@ const LoginPage = () => {
                   value={values.login}
                 />
                 {touched.login && errors.login && <p className={styles.error}>{errors.login}</p>}
+              </label>
 
-                <label htmlFor="password">{t('password')}</label>
+              <label htmlFor="password">
+                {t('password')}
                 <Field
                   className={styles.input}
                   type="password"
@@ -94,14 +98,18 @@ const LoginPage = () => {
                 {touched.password && errors.password && (
                   <p className={styles.error}>{errors.password}</p>
                 )}
+              </label>
 
-                <button className={styles.submit} disabled={!isValid && !dirty} type="submit">
-                  {t('sign_in')}
-                </button>
-              </form>
-            )}
-          </Formik>
-        </div>
+              <button
+                className={styles.submit}
+                disabled={(!isValid && !dirty) || isLoading}
+                type="submit"
+              >
+                {t('sign_in')}
+              </button>
+            </form>
+          )}
+        </Formik>
         <Link className={styles.switch__form} to="/registration">
           {t('registration')}
         </Link>

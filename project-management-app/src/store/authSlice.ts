@@ -34,6 +34,9 @@ export const authSlice = createSlice({
     resetSuccess(state) {
       state.isSuccess = false;
     },
+    resetError(state) {
+      state.error = null;
+    },
   },
   extraReducers: {
     [fetchAuthRegistration.fulfilled.type]: (state, action) => {
@@ -108,6 +111,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { changeIsAuth, resetSuccess } = authSlice.actions;
+export const { changeIsAuth, resetSuccess, resetError } = authSlice.actions;
 
 export default authSlice.reducer;
