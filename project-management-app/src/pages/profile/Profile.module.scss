@@ -2,7 +2,7 @@
   margin-top: 150px;
 }
 
-.form {
+.form_profile {
   margin: 0 auto 80px;
   border-radius: 10px;
   text-align: center;
@@ -25,7 +25,7 @@
     background: none;
     display: block;
     width: 100%;
-    margin-top: 10px;
+    margin-top: 6px;
     padding-bottom: 5px;
     font-size: 18px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.233);
@@ -37,9 +37,13 @@
   }
 
   label {
+    display: block;
     position: relative;
+    max-width: 360px;
+    width: 100%;
+    margin: 40px auto 0;
     font-size: 16px;
-    margin-bottom: 36px;
+    text-transform: uppercase;
     color: #919191;
     cursor: pointer;
   }
@@ -76,7 +80,7 @@
 
     .loader {
       position: absolute;
-      top: -34px;
+      top: -42px;
       z-index: 5;
       width: 100%;
       display: flex;
@@ -106,7 +110,7 @@
   .error {
     width: 100%;
     position: absolute;
-    top: 64px;
+    top: 60px;
     font-size: 14px;
     color: red;
     text-transform: lowercase;

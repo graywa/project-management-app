@@ -100,7 +100,11 @@ const LoginPage = () => {
                 )}
               </label>
 
-              <button className={styles.submit} disabled={!isValid && !dirty} type="submit">
+              <button
+                className={styles.submit}
+                disabled={(!isValid && !dirty) || isLoading}
+                type="submit"
+              >
                 {t('sign_in')}
               </button>
             </form>

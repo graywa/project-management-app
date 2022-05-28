@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { fileDownload, fileUpload } from '../../api/files';
 import cross from './../board-modal/assets/cross.svg';
 import { supportedImageFormat } from '../../constants/supportedImageFormat';
+import LoadingAnimation from '../loading-animation/LoadingAnimation';
 
 interface IProps {
   task: ITask;
@@ -26,6 +27,7 @@ const TaskChangeModal: FC<IProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { login } = useAppSelector((state) => state.auth);
+  const { isLoading } = useAppSelector((state) => state.tasks);
   const { t } = useTranslation();
   const image = localStorage.getItem(task.id);
   const [urlImage, setUrlImage] = useState('');
@@ -162,7 +164,10 @@ const TaskChangeModal: FC<IProps> = ({
                   <span>{t('user')}</span> - {login}
                 </h4>
                 <div className={styles.sub_btn}>
-                  <button type="submit">{t('update')}</button>
+                  <div className={styles.loader}>{isLoading && <LoadingAnimation />}</div>
+                  <button type="submit" disabled={isLoading}>
+                    {t('update')}
+                  </button>
                 </div>
               </Form>
             );

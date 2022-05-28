@@ -153,7 +153,11 @@ const RegistrationPage = () => {
                 )}
               </label>
 
-              <button className={styles.submit} disabled={!dirty && !isValid} type="submit">
+              <button
+                className={styles.submit}
+                disabled={(!isValid && !dirty) || isLoading}
+                type="submit"
+              >
                 {t('sign_up')}
               </button>
             </form>
