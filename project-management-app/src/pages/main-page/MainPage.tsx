@@ -56,7 +56,7 @@ const MainPage = () => {
       <ToastContainer />
       <div className={styles.boards_wrapper}>
         <ToastContainer />
-        <h2>{t('boards')}</h2>
+        <h1>{t('boards')}</h1>
         <div className={styles.boards}>
           {isLoading && <LoadingAnimation />}
           {!!boards.length ? (
