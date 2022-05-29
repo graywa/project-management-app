@@ -14,6 +14,7 @@ import { resetCreateNewColumn } from '../../store/columnsSlice';
 import { resetCreateNewTask, resetUpdateTask } from '../../store/tasksSlice';
 import { changeTasksOrderOneColumn, changeTasksOrderTwoColumns } from '../../api/tasks';
 import { getBoards } from '../../api/boards';
+// import { fileDownloadDnd, fileUpload } from '../../api/files';
 
 const BoardPage = React.memo(() => {
   const dispatch = useAppDispatch();
@@ -78,6 +79,26 @@ const BoardPage = React.memo(() => {
     const sourceColumn = tasks[source.droppableId];
     const destinationColumn = tasks[destination.droppableId];
     const destinationColumnId = destination.droppableId;
+
+    //--------------------- File upload dnd
+    // const startId = sourceColumn[startIndex]?.id;
+    // const startFileName = sourceColumn[startIndex]?.files[0]?.filename;
+    // const endId = destinationColumn[endIndex]?.id;
+
+    // async function uloadFileNewTaskId() {
+    //   const file = await dispatch(fileDownloadDnd({ taskId: startId, fileName: startFileName }));
+
+    //   console.log(file.payload);
+    //   console.log(startFileName);
+    //   console.log(startId);
+    //   console.log(endId);
+    //   dispatch(fileUpload({ taskId: endId, file: file.payload }));
+    // }
+
+    // if (startFileName) {
+    //   uloadFileNewTaskId();
+    // }
+    //--------------------------------
 
     dispatch(
       changeTasksOrderTwoColumns({

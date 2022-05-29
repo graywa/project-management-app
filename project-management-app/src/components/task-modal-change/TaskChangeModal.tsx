@@ -27,20 +27,20 @@ const TaskChangeModal: FC<IProps> = ({
   numberTask,
 }) => {
   const dispatch = useAppDispatch();
-  const { login } = useAppSelector((state) => state.auth);
-  const { isLoading } = useAppSelector((state) => state.tasks);
+  const { isLoading, successDownload } = useAppSelector((state) => state.tasks);
   const { t } = useTranslation();
-  const image = localStorage.getItem(task.id);
+  const image = task.files?.length || '';
   const [urlImage, setUrlImage] = useState('');
 
-  async function downloadImage() {
+  function downloadImage() {
     if (image) {
-      const url = await dispatch(fileDownload({ taskId: task.id, fileName: image }));
-      const { payload: urlImage } = url;
-
-      setUrlImage(urlImage as string);
+      dispatch(fileDownload({ taskId: task.id, fileName: task.files[0].filename }));
     }
   }
+
+  useEffect(() => {
+    setUrlImage(successDownload);
+  }, [successDownload]);
 
   useEffect(() => {
     downloadImage();
@@ -88,7 +88,7 @@ const TaskChangeModal: FC<IProps> = ({
             );
 
             if (file && !image) {
-              dispatch(fileUpload({ taskId: task.id, file: file, fileName: file['name'] }));
+              dispatch(fileUpload({ taskId: task.id, file: file }));
             }
           }}
           validationSchema={Yup.object().shape({
@@ -100,7 +100,7 @@ const TaskChangeModal: FC<IProps> = ({
               .min(2, t('must_be_more_than_2_characters'))
               .required(t('description_is_required')),
             file: Yup.mixed()
-              .test('size', t('error-image_size'), (img) => {
+              .test('fileSize', t('error-image_size'), (img) => {
                 if (image) {
                   return true;
                 }

@@ -6,4 +6,5 @@ export interface ITask {
   boardId: string;
   columnId: string;
   id: string;
+  files: [{ filename: string }];
 }

@@ -16,7 +16,7 @@ const updTask = async (
     method: 'put',
     url: `${URL_SERVER}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    data: { title, order, description, userId, boardId, columnId },
+    data: { title, order, description, userId, boardId, columnId, done: false },
   });
 };
 
@@ -61,7 +61,7 @@ const addTask = createAsyncThunk(
         method: 'post',
         url: `${URL_SERVER}/boards/${boardId}/columns/${columnId}/tasks`,
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-        data: values,
+        data: { ...values, done: false },
       });
       return response.data;
     } catch (e) {
@@ -103,7 +103,7 @@ const updateTask = createAsyncThunk(
         method: 'put',
         url: `${URL_SERVER}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-        data,
+        data: { ...data, done: false },
       });
 
       return response.data;
@@ -141,7 +141,6 @@ const deleteTask = createAsyncThunk(
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
 
-      localStorage.removeItem(taskId);
       const deleteTaskIndex = tasks.findIndex((el) => el.id === taskId);
 
       for (let i = deleteTaskIndex + 1; i < tasks.length; i++) {
@@ -273,14 +272,12 @@ const changeTasksOrderTwoColumns = createAsyncThunk(
     try {
       const startTask = sourceColumn[startIndex];
       const sourceColumnId = startTask.columnId;
-
       await axios({
         method: 'delete',
         url: `${URL_SERVER}/boards/${boardId}/columns/${sourceColumnId}/tasks/${startTask.id}`,
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
 
-      localStorage.removeItem(startTask.id);
       for (let i = startIndex + 1; i < sourceColumn.length; i++) {
         const task = sourceColumn[i];
         await updTask(
@@ -316,6 +313,7 @@ const changeTasksOrderTwoColumns = createAsyncThunk(
           order: endIndex + 1,
           description: startTask.description,
           userId: startTask.userId,
+          done: false,
         },
       });
 

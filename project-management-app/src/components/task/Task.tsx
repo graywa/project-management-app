@@ -23,12 +23,14 @@ const Task: FC<IProps> = React.memo(({ task, index }) => {
   const tasks = allTasks[columnId];
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenChangeTaskModal, setIsOpenChangeTaskModal] = useState(false);
-  const image = localStorage.getItem(task.id);
+  const image = task.files?.length || '';
   const [preview, setPreview] = useState(defaultImage);
 
   async function downloadImage() {
     if (image) {
-      const url = await dispatch(fileDownload({ taskId: task.id, fileName: image }));
+      const url = await dispatch(
+        fileDownload({ taskId: task.id, fileName: task.files[0].filename })
+      );
       const { payload: urlImage } = url;
 
       setPreview(urlImage as string);

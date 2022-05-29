@@ -33,32 +33,6 @@ const getColumns = createAsyncThunk('columns/getAll', async (boardId: string, th
   }
 });
 
-const getColumnDeleteTasksImage = createAsyncThunk(
-  'column/get',
-  async ({ boardId, columnId }: { boardId: string; columnId: string }, thunkAPI) => {
-    try {
-      const response = await axios({
-        method: 'get',
-        url: `${URL_SERVER}/boards/${boardId}/columns/${columnId}`,
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
-
-      response.data.tasks.forEach((task: { id: string }) => {
-        localStorage.removeItem(task.id);
-      });
-    } catch (e) {
-      if (e instanceof AxiosError && e.response?.data.statusCode === UNAUTHORIZED) {
-        localStorage.setItem('isAuth', 'false');
-        localStorage.setItem('token', '');
-        return thunkAPI.rejectWithValue(e.response?.data.message);
-      }
-      if (e instanceof Error) {
-        return thunkAPI.rejectWithValue(e.message);
-      }
-    }
-  }
-);
-
 const addColumns = createAsyncThunk(
   'columns/add',
   async (
@@ -200,11 +174,4 @@ const changeColumnsOrder = createAsyncThunk(
   }
 );
 
-export {
-  getColumns,
-  addColumns,
-  updateColumn,
-  deleteColumn,
-  changeColumnsOrder,
-  getColumnDeleteTasksImage,
-};
+export { getColumns, addColumns, updateColumn, deleteColumn, changeColumnsOrder };
