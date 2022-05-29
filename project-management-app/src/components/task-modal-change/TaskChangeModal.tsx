@@ -27,21 +27,20 @@ const TaskChangeModal: FC<IProps> = ({
   numberTask,
 }) => {
   const dispatch = useAppDispatch();
-  const { isLoading } = useAppSelector((state) => state.tasks);
+  const { isLoading, successDownload } = useAppSelector((state) => state.tasks);
   const { t } = useTranslation();
   const image = task.files?.length || '';
   const [urlImage, setUrlImage] = useState('');
 
-  async function downloadImage() {
+  function downloadImage() {
     if (image) {
-      const url = await dispatch(
-        fileDownload({ taskId: task.id, fileName: task.files[0].filename })
-      );
-      const { payload: urlImage } = url;
-
-      setUrlImage(urlImage as string);
+      dispatch(fileDownload({ taskId: task.id, fileName: task.files[0].filename }));
     }
   }
+
+  useEffect(() => {
+    setUrlImage(successDownload);
+  }, [successDownload]);
 
   useEffect(() => {
     downloadImage();

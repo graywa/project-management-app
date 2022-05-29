@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fileUpload } from '../api/files';
+import { fileDownload, fileUpload } from '../api/files';
 import {
   addTask,
   changeTasksOrderOneColumn,
@@ -17,7 +17,8 @@ interface taskState {
   isUpdateTask: boolean;
   errorTask: string | null;
   tasks: { [x: string]: ITask[] };
-  success: boolean;
+  successUpload: boolean;
+  successDownload: string;
 }
 
 const initialState: taskState = {
@@ -27,7 +28,8 @@ const initialState: taskState = {
   isUpdateTask: false,
   errorTask: null,
   tasks: {},
-  success: false,
+  successUpload: false,
+  successDownload: '',
 };
 
 export const tasksSlice = createSlice({
@@ -158,13 +160,27 @@ export const tasksSlice = createSlice({
     [fileUpload.fulfilled.type]: (state, action) => {
       state.isLoading = false;
       state.errorTask = '';
-      state.success = !state.success;
+      state.successUpload = !state.successUpload;
     },
     [fileUpload.pending.type]: (state) => {
       state.errorTask = '';
       state.isLoading = true;
     },
     [fileUpload.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.errorTask = action.payload;
+    },
+    [fileDownload.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.errorTask = '';
+      state.successDownload = action.payload;
+    },
+    [fileDownload.pending.type]: (state) => {
+      state.successDownload = '';
+      state.errorTask = '';
+      state.isLoading = true;
+    },
+    [fileDownload.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.errorTask = action.payload;
     },
