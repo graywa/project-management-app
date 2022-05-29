@@ -21,6 +21,7 @@ const Header = () => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const { isCreateBoard } = useAppSelector((state) => state.boards);
+  const { isCreateColumn } = useAppSelector((state) => state.columns);
 
   useEffect(() => {
     const scrollHandler = () => {
@@ -33,6 +34,10 @@ const Header = () => {
     setIsOpenBoard(false);
   }, [isCreateBoard]);
 
+  useEffect(() => {
+    setIsOpenColumn(false);
+  }, [isCreateColumn]);
+
   const signOutHandler = () => {
     localStorage.setItem('token', '');
     dispatch(changeIsAuth(false));
@@ -42,7 +47,7 @@ const Header = () => {
     <div className={cn(styles.header_wrapper, { [styles.scroll]: scroll })}>
       <header className={styles.header}>
         <Link to="/main" className={styles.header__logo} title={t('go_main')}>
-          <img width={26} src={logo} alt="logo" />
+          <img width={30} src={logo} alt="logo" />
           <span className={styles.logo}>Vezha</span>
         </Link>
         <Link to="/profile" className={styles.login} title={t('profile')}>

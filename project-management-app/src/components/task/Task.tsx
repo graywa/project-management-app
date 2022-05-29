@@ -19,7 +19,7 @@ interface IProps {
 const Task: FC<IProps> = React.memo(({ task, index }) => {
   const dispatch = useAppDispatch();
   const { title, description, boardId, columnId, id: taskId } = task;
-  const { tasks: allTasks } = useAppSelector((state) => state.tasks);
+  const { tasks: allTasks, isUpdateTask } = useAppSelector((state) => state.tasks);
   const tasks = allTasks[columnId];
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenChangeTaskModal, setIsOpenChangeTaskModal] = useState(false);
@@ -34,6 +34,10 @@ const Task: FC<IProps> = React.memo(({ task, index }) => {
       setPreview(urlImage as string);
     }
   }
+
+  useEffect(() => {
+    setIsOpenChangeTaskModal(false);
+  }, [isUpdateTask]);
 
   useEffect(() => {
     downloadImage();
