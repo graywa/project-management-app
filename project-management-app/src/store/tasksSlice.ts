@@ -18,7 +18,7 @@ interface taskState {
   errorTask: string | null;
   tasks: { [x: string]: ITask[] };
   successUpload: boolean;
-  successDownload: string;
+  urlImages: { taskId: string; urlImage: string }[];
 }
 
 const initialState: taskState = {
@@ -29,7 +29,7 @@ const initialState: taskState = {
   errorTask: null,
   tasks: {},
   successUpload: false,
-  successDownload: '',
+  urlImages: [],
 };
 
 export const tasksSlice = createSlice({
@@ -173,10 +173,11 @@ export const tasksSlice = createSlice({
     [fileDownload.fulfilled.type]: (state, action) => {
       state.isLoading = false;
       state.errorTask = '';
-      state.successDownload = action.payload;
+      const { taskId, urlImage } = action.payload;
+      state.urlImages.push({ taskId, urlImage });
     },
     [fileDownload.pending.type]: (state) => {
-      state.successDownload = '';
+      state.urlImages = [];
       state.errorTask = '';
       state.isLoading = true;
     },

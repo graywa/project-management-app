@@ -27,14 +27,15 @@ const ColumnModal: FC<IProps> = ({ isOpenColumn, setIsOpenColumn }) => {
       <div className={styles.modal__content} onClick={(e) => e.stopPropagation()}>
         <img width={32} src={cross} alt="cross" onClick={() => setIsOpenColumn(false)} />
         <Formik
-          initialValues={{ title: '' }}
-          onSubmit={({ title }, { resetForm }) => {
+          initialValues={{ titleColumn: '' }}
+          onSubmit={({ titleColumn: title }, { resetForm }) => {
+            console.log('sdfd');
             const order = columns.length + 1;
             dispatch(addColumns({ boardId: boardId, values: { order, title: title } }));
             resetForm();
           }}
           validationSchema={Yup.object().shape({
-            title: Yup.string()
+            titleColumn: Yup.string()
               .min(3, t('must_be_more_than_3_characters'))
               .max(12, t('must_be_less_than_12_characters'))
               .required(t('title_is_required')),
@@ -43,11 +44,11 @@ const ColumnModal: FC<IProps> = ({ isOpenColumn, setIsOpenColumn }) => {
           {({ handleSubmit }) => {
             return (
               <Form className={styles.form} onSubmit={handleSubmit}>
-                <label htmlFor="title">
+                <label htmlFor="titleColumn">
                   {t('title_column')}
-                  <Field id="title" name="title" />
+                  <Field id="titleColumn" name="titleColumn" />
                   <div className={styles.error}>
-                    <ErrorMessage name="title" />
+                    <ErrorMessage name="titleColumn" />
                   </div>
                 </label>
                 <div className={styles.sub_btn}>

@@ -121,20 +121,21 @@ const Profile = () => {
               </div>
 
               <div className={styles.del_btn}>
-                <button onClick={() => setIsOpenModal(true)} disabled={isLoading}>
+                <button type="button" onClick={() => setIsOpenModal(true)} disabled={isLoading}>
                   {t('del_user')}
                 </button>
-                <ConfirmModal
-                  action="delete_user"
-                  data={{ id, token }}
-                  isOpenModal={isOpenModal}
-                  setIsOpenModal={setIsOpenModal}
-                />
               </div>
             </Form>
           );
         }}
       </Formik>
+
+      <ConfirmModal
+        action="delete_user"
+        data={{ id, token }}
+        isOpenModal={isOpenModal}
+        setIsOpenModal={setIsOpenModal}
+      />
     </div>
   );
 };

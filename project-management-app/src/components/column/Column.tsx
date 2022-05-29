@@ -28,6 +28,7 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
   const {
     tasks,
     isLoading: isLoadingTasks,
+    isCreateTask,
     successUpload,
   } = useAppSelector((state) => state.tasks);
   const { t } = useTranslation();
@@ -39,6 +40,10 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
   useEffect(() => {
     dispatch(getTasks({ boardId, columnId }));
   }, [columnId, successUpload]);
+
+  useEffect(() => {
+    setIsOpenCreateTaskModal(false);
+  }, [isCreateTask]);
 
   return (
     <Draggable draggableId={column.id as string} index={index}>

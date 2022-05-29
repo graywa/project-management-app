@@ -19,27 +19,23 @@ interface IProps {
 const Task: FC<IProps> = React.memo(({ task, index }) => {
   const dispatch = useAppDispatch();
   const { title, description, boardId, columnId, id: taskId } = task;
-  const { tasks: allTasks } = useAppSelector((state) => state.tasks);
+  const { tasks: allTasks, isUpdateTask, urlImages } = useAppSelector((state) => state.tasks);
   const tasks = allTasks[columnId];
+  const urlImage = urlImages.find((el) => el.taskId === task.id)?.urlImage || defaultImage;
+
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenChangeTaskModal, setIsOpenChangeTaskModal] = useState(false);
-  const image = task.files?.length || '';
-  const [preview, setPreview] = useState(defaultImage);
-
-  async function downloadImage() {
-    if (image) {
-      const url = await dispatch(
-        fileDownload({ taskId: task.id, fileName: task.files[0].filename })
-      );
-      const { payload: urlImage } = url;
-
-      setPreview(urlImage as string);
-    }
-  }
+  const hasImage = !!task.files?.length || false;
 
   useEffect(() => {
-    downloadImage();
-  }, [image]);
+    setIsOpenChangeTaskModal(false);
+  }, [isUpdateTask]);
+
+  useEffect(() => {
+    if (hasImage) {
+      dispatch(fileDownload({ taskId: task.id, fileName: task.files[0].filename }));
+    }
+  }, [hasImage]);
 
   return (
     <Draggable draggableId={task.id as string} index={index}>
@@ -68,7 +64,7 @@ const Task: FC<IProps> = React.memo(({ task, index }) => {
                 </div>
               </div>
               <div className={styles['image-preview']}>
-                <img width={50} src={preview} alt="default preview" />
+                <img src={urlImage} alt="default preview" />
               </div>
 
               <ConfirmModal
