@@ -8,7 +8,7 @@ export const createBoard = createAsyncThunk('boards/create', async (values: IBoa
   try {
     const response = await axios.post(
       `${URL_SERVER}/boards`,
-      { title },
+      { title, description: 'board' },
       {
         headers: { Authorization: `Bearer ${token}` },
       }

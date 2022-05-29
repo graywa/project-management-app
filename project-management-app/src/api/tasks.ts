@@ -16,7 +16,7 @@ const updTask = async (
     method: 'put',
     url: `${URL_SERVER}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    data: { title, order, description, userId, boardId, columnId },
+    data: { title, order, description, userId, boardId, columnId, done: false },
   });
 };
 
@@ -61,7 +61,7 @@ const addTask = createAsyncThunk(
         method: 'post',
         url: `${URL_SERVER}/boards/${boardId}/columns/${columnId}/tasks`,
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-        data: values,
+        data: { ...values, done: false },
       });
       return response.data;
     } catch (e) {
@@ -103,7 +103,7 @@ const updateTask = createAsyncThunk(
         method: 'put',
         url: `${URL_SERVER}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-        data,
+        data: { ...data, done: false },
       });
 
       return response.data;
@@ -316,6 +316,7 @@ const changeTasksOrderTwoColumns = createAsyncThunk(
           order: endIndex + 1,
           description: startTask.description,
           userId: startTask.userId,
+          done: false,
         },
       });
 

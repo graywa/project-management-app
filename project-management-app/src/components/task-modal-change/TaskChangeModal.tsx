@@ -123,7 +123,6 @@ const TaskChangeModal: FC<IProps> = ({
           })}
         >
           {({ handleSubmit, setFieldValue, values }) => {
-            console.log(values.file);
             return (
               <Form className={styles.form} onSubmit={handleSubmit}>
                 <label htmlFor="title">
