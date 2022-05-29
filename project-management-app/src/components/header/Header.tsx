@@ -20,14 +20,18 @@ const Header = () => {
   const { login } = useAppSelector((state) => state.auth);
   const { t } = useTranslation();
   const { pathname } = useLocation();
+  const { isCreateBoard } = useAppSelector((state) => state.boards);
 
   useEffect(() => {
     const scrollHandler = () => {
       setScroll(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', scrollHandler);
   }, []);
+
+  useEffect(() => {
+    setIsOpenBoard(false);
+  }, [isCreateBoard]);
 
   const signOutHandler = () => {
     localStorage.setItem('token', '');

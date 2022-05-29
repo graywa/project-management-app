@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import ConfirmModal from '../../components/confirm-modal/ConfirmModal';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
-import { resetCreateNewBoard } from '../../store/boardsSlice';
+import { resetCreateNewBoard, resetNewBoardError } from '../../store/boardsSlice';
 
 const MainPage = () => {
   const { boards, isLoading, isCreateBoard, errorBoard } = useAppSelector((state) => state.boards);
@@ -42,6 +42,7 @@ const MainPage = () => {
         autoClose: 3000,
         hideProgressBar: true,
       });
+      dispatch(resetNewBoardError());
     }
   }, [isCreateBoard, errorBoard]);
 

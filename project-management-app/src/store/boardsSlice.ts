@@ -27,6 +27,9 @@ export const boardsSlice = createSlice({
     resetCreateNewBoard(state) {
       state.isCreateBoard = false;
     },
+    resetNewBoardError(state) {
+      state.errorBoard = '';
+    },
   },
   extraReducers: {
     [createBoard.fulfilled.type]: (state, action) => {
@@ -73,6 +76,6 @@ export const boardsSlice = createSlice({
   },
 });
 
-export const { resetCreateNewBoard } = boardsSlice.actions;
+export const { resetCreateNewBoard, resetNewBoardError } = boardsSlice.actions;
 
 export default boardsSlice.reducer;

@@ -105,7 +105,7 @@ const TaskChangeModal: FC<IProps> = ({
                   return true;
                 }
                 if (typeof img === 'object') {
-                  return img.size <= 500000;
+                  return img?.size <= 500000;
                 } else {
                   return true;
                 }
@@ -123,7 +123,6 @@ const TaskChangeModal: FC<IProps> = ({
           })}
         >
           {({ handleSubmit, setFieldValue, values }) => {
-            console.log(values.file);
             return (
               <Form className={styles.form} onSubmit={handleSubmit}>
                 <label htmlFor="title">
@@ -159,7 +158,7 @@ const TaskChangeModal: FC<IProps> = ({
                         setFieldValue('file', file);
                       }}
                     />
-                    {values.file?.size && <p>{values.file.name}</p>}
+                    {values.file && <p>{values.file.name}</p>}
                     <div className={styles.error}>
                       <ErrorMessage name="file" />
                     </div>
