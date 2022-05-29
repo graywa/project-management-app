@@ -25,7 +25,11 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
   const { title, id: columnId = '', order } = column;
   const dispatch = useAppDispatch();
   const { boardId, isLoading, columns } = useAppSelector((state) => state.columns);
-  const { tasks, isLoading: isLoadingTasks } = useAppSelector((state) => state.tasks);
+  const {
+    tasks,
+    isLoading: isLoadingTasks,
+    successUpload,
+  } = useAppSelector((state) => state.tasks);
   const { t } = useTranslation();
 
   const [isOpenConfirmationModal, setIsOpenConfirmationModal] = useState(false);
@@ -34,7 +38,7 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
 
   useEffect(() => {
     dispatch(getTasks({ boardId, columnId }));
-  }, [columnId]);
+  }, [columnId, successUpload]);
 
   return (
     <Draggable draggableId={column.id as string} index={index}>

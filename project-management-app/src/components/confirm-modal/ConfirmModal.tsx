@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import styles from './ConfirmModal.module.scss';
 import cn from 'classnames';
 import { useAppDispatch } from '../../redux-hooks/redux-hooks';
-import { deleteColumn, getColumnDeleteTasksImage } from '../../api/columns';
+import { deleteColumn } from '../../api/columns';
 import { deleteBoard } from '../../api/boards';
 import { deleteUser } from '../../api/auth';
 import { IUser } from './../../models/IUser';
@@ -16,10 +16,6 @@ interface IColumnData {
   boardId: string;
   columnId: string;
   columns: IColumn[];
-}
-interface IColumnDataDelete {
-  boardId: string;
-  columnId: string;
 }
 interface ITaskData {
   boardId: string;
@@ -43,10 +39,7 @@ const ConfirmModal: FC<IProps> = ({ isOpenModal, setIsOpenModal, data, action })
 
   const clickHandler = async () => {
     if (action === 'delete_board') dispatch(deleteBoard(data as IBoard));
-    if (action === 'delete_column') {
-      await dispatch(getColumnDeleteTasksImage(data as IColumnDataDelete));
-      dispatch(deleteColumn(data as IColumnData));
-    }
+    if (action === 'delete_column') dispatch(deleteColumn(data as IColumnData));
     if (action === 'delete_user') dispatch(deleteUser(data as IUser));
     if (action === 'delete_task') dispatch(deleteTask(data as ITaskData));
     setIsOpenModal(false);
