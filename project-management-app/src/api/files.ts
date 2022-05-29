@@ -46,7 +46,7 @@ const fileDownload = createAsyncThunk(
 
       if (response) {
         const urlImage = window.URL.createObjectURL(new Blob([response.data]));
-        return urlImage;
+        return { urlImage, taskId };
       }
     } catch (e) {
       if (e instanceof AxiosError && e.response?.data) {

@@ -47,7 +47,7 @@ const WelcomePage = () => {
       <div className={cn(styles.header_wrapper, { [styles.scroll]: scroll })}>
         <header className={styles.header}>
           <Link to="/" className={styles.header__logo}>
-            <img width={30} src={logo} alt="logo" />
+            <img width={40} src={logo} alt="logo" />
             <span>Vezha</span>
           </Link>
           <div className={styles.btn_wrapper}>

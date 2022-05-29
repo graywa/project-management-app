@@ -13,6 +13,7 @@
 
 .board {
   position: relative;
+  height: calc(100vh - 244px);
   overflow-x: auto;
   margin-bottom: 10px;
   padding-top: 6px;

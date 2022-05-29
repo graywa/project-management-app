@@ -27,24 +27,10 @@ const TaskChangeModal: FC<IProps> = ({
   numberTask,
 }) => {
   const dispatch = useAppDispatch();
-  const { isLoading, successDownload } = useAppSelector((state) => state.tasks);
+  const { isLoading, urlImages } = useAppSelector((state) => state.tasks);
   const { t } = useTranslation();
-  const image = task.files?.length || '';
-  const [urlImage, setUrlImage] = useState('');
-
-  function downloadImage() {
-    if (image) {
-      dispatch(fileDownload({ taskId: task.id, fileName: task.files[0].filename }));
-    }
-  }
-
-  useEffect(() => {
-    setUrlImage(successDownload);
-  }, [successDownload]);
-
-  useEffect(() => {
-    downloadImage();
-  }, [image]);
+  const hasImage = !!task.files?.length || false;
+  const urlImage = urlImages.find((el) => el.taskId === task.id)?.urlImage;
 
   return (
     <div
@@ -59,16 +45,11 @@ const TaskChangeModal: FC<IProps> = ({
           onClick={() => setIsOpenChangeTaskModal(false)}
         />
         <h2>{`${t('task_number')} ${numberTask}`}</h2>
-        {image && (
-          <div className={styles.image}>
-            <img src={urlImage} alt="image of task" />
-          </div>
-        )}
         <Formik
           initialValues={{
             title: task.title,
             description: task.description,
-            file: null as null | File,
+            file: '' as '' | File,
           }}
           onSubmit={({ title, description, file }) => {
             dispatch(
@@ -87,7 +68,7 @@ const TaskChangeModal: FC<IProps> = ({
               })
             );
 
-            if (file && !image) {
+            if (file && !hasImage) {
               dispatch(fileUpload({ taskId: task.id, file: file }));
             }
           }}
@@ -101,7 +82,7 @@ const TaskChangeModal: FC<IProps> = ({
               .required(t('description_is_required')),
             file: Yup.mixed()
               .test('fileSize', t('error-image_size'), (img) => {
-                if (image) {
+                if (hasImage) {
                   return true;
                 }
                 if (typeof img === 'object') {
@@ -111,11 +92,11 @@ const TaskChangeModal: FC<IProps> = ({
                 }
               })
               .test('type', t('error-image_type'), (img) => {
-                if (image) {
+                if (hasImage) {
                   return true;
                 }
                 if (typeof img === 'object') {
-                  return supportedImageFormat.includes(img.type);
+                  return supportedImageFormat.includes(img?.type);
                 } else {
                   return true;
                 }
@@ -144,9 +125,9 @@ const TaskChangeModal: FC<IProps> = ({
                     <ErrorMessage name="description" />
                   </div>
                 </label>
-                {!image && (
+                {!hasImage && (
                   <label className={styles.file} htmlFor="file">
-                    {t('choose_image')}
+                    <div>{t('choose_image')}</div>
                     <img width={50} src={upload} alt="upload" />
                     <input
                       id="file"
@@ -163,6 +144,11 @@ const TaskChangeModal: FC<IProps> = ({
                       <ErrorMessage name="file" />
                     </div>
                   </label>
+                )}
+                {urlImage && (
+                  <div className={styles.image}>
+                    <img src={urlImage} alt="image of task" />
+                  </div>
                 )}
                 <div className={styles.sub_btn}>
                   <div className={styles.loader}>{isLoading && <LoadingAnimation />}</div>

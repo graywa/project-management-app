@@ -47,7 +47,7 @@ const Header = () => {
     <div className={cn(styles.header_wrapper, { [styles.scroll]: scroll })}>
       <header className={styles.header}>
         <Link to="/main" className={styles.header__logo} title={t('go_main')}>
-          <img width={30} src={logo} alt="logo" />
+          <img width={40} src={logo} alt="logo" />
           <span className={styles.logo}>Vezha</span>
         </Link>
         <Link to="/profile" className={styles.login} title={t('profile')}>
