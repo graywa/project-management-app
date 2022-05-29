@@ -1,4 +1,4 @@
-const URL_SERVER = 'https://murmuring-garden-69404.herokuapp.com';
+const URL_SERVER = 'https://rest-server-react.herokuapp.com';
 const OK = 200;
 const CREATED = 201;
 const NoContent = 204;

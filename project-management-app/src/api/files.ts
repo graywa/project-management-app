@@ -4,10 +4,7 @@ import { UNAUTHORIZED, URL_SERVER } from '../constants/queryVariables';
 
 const fileUpload = createAsyncThunk(
   'file/uploadFile',
-  async (
-    { taskId, file, fileName }: { taskId: string; file: unknown; fileName: string },
-    thunkAPI
-  ) => {
+  async ({ taskId, file }: { taskId: string; file: unknown }, thunkAPI) => {
     try {
       const response = await axios({
         method: 'post',
@@ -21,7 +18,6 @@ const fileUpload = createAsyncThunk(
           file,
         },
       });
-      localStorage.setItem(taskId, fileName);
 
       return response.data;
     } catch (e) {
@@ -63,4 +59,29 @@ const fileDownload = createAsyncThunk(
   }
 );
 
-export { fileUpload, fileDownload };
+const fileDownloadDnd = createAsyncThunk(
+  'file/downloadFile',
+  async ({ taskId, fileName }: { taskId: string; fileName: string }, thunkAPI) => {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: `${URL_SERVER}/file/${taskId}/${fileName}`,
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+
+      if (response) {
+        const file = new File([response.data], fileName, { type: 'image/jpg' });
+        return file;
+      }
+    } catch (e) {
+      if (e instanceof AxiosError && e.response?.data) {
+        return thunkAPI.rejectWithValue(e.response?.data.message);
+      }
+      if (e instanceof Error) {
+        return thunkAPI.rejectWithValue(e.message);
+      }
+    }
+  }
+);
+
+export { fileUpload, fileDownload, fileDownloadDnd };

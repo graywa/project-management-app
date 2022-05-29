@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { fileUpload } from '../api/files';
 import {
   addTask,
   changeTasksOrderOneColumn,
@@ -16,6 +17,7 @@ interface taskState {
   isUpdateTask: boolean;
   errorTask: string | null;
   tasks: { [x: string]: ITask[] };
+  success: boolean;
 }
 
 const initialState: taskState = {
@@ -25,6 +27,7 @@ const initialState: taskState = {
   isUpdateTask: false,
   errorTask: null,
   tasks: {},
+  success: false,
 };
 
 export const tasksSlice = createSlice({
@@ -149,6 +152,19 @@ export const tasksSlice = createSlice({
       state.isLoading = true;
     },
     [changeTasksOrderTwoColumns.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.errorTask = action.payload;
+    },
+    [fileUpload.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.errorTask = '';
+      state.success = !state.success;
+    },
+    [fileUpload.pending.type]: (state) => {
+      state.errorTask = '';
+      state.isLoading = true;
+    },
+    [fileUpload.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.errorTask = action.payload;
     },
