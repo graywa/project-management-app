@@ -136,7 +136,6 @@ const TaskChangeModal: FC<IProps> = ({
                       onChange={(event: React.ChangeEvent) => {
                         const target = event.target as HTMLInputElement;
                         const file: File = (target.files as FileList)[0];
-                        console.log(file);
                         setFieldValue('file', file);
                       }}
                     />
