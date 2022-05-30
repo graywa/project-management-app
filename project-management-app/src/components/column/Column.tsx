@@ -15,6 +15,7 @@ import { Draggable, Droppable } from 'react-beautiful-dnd';
 import deleteIcon from './../../components/task/assets/delete.png';
 import submitIcon from './assets/submit.png';
 import cancelIcon from './assets/cancel.png';
+import plus from './../header/assets/plus.png';
 
 interface IProps {
   column: IColumn;
@@ -151,6 +152,7 @@ const Columns: FC<IProps> = React.memo(({ column, index }) => {
           </Droppable>
 
           <button className={styles.buttonCreate} onClick={() => setIsOpenCreateTaskModal(true)}>
+            <img width={26} src={plus} alt="plus" />
             {t('create_task')}
           </button>
 
