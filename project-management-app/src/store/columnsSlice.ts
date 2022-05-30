@@ -38,6 +38,9 @@ export const columnsSlice = createSlice({
     resetCreateNewColumn(state) {
       state.isCreateColumn = false;
     },
+    clearColumns(state) {
+      state.columns = [];
+    },
   },
   extraReducers: {
     [getColumns.fulfilled.type]: (state, action) => {
@@ -111,6 +114,7 @@ export const columnsSlice = createSlice({
   },
 });
 
-export const { changeBoardId, resetCreateNewColumn, setColumns } = columnsSlice.actions;
+export const { changeBoardId, resetCreateNewColumn, setColumns, clearColumns } =
+  columnsSlice.actions;
 
 export default columnsSlice.reducer;

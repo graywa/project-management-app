@@ -76,12 +76,14 @@ const Task: FC<IProps> = React.memo(({ task, index }) => {
             </div>
 
             <p className={styles.description}>{description}</p>
-            <TaskChangeModal
-              task={task}
-              isOpenChangeTaskModal={isOpenChangeTaskModal}
-              setIsOpenChangeTaskModal={setIsOpenChangeTaskModal}
-              numberTask={index + 1}
-            />
+            {isOpenChangeTaskModal && (
+              <TaskChangeModal
+                task={task}
+                isOpenChangeTaskModal={isOpenChangeTaskModal}
+                setIsOpenChangeTaskModal={setIsOpenChangeTaskModal}
+                numberTask={index + 1}
+              />
+            )}
           </div>
         );
       }}
