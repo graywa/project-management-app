@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from './RegistrationPage.module.scss';
-import { Field, Formik, replace } from 'formik';
+import { Field, Formik } from 'formik';
 import * as yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';

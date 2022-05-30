@@ -157,7 +157,7 @@ export const tasksSlice = createSlice({
       state.isLoading = false;
       state.errorTask = action.payload;
     },
-    [fileUpload.fulfilled.type]: (state, action) => {
+    [fileUpload.fulfilled.type]: (state) => {
       state.isLoading = false;
       state.errorTask = '';
       state.successUpload = !state.successUpload;
