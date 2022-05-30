@@ -24,7 +24,7 @@ i18n
     },
     backend: {
       loadPath:
-        'https://GoldenManBel.github.io/project-management-app/assets/locales/{{lng}}/translation.json',
+        'https://goldenmanbel.github.io/project-management-app/assets/locales/{{lng}}/translation.json',
       requestOptions: {
         cache: 'no-store',
       },
