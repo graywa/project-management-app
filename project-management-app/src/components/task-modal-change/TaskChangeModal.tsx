@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import styles from './TaskChangeModal.module.scss';
 import cn from 'classnames';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../redux-hooks/redux-hooks';
 import { updateTask } from '../../api/tasks';
 import { ITask } from '../../models/ITask';
 import { useTranslation } from 'react-i18next';
-import { fileDownload, fileUpload } from '../../api/files';
+import { fileUpload } from '../../api/files';
 import cross from './../board-modal/assets/cross.svg';
 import { supportedImageFormat } from '../../constants/supportedImageFormat';
 import LoadingAnimation from '../loading-animation/LoadingAnimation';
