@@ -15,19 +15,14 @@
 
 .header {
   margin: 0 auto;
-  padding: 0 25px;
+  padding: 0 20px;
   max-width: 90%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 80px;
 
-  @media (max-width: 1050px) {
-    .header__btns {
-      display: none;
-    }
-  }
-  @media (min-width: 1050px) {
+  @media (min-width: 800px) {
     .burger-btn {
       display: none;
     }
@@ -69,12 +64,6 @@
     }
   }
 
-  &__btns {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
   button {
     margin: 0 5px;
     padding: 5px 10px;
@@ -88,6 +77,33 @@
 
     &:hover {
       background-color: #024dbe;
+    }
+  }
+
+  .plus_btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    @media (max-width: 360px) {
+      font-size: 16px;
+    }
+  }
+
+  .header__btns {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .account {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 60px;
+
+      @media (max-width: 800px) {
+        display: none;
+      }
     }
   }
 
@@ -161,7 +177,7 @@
     height: 100vh;
     padding-top: 80px;
     transition: all 0.3s;
-    background-color: #f5f4ff;    
+    background-color: #f8f8fd;
 
     .burger-menu__btns {
       max-width: 260px;

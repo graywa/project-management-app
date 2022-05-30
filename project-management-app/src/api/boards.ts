@@ -35,7 +35,6 @@ export const getBoards = createAsyncThunk('boards/getAll', async (token: string,
     if (e instanceof AxiosError && e.response?.data.statusCode === UNAUTHORIZED) {
       localStorage.setItem('isAuth', 'false');
       localStorage.setItem('token', '');
-      console.log(e.response?.data.message);
       return thunkAPI.rejectWithValue(e.response?.data.message);
     }
     if (e instanceof Error) {

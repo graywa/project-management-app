@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import ColumnModal from '../column-modal/ColumnModal';
 import logo from './../../pages/welcome-page/assets/vezha.png';
 import user from './assets/user.png';
+import plus from './assets/plus.png';
 
 const Header = () => {
   const [scroll, setScroll] = useState(false);
@@ -50,24 +51,31 @@ const Header = () => {
           <img width={40} src={logo} alt="logo" />
           <span className={styles.logo}>Vezha</span>
         </Link>
-        <Link to="/profile" className={styles.login} title={t('profile')}>
-          <img width={50} src={user} alt="user" />
-          {login}
-        </Link>
+
         <div className={styles.header__btns}>
-          <button>
-            <Link to="/profile">{t('edit_profile')}</Link>
-          </button>
-          <button onClick={signOutHandler}>{t('sign_out')}</button>
-          <button
-            onClick={() =>
-              pathname.includes('/board') ? setIsOpenColumn(true) : setIsOpenBoard(true)
-            }
-          >
-            {pathname.includes('/board') ? t('add_column') : t('create_new_board')}
-          </button>
-          <CustomSelect />
+          {pathname.includes('/board') && (
+            <button className={styles.plus_btn} onClick={() => setIsOpenColumn(true)}>
+              <img width={26} src={plus} alt="plus" />
+              {t('add_column')}
+            </button>
+          )}
+          {pathname === '/main' && (
+            <button className={styles.plus_btn} onClick={() => setIsOpenBoard(true)}>
+              <img width={26} src={plus} alt="plus" />
+              {t('create_new_board')}
+            </button>
+          )}
+
+          <div className={styles.account}>
+            <Link to="/profile" className={styles.login} title={t('profile')}>
+              <img width={50} src={user} alt="user" />
+              {login}
+            </Link>
+            <button onClick={signOutHandler}>{t('sign_out')}</button>
+            <CustomSelect />
+          </div>
         </div>
+
         <div
           className={cn(styles['burger-btn'], {
             [styles['burger-btn_animation']]: isOpenBurgerMenu,
@@ -94,15 +102,6 @@ const Header = () => {
               </button>
               <button onClick={() => (signOutHandler(), setIsOpenBurgerMenu(true))}>
                 {t('sign_out')}
-              </button>
-              <button
-                onClick={() =>
-                  pathname.includes('/board')
-                    ? (setIsOpenColumn(true), setIsOpenBurgerMenu(true))
-                    : (setIsOpenBoard(true), setIsOpenBurgerMenu(true))
-                }
-              >
-                {pathname.includes('/board') ? t('add_column') : t('create_new_board')}
               </button>
               <CustomSelect />
             </div>

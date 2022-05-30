@@ -29,7 +29,6 @@ const ColumnModal: FC<IProps> = ({ isOpenColumn, setIsOpenColumn }) => {
         <Formik
           initialValues={{ titleColumn: '' }}
           onSubmit={({ titleColumn: title }, { resetForm }) => {
-            console.log('sdfd');
             const order = columns.length + 1;
             dispatch(addColumns({ boardId: boardId, values: { order, title: title } }));
             resetForm();
