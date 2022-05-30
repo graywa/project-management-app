@@ -177,7 +177,6 @@ export const tasksSlice = createSlice({
       state.urlImages.push({ taskId, urlImage });
     },
     [fileDownload.pending.type]: (state) => {
-      state.urlImages = [];
       state.errorTask = '';
       state.isLoading = true;
     },
