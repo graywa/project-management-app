@@ -51,10 +51,6 @@ export const deleteBoard = createAsyncThunk('boards/delete', async (values: IBoa
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    // await axios.get(`${URL_SERVER}/boards`, {
-    //   headers: { Authorization: `Bearer ${token}` },
-    // });
-
     if (response.status === NoContent) {
       thunkAPI.dispatch(clearColumns());
       return id;
