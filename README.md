@@ -7,7 +7,7 @@ Vezha helps teams move work forward!
 
 ## Demo
 
-https://goldenmanbel.github.io/project-management-app/
+https://graywa.github.io/project-management-app/
 
 ## Downloading
 
