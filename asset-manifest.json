@@ -1,0 +1,40 @@
+{
+  "files": {
+    "main.css": "/project-management-app/static/css/main.29719449.css",
+    "main.js": "/project-management-app/static/js/main.54910491.js",
+    "static/css/226.af7baaf6.chunk.css": "/project-management-app/static/css/226.af7baaf6.chunk.css",
+    "static/js/226.738ecd38.chunk.js": "/project-management-app/static/js/226.738ecd38.chunk.js",
+    "static/css/464.d4ae335a.chunk.css": "/project-management-app/static/css/464.d4ae335a.chunk.css",
+    "static/js/464.88edbec0.chunk.js": "/project-management-app/static/js/464.88edbec0.chunk.js",
+    "static/css/941.3872dd26.chunk.css": "/project-management-app/static/css/941.3872dd26.chunk.css",
+    "static/js/941.2d87a7ad.chunk.js": "/project-management-app/static/js/941.2d87a7ad.chunk.js",
+    "static/js/725.4713fd26.chunk.js": "/project-management-app/static/js/725.4713fd26.chunk.js",
+    "static/js/663.2193b434.chunk.js": "/project-management-app/static/js/663.2193b434.chunk.js",
+    "static/media/Belarus_Castles_Sky.jpg": "/project-management-app/static/media/Belarus_Castles_Sky.c9833d937f7ec4101b26.jpg",
+    "static/media/hero.png": "/project-management-app/static/media/hero.e8878a5487f1b4b94d6f.png",
+    "static/media/background.png": "/project-management-app/static/media/background.c5c264d075cf93d0d3bc.png",
+    "static/media/vezha.png": "/project-management-app/static/media/vezha.a2fde29f18048c2c298d.png",
+    "static/media/upload.png": "/project-management-app/static/media/upload.b969462c9de9339de168.png",
+    "static/media/dizzy-face.png": "/project-management-app/static/media/dizzy-face.e9b7e9ec450c8f419496.png",
+    "static/media/pencil.png": "/project-management-app/static/media/pencil.bd176f6ff8952730f89b.png",
+    "static/media/rs-school.svg": "/project-management-app/static/media/rs-school.ad178c0df28bc133be34b982d62f431d.svg",
+    "static/media/board.svg": "/project-management-app/static/media/board.6fd234f46de78045d1a885155d1b2bd2.svg",
+    "index.html": "/project-management-app/index.html",
+    "static/media/getFetch.cjs": "/project-management-app/static/media/getFetch.c780682470504fffbd04.cjs",
+    "static/media/cross.svg": "/project-management-app/static/media/cross.ac7ab1b174358f1b639b740facce8426.svg",
+    "main.29719449.css.map": "/project-management-app/static/css/main.29719449.css.map",
+    "main.54910491.js.map": "/project-management-app/static/js/main.54910491.js.map",
+    "226.af7baaf6.chunk.css.map": "/project-management-app/static/css/226.af7baaf6.chunk.css.map",
+    "226.738ecd38.chunk.js.map": "/project-management-app/static/js/226.738ecd38.chunk.js.map",
+    "464.d4ae335a.chunk.css.map": "/project-management-app/static/css/464.d4ae335a.chunk.css.map",
+    "464.88edbec0.chunk.js.map": "/project-management-app/static/js/464.88edbec0.chunk.js.map",
+    "941.3872dd26.chunk.css.map": "/project-management-app/static/css/941.3872dd26.chunk.css.map",
+    "941.2d87a7ad.chunk.js.map": "/project-management-app/static/js/941.2d87a7ad.chunk.js.map",
+    "725.4713fd26.chunk.js.map": "/project-management-app/static/js/725.4713fd26.chunk.js.map",
+    "663.2193b434.chunk.js.map": "/project-management-app/static/js/663.2193b434.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.29719449.css",
+    "static/js/main.54910491.js"
+  ]
+}
