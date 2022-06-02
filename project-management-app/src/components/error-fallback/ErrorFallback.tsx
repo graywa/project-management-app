@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './ErrorFallback.module.scss';
 import background from './assets/background.png';
-import smileError from './assets/dizzy-face-cross-error-emoji-37675.png';
+import smileError from './assets/dizzy-face.png';
 
 function ErrorFallback({
   error,
