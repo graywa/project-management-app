@@ -24,7 +24,7 @@ i18n
     },
     backend: {
       loadPath:
-        'https://goldenmanbel.github.io/project-management-app/assets/locales/{{lng}}/translation.json',
+        'https://graywa.github.io/project-management-app/assets/locales/{{lng}}/translation.json',
       requestOptions: {
         cache: 'no-store',
       },
